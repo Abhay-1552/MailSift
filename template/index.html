@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+	<title>Email Submission Form</title>
+
+	<style>
+		body {
+			background-color: #f8f9fa;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+
+				<!-- Form -->
+				<form>
+					<!-- Email Input -->
+					<div class="form-group">
+						<label for="emailInput">Email:</label>
+						<input type="email" class="form-control" id="emailInput" placeholder="Enter your email">
+					</div>
+
+					<!-- Submit Button -->
+					<button type="submit" class="btn btn-primary">Submit</button>
+
+					<!-- Text Area -->
+					<div class="form-group mt-3">
+						<label for="resultTextArea">Result:</label>
+						<textarea class="form-control" id="resultTextArea" rows="10" style="width: 100vb;"
+							readonly></textarea>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS and Popper.js -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
