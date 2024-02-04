@@ -3,50 +3,141 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-	<title>Email Submission Form</title>
-
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<title>Responsive Sidebar Example</title>
 	<style>
 		body {
+			padding-top: 56px;
+		}
+
+		.sidebar {
+			height: 100%;
+			width: 250px;
+			position: fixed;
+			z-index: 1;
+			top: 56px;
+			left: 0;
 			background-color: #f8f9fa;
+			padding-top: 20px;
+			padding-left: 10px;
+		}
+
+		.main-content {
+			margin-left: 250px;
+			padding: 20px;
+		}
+
+		.option-content {
+			display: none;
 		}
 	</style>
 </head>
 
 <body>
 
-	<div class="container mt-5">
-		<div class="row justify-content-center">
-			<div class="col-md-6">
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<a class="navbar-brand" href="#">Brand</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">About</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Contact</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
 
-				<!-- Form -->
-				<form>
-					<!-- Email Input -->
-					<div class="form-group">
-						<label for="emailInput">Email:</label>
-						<input type="email" class="form-control" id="emailInput" placeholder="Enter your email">
-					</div>
+	<!-- Sidebar -->
+	<div class="sidebar">
+		<ul class="nav flex-column">
+			<li class="nav-item">
+				<a class="nav-link" href="#" onclick="showContent('Option 1')">Option 1</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#" onclick="showContent('Option 2')">Option 2 Dashboard</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#" onclick="showContent('Option 3')">Option 3</a>
+			</li>
+			<!-- Add more options as needed -->
+		</ul>
+	</div>
 
-					<!-- Submit Button -->
-					<button type="submit" class="btn btn-primary">Submit</button>
+	<!-- Main Content -->
+	<div class="main-content">
+		<!-- Option 1 Content -->
+		<div class="option-content" id="option1-content">
+			<h4>Option 1 Content</h4>
+			<p>This is content for Option 1.</p>
+			<form id="myForm">
+				<div class="form-group">
+					<label for="emailInput">Email</label>
+					<input type="email" class="form-control" id="emailInput" placeholder="Enter your email">
+				</div>
+				<button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+			</form>
 
-					<!-- Text Area -->
-					<div class="form-group mt-3">
-						<label for="resultTextArea">Result:</label>
-						<textarea class="form-control" id="resultTextArea" rows="10" style="width: 100vb;"
-							readonly></textarea>
-					</div>
-				</form>
-
+			<div class="form-group mt-3">
+				<label for="outputTextarea">Output</label>
+				<textarea class="form-control" id="outputTextarea" rows="3" readonly></textarea>
 			</div>
+		</div>
+
+		<!-- Option 2 Dashboard -->
+		<div class="option-content" id="option2-content">
+			<h4>Option 2 Dashboard</h4>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">Sample Card 1</h5>
+					<p class="card-text">This is some sample content for Card 1.</p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">Sample Card 2</h5>
+					<p class="card-text">This is some sample content for Card 2.</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Option 3 Content -->
+		<div class="option-content" id="option3-content">
+			<h4>Option 3 Content</h4>
+			<p>This is content for Option 3.</p>
 		</div>
 	</div>
 
-	<!-- Bootstrap JS and Popper.js -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+	<script>
+		function showContent(option) {
+			// Hide all option contents
+			document.querySelectorAll('.option-content').forEach(function (el) {
+				el.style.display = 'none';
+			});
+
+			// Show the selected option content
+			document.getElementById(`option${getOptionNumber(option)}-content`).style.display = 'block';
+		}
+
+		function getOptionNumber(option) {
+			// Extract the number from the option text
+			return option.match(/\d+/)[0];
+		}
+	</script>
 
 </body>
 
