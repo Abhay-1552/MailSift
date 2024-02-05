@@ -6,7 +6,6 @@ try:
     df = pd.read_csv(r"mail.csv")
 except Exception as e:
     print(f"Error: {e}")
-finally:
     df = None
 
 
