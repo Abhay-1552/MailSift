@@ -31,6 +31,13 @@
 		.option-content {
 			display: none;
 		}
+
+		.sidebar a {
+			font: 20px sans-serif;
+			padding-bottom: 20px;
+			text-decoration: none;
+			color: #000;
+		}
 	</style>
 </head>
 
@@ -62,10 +69,10 @@
 	<div class="sidebar">
 		<ul class="nav flex-column">
 			<li class="nav-item">
-				<a class="nav-link" href="#" onclick="showContent('Option 1')">Option 1</a>
+				<a class="nav-link" href="#" onclick="showContent('Option 1')">Mail Filtering</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#" onclick="showContent('Option 2')">Option 2 Dashboard</a>
+				<a class="nav-link" href="#" onclick="showContent('Option 2')">Dashboard</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#" onclick="showContent('Option 3')">Option 3</a>
@@ -76,6 +83,12 @@
 
 	<!-- Main Content -->
 	<div class="main-content">
+		<!-- Default Page Content -->
+		<div class="option-content" id="default-content" style="display: block;">
+			<h4>Welcome to the Default Page</h4>
+			<p>This is the default content that will be displayed initially.</p>
+		</div>
+
 		<!-- Option 1 Content -->
 		<div class="option-content" id="option1-content">
 			<h4>Option 1 Content</h4>
@@ -96,20 +109,37 @@
 
 		<!-- Option 2 Dashboard -->
 		<div class="option-content" id="option2-content">
-			<h4>Option 2 Dashboard</h4>
-			<div class="card">
-				<div class="card-body">
-					<h5 class="card-title">Sample Card 1</h5>
-					<p class="card-text">This is some sample content for Card 1.</p>
+			<h3>Dashboard</h3>
+			<button onclick="generate()">Generate</button>
+
+			<div id="zero-data-div" style="display: none;">
+				<h3>Welcome to Dashboard</h3>
+			</div>
+
+			<div id="chart-divs" style="display: none;">
+				<div class="card">
+					<div class="card-body">
+						{{ plot_sc_html|safe }}
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						{{ plot_dc_html|safe }}
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						{{ plot_mt_html|safe }}
+					</div>
 				</div>
 			</div>
-			<div class="card">
-				<div class="card-body">
-					<h5 class="card-title">Sample Card 2</h5>
-					<p class="card-text">This is some sample content for Card 2.</p>
-				</div>
-			</div>
+
+			<script>
+
+			</script>
 		</div>
+
+
 
 		<!-- Option 3 Content -->
 		<div class="option-content" id="option3-content">
@@ -136,6 +166,20 @@
 		function getOptionNumber(option) {
 			// Extract the number from the option text
 			return option.match(/\d+/)[0];
+		}
+
+		function generate(data) {
+			var dataValue = data;
+
+			if (dataValue == 0) {
+				document.getElementById("zero-data-div").style.display = "block";
+				document.getElementById("chart-divs").style.display = "none";
+			} else {
+				document.getElementById("zero-data-div").style.display = "none";
+				document.getElementById("chart-divs").style.display = "block";
+			}
+
+			alert("Generate button clicked");
 		}
 	</script>
 

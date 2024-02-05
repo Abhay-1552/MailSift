@@ -8,6 +8,7 @@ import pandas as pd
 import json
 import re
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 
 
 class Mail:
@@ -30,12 +31,12 @@ class Mail:
             status, messages = self.mail.search(None, "ALL")
             messages = messages[0].split()
             messages.reverse()
-            top_messages = messages[:10]
+            top_messages = messages[:180]
 
             filtered_email_list = []
 
             # Fetch and process each email
-            for email_id in top_messages:
+            for email_id in tqdm(top_messages):
                 status, msg_data = self.mail.fetch(email_id, "(RFC822)")
 
                 # Parse the email content
@@ -52,9 +53,12 @@ class Mail:
                 if isinstance(subject, bytes):
                     subject = subject.decode(encoding or "utf-8")
 
+                    # Changing specials characters in heading
+                    subject = re.sub(r'[^\x00-\x7F]+', '<Special Characters>', subject)
+
                 # Get date and time of receiving email
                 date_time_received = parsedate_to_datetime(email_message["Date"])
-                date_received = date_time_received.strftime("%d-%m-%Y")
+                date_received = date_time_received.strftime("%d-%b-%Y")
                 time_received = date_time_received.strftime("%H:%M")
 
                 payload = email_message.get_payload()
@@ -100,18 +104,16 @@ class Mail:
                     "SenderEmail": sender_email,
                     "Subject": subject,
                     "Date": date_received,
+
                     "Time": time_received,
                     "Payload": ' '.join(cleaned_payload.split())
                 }
-
-                print(email_info)
-                print('-' * 200)
 
                 filtered_email_list.append(email_info)
 
             output_json = json.dumps(filtered_email_list, indent=2)
 
-            Mail.mail_to_excel(output_json)
+            Mail.mail_to_csv(output_json)
 
         except (KeyboardInterrupt, Exception, ConnectionError) as e:
             print(f"Error: {e}")
@@ -136,9 +138,9 @@ class Mail:
         return cleaned_payload
 
     @staticmethod
-    def mail_to_excel(email_json_data):
+    def mail_to_csv(email_json_data):
         data_frame = pd.read_json(email_json_data)
-        data_frame.to_excel("mail.xlsx")
+        data_frame.to_csv('mail.csv', index=False)
 
         print("Data Saved!!")
 
