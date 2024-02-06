@@ -9,6 +9,7 @@ import json
 import re
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+import sys
 
 
 class Mail:
@@ -31,10 +32,9 @@ class Mail:
             status, messages = self.mail.search(None, "ALL")
             messages = messages[0].split()
             messages.reverse()
-            top_messages = messages[:180]
+            top_messages = messages[:]
 
             filtered_email_list = []
-
             # Fetch and process each email
             for email_id in tqdm(top_messages):
                 status, msg_data = self.mail.fetch(email_id, "(RFC822)")
@@ -75,27 +75,59 @@ class Mail:
                         elif content_type == "text/html":
                             html_payload = part.get_payload(decode=True)  # Decode HTML payload
                             soup = BeautifulSoup(html_payload, 'html.parser')
-                            decoded_payload += soup.get_text()
+                            if soup.body:
+                                main_content = soup.body.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span'])
+                            else:
+                                continue
+
+                            data = ''
+                            for content in main_content:
+                                data += content.get_text(strip=True) + ' '
+                            decoded_payload += data
 
                         elif part.get_content_type().startswith('image/'):
                             filename = part.get_filename()
-                            decoded_payload += f"Image Attachment: {filename}, Content Type: {part.get_content_type()}\t"
+                            decoded_payload += (f"Image Attachment: {filename}, Content Type: "
+                                                f"{part.get_content_type()}\t")
+
+                        elif part.get_content_type().startswith('application/'):
+                            filename = part.get_filename()
+                            decoded_payload += (f"Document Attachment: {filename}, Content Type: "
+                                                f"{part.get_content_type()}\t")
 
                 else:
                     if email_message.get_content_type() == "text/plain":
-                        decoded_payload += payload.decode(email_message.get_content_charset() or "utf-8", errors="ignore")
+                        decoded_payload += email_message.get_payload(decode=True).decode(
+                            email_message.get_content_charset() or "utf-8", errors="ignore")
 
                     elif email_message.get_content_type() == "text/html":
                         html_payload = email_message.get_payload(decode=True)
                         soup = BeautifulSoup(html_payload, 'html.parser')
-                        decoded_payload += soup.get_text()
+                        if soup.body:
+                            main_content = soup.body.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span'])
+                        else:
+                            continue
+
+                        data = ''
+                        for content in main_content:
+                            data += content.get_text(strip=True) + ' '
+                        decoded_payload += data
 
                     elif email_message.get_content_type().startswith('image/'):
                         attachment_filename = email_message.get_filename()
-                        decoded_payload += f"Image Attachment: {attachment_filename}, Content Type: {email_message.get_content_type()}\t"
+                        decoded_payload += (f"Image Attachment: {attachment_filename}, Content Type: "
+                                            f"{email_message.get_content_type()}\t")
+
+                    elif email_message.get_content_type().startswith('application/'):
+                        attachment_filename = email_message.get_filename()
+                        decoded_payload += (f"Document Attachment: {attachment_filename}, Content Type: "
+                                            f"{email_message.get_content_type()}\t")
 
                     else:
-                        decoded_payload += "Unsupported Content or Blank Mail"
+                        decoded_payload += "<Unsupported Content or Blank Mail>"
+
+                pattern = r'\b(?:\+91|0)?[789]\d{9}\b'
+                phone_numbers = re.findall(pattern, decoded_payload)
 
                 cleaned_payload = Mail.cleaning_mail(decoded_payload)
 
@@ -104,9 +136,9 @@ class Mail:
                     "SenderEmail": sender_email,
                     "Subject": subject,
                     "Date": date_received,
-
                     "Time": time_received,
-                    "Payload": ' '.join(cleaned_payload.split())
+                    "Payload": ' '.join(cleaned_payload.split()),
+                    "PhoneNumber": phone_numbers
                 }
 
                 filtered_email_list.append(email_info)
@@ -116,13 +148,38 @@ class Mail:
             Mail.mail_to_csv(output_json)
 
         except (KeyboardInterrupt, Exception, ConnectionError) as e:
-            print(f"Error: {e}")
+            e_type, e_object, e_traceback = sys.exc_info()
+
+            e_filename = os.path.split(e_traceback.tb_frame.f_code.co_filename)[1]
+            e_message = str(e)
+            e_line_number = e_traceback.tb_lineno
+
+            error = (
+                f'Exception type: {e_type}\n'
+                f'Exception filename: {e_filename}\n'
+                f'Exception line number: {e_line_number}\n'
+                f'Exception message: {e_message}'
+            )
+
+            print(error)
 
         finally:
             self.mail.logout()
 
     @staticmethod
     def cleaning_mail(payload):
+        for x in ['<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>', '<p>', '<span>', '<a>']:
+            if x in payload:
+                soup = BeautifulSoup(payload, 'html.parser')
+                main_content = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a'])
+
+                data = ''
+                for content in main_content:
+                    data += content.get_text(strip=True) + ' '
+                payload = data
+            else:
+                pass
+
         # Cleaning - Hyperlinks
         cleaned_payload = re.sub(r'http\S+', '', payload)
         # Cleaning - Unicode Characters

@@ -1,5 +1,7 @@
 import pandas as pd
 import plotly.express as px
+import sweetviz as sw
+import os
 
 # Assuming 'Date' is the column in your Excel file
 try:
@@ -71,3 +73,19 @@ def mails_per_time_intervals():
     plot_mt_html = fig.to_html(full_html=False)
 
     return plot_mt_html
+
+
+def sweet_viz_report():
+    report_path = 'A:/Projects/MailSift/template/REPORT.html'
+    if os.path.exists(report_path):
+        pass
+    else:
+        report = sw.analyze(df)
+        report.show_html(filepath='A:/Projects/MailSift/template/REPORT.html')
+
+
+def filter_record_mails(keywords):
+    filtered_rows = df[df['Payload'].str.contains('|'.join(keywords))]
+    merged_df = pd.DataFrame(filtered_rows)
+
+    return merged_df

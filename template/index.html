@@ -65,9 +65,6 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item active">
-					<a class="nav-link" href="#">Home</a>
-				</li>
-				<li class="nav-item active">
 					<a class="nav-link" href="#aboutus">About Us</a>
 				</li>
 				<li class="nav-item active">
@@ -82,30 +79,35 @@
 		<ul class="nav flex-column">
 			<li class="nav-item">
 				<a class="nav-link" href="#" onclick="showContent('Option 1')">
-					<img src="../static/images/lease.gif" alt="" height="50px" width="50px">
-					Mail Filtering
+					<img src="../static/images/home.gif" alt="" height="50px" width="50px">
+					Home
 				</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#" onclick="showContent('Option 2')">
 					<img src="../static/images/diagram.gif" alt="" height="50px" width="50px">
-					Dashboard
+					Mail Filtering
 				</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#" onclick="showContent('Option 3')">
 					<img src="../static/images/mailing.gif" alt="" height="50px" width="50px">
-					Option 3
+					Dashboard
 				</a>
 			</li>
-			<!-- Add more options as needed -->
+			<li class="nav-item">
+				<a class="nav-link" href="#" onclick="showContent('Option 4')">
+					<img src="../static/images/lease.gif" alt="" height="50px" width="50px">
+					Detailed Analysis
+				</a>
+			</li>
 		</ul>
 	</div>
 
 	<!-- Main Content -->
 	<div class="main-content">
 		<!-- Default Page Content -->
-		<div class="option-content" id="default-content" style="display: block;">
+		<div class="option-content show" id="option1-content" style="display: block;">
 			<div id="carouselSpecialOffers" class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner">
 					<div class="carousel-item active">
@@ -163,27 +165,34 @@
 		</div>
 
 		<!-- Option 1 Content -->
-		<div class="option-content" id="option1-content">
+		<div class="option-content" id="option2-content">
 			<h4>Option 1 Content</h4>
 			<p>This is content for Option 1.</p>
-			<form id="myForm">
+			<form id="myForm" method="POST" action="{{ url_for('filter_mail') }}">
 				<div class="form-group">
 					<label for="emailInput">Email</label>
-					<input type="email" class="form-control" id="emailInput" placeholder="Enter your email">
+					<input type="text" class="form-control" id="emailInput" name="emailInput"
+						placeholder="Enter your email">
 				</div>
-				<button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+				<button type="submit" class="btn btn-primary">Submit</button>
 			</form>
 
-			<div class="form-group mt-3">
-				<label for="outputTextarea">Output</label>
-				<textarea class="form-control" id="outputTextarea" rows="3" readonly></textarea>
+			{% if result_table %}
+			<div class="container result-table">
+				<h3 class="text-center mb-3">Result</h3>
+				<div class="table-responsive">
+					<table class="table table-bordered" id="myTable">
+						{{ result_table|safe }}
+					</table>
+				</div>
 			</div>
+			{% endif %}
 		</div>
 
 		<!-- Option 2 Dashboard -->
-		<div class="option-content" id="option2-content">
+		<div class="option-content" id="option3-content">
 			<h3>Dashboard</h3>
-			<button onclick="generate('{{ data_flag}}')">Generate</button>
+			<button onclick="generate('{{ data_flag }}')">Generate</button>
 
 			<div id="zero-data-div" style="display: none;">
 				<h3>Welcome to Dashboard</h3>
@@ -210,46 +219,22 @@
 		</div>
 
 		<!-- Option 3 Content -->
-		<div class="option-content" id="option3-content">
-			<h4>Option 3 Content</h4>
-			<p>This is content for Option 3.</p>
+		<div class="option-content" id="option4-content">
+			<h4>Detailed Analysis Report</h4>
+
+			<button><a href="{{ url_for('generate_report') }}" target="_blank">Generate</a></button>
+
+			<div id="report_display" style="display: none;">
+				<h3>Welcome to Dashboard</h3>
+				<p>Mails are not downloaded yet.</p>
+			</div>
 		</div>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-	<script>
-		function showContent(option) {
-			// Hide all option contents
-			document.querySelectorAll('.option-content').forEach(function (el) {
-				el.style.display = 'none';
-			});
-
-			// Show the selected option content
-			document.getElementById(`option${getOptionNumber(option)}-content`).style.display = 'block';
-		}
-
-		function getOptionNumber(option) {
-			// Extract the number from the option text
-			return option.match(/\d+/)[0];
-		}
-
-		function generate(data) {
-			var dataValue = data;
-
-			if (dataValue == 0) {
-				document.getElementById("zero-data-div").style.display = "block";
-				document.getElementById("chart-divs").style.display = "none";
-			} else {
-				document.getElementById("zero-data-div").style.display = "none";
-				document.getElementById("chart-divs").style.display = "block";
-			}
-			return true;
-		}
-	</script>
-
+	<script src="../static/js/script.js"></script>
 </body>
 
 </html>
