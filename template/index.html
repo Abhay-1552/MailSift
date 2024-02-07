@@ -6,8 +6,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
 	<link rel="stylesheet" href="../static/css/style.css">
 
 	<title>MailSift</title>
@@ -38,12 +40,71 @@
 		.sidebar a {
 			font: 20px sans-serif;
 			padding-bottom: 20px;
+			color: inherit;
 			text-decoration: none;
-			color: #000;
 		}
 
 		.sidebar img {
 			mix-blend-mode: multiply;
+		}
+
+		/* Result Table */
+		/* Truncate text in payload column */
+		.result-table table {
+			width: 100%;
+			max-width: 100%;
+			table-layout: fixed;
+			/* Ensure all columns have equal width */
+		}
+
+		.result-table td {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-width: 200px;
+		}
+
+		/* Show full text on hover */
+		.result-table td:hover {
+			white-space: normal;
+			overflow: visible;
+			text-overflow: inherit;
+		}
+
+		.result-table {
+			overflow-x: auto;
+		}
+
+		.result-table table {
+			width: 100%;
+			max-width: 100%;
+			/* Ensure table does not exceed container width */
+		}
+
+		.result-table table {
+			width: auto;
+			table-layout: auto;
+			/* Allow table to adjust width based on content */
+		}
+
+		.result-table td {
+			width: auto;
+			/* Allow each cell to adjust width based on content */
+			word-wrap: break-word;
+			/* Allow long words to break and wrap */
+		}
+
+
+		/* Optional: Add horizontal scroll bar for smaller screens */
+		@media screen and (max-width: 600px) {
+			.result-table {
+				overflow-x: scroll;
+			}
+		}
+
+		.result-table th,
+		.result-table tbody {
+			text-align: center;
 		}
 	</style>
 </head>
@@ -78,25 +139,25 @@
 	<div class="sidebar">
 		<ul class="nav flex-column">
 			<li class="nav-item">
-				<a class="nav-link" href="#" onclick="showContent('Option 1')">
+				<a class="nav-link active" href="#" onclick="showContent('Option 1', this)">
 					<img src="../static/images/home.gif" alt="" height="50px" width="50px">
 					Home
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#" onclick="showContent('Option 2')">
+				<a class="nav-link" href="#" onclick="showContent('Option 2', this)">
 					<img src="../static/images/diagram.gif" alt="" height="50px" width="50px">
 					Mail Filtering
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#" onclick="showContent('Option 3')">
+				<a class="nav-link" href="#" onclick="showContent('Option 3', this)">
 					<img src="../static/images/mailing.gif" alt="" height="50px" width="50px">
 					Dashboard
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#" onclick="showContent('Option 4')">
+				<a class="nav-link" href="#" onclick="showContent('Option 4', this)">
 					<img src="../static/images/lease.gif" alt="" height="50px" width="50px">
 					Detailed Analysis
 				</a>
@@ -168,26 +229,18 @@
 		<div class="option-content" id="option2-content">
 			<h4>Option 1 Content</h4>
 			<p>This is content for Option 1.</p>
-			<form id="myForm" method="POST" action="{{ url_for('filter_mail') }}">
+			<form id="myForm">
 				<div class="form-group">
-					<label for="emailInput">Email</label>
-					<input type="text" class="form-control" id="emailInput" name="emailInput"
+					<label for="keywords">Email</label>
+					<input type="text" class="form-control" id="keywords" name="keywords"
 						placeholder="Enter your email">
 				</div>
-				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="button" class="btn btn-primary" onclick="filterMail()">Submit</button>
 			</form>
 
-			{% if result_table %}
-			<div class="container result-table">
-				<h3 class="text-center mb-3">Result</h3>
-				<div class="table-responsive">
-					<table class="table table-bordered" id="myTable">
-						{{ result_table|safe }}
-					</table>
-				</div>
-			</div>
-			{% endif %}
+			<div id="resultContainer" class="container result-table"></div>
 		</div>
+
 
 		<!-- Option 2 Dashboard -->
 		<div class="option-content" id="option3-content">
@@ -234,6 +287,7 @@
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 	<script src="../static/js/script.js"></script>
 </body>
 

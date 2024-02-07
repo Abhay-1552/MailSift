@@ -2,20 +2,27 @@ import pandas as pd
 import plotly.express as px
 import sweetviz as sw
 import os
+import re
 
 # Assuming 'Date' is the column in your Excel file
-try:
-    df = pd.read_csv(r"mail.csv")
-except Exception as e:
-    print(f"Error: {e}")
+# try:
+#     df = pd.read_csv(r"mail.csv")
+# except Exception as e:
+#     print(f"Error: {e}")
+#     df = None
+
+df = pd.read_csv(r"mail.csv")
+if df is not None and not df.empty:
+    pass
+else:
     df = None
 
 
 def check_file():
     if df is not None and not df.empty:
-        return 1  # DataFrame exists and is not empty
+        return True
     else:
-        return 0  # DataFrame does not exist or is empty
+        return False
 
 
 def date_count_function():
@@ -85,7 +92,17 @@ def sweet_viz_report():
 
 
 def filter_record_mails(keywords):
-    filtered_rows = df[df['Payload'].str.contains('|'.join(keywords))]
-    merged_df = pd.DataFrame(filtered_rows)
+    if df is not None and not df.empty:
+        words = [word.strip() for word in keywords.split(',')]
+        pattern = '|'.join(words)
+        filtered_rows = df[df['Payload'].str.contains(pattern, case=False, regex=True)]
 
-    return merged_df
+        filtered_rows = filtered_rows.reindex(
+            filtered_rows['Payload'].str.findall(pattern).apply(len).sort_values(ascending=False).index)
+
+        filtered_rows.reset_index(drop=True, inplace=True)
+        filtered_rows.index += 1
+
+        return filtered_rows
+    else:
+        return None
