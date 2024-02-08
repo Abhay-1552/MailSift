@@ -16,6 +16,17 @@
 	<link rel="icon" type="image/x-icon" href="../static/images/mail.ico">
 
 	<style>
+		
+		.main-content {
+			margin-left: 250px;
+			padding: 20px;
+		}
+
+		.option-content {
+			display: none;
+		}
+
+		/* SideBar */
 		.sidebar {
 			height: 100%;
 			width: 250px;
@@ -26,15 +37,6 @@
 			background-color: #f8f9fa;
 			padding-top: 20px;
 			padding-left: 10px;
-		}
-
-		.main-content {
-			margin-left: 250px;
-			padding: 20px;
-		}
-
-		.option-content {
-			display: none;
 		}
 
 		.sidebar a {
@@ -49,12 +51,10 @@
 		}
 
 		/* Result Table */
-		/* Truncate text in payload column */
 		.result-table table {
 			width: 100%;
 			max-width: 100%;
 			table-layout: fixed;
-			/* Ensure all columns have equal width */
 		}
 
 		.result-table td {
@@ -62,40 +62,15 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 			max-width: 200px;
+			word-wrap: break-word;
 		}
 
-		/* Show full text on hover */
 		.result-table td:hover {
 			white-space: normal;
 			overflow: visible;
 			text-overflow: inherit;
 		}
 
-		.result-table {
-			overflow-x: auto;
-		}
-
-		.result-table table {
-			width: 100%;
-			max-width: 100%;
-			/* Ensure table does not exceed container width */
-		}
-
-		.result-table table {
-			width: auto;
-			table-layout: auto;
-			/* Allow table to adjust width based on content */
-		}
-
-		.result-table td {
-			width: auto;
-			/* Allow each cell to adjust width based on content */
-			word-wrap: break-word;
-			/* Allow long words to break and wrap */
-		}
-
-
-		/* Optional: Add horizontal scroll bar for smaller screens */
 		@media screen and (max-width: 600px) {
 			.result-table {
 				overflow-x: scroll;

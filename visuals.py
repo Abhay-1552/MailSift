@@ -2,14 +2,6 @@ import pandas as pd
 import plotly.express as px
 import sweetviz as sw
 import os
-import re
-
-# Assuming 'Date' is the column in your Excel file
-# try:
-#     df = pd.read_csv(r"mail.csv")
-# except Exception as e:
-#     print(f"Error: {e}")
-#     df = None
 
 df = pd.read_csv(r"mail.csv")
 if df is not None and not df.empty:

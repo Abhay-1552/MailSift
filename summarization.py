@@ -5,7 +5,7 @@ from heapq import nlargest
 
 
 class TEXT:
-    def __init__(self, text, per):
+    def __init__(self, text, per=0.5):
         self.text = text
         self.percentage = per
 
@@ -47,24 +47,3 @@ class TEXT:
 
         return summary
 
-
-# if __name__ == '__main__':
-#     text_article = """
-#     Hello!
-#
-#     Trust you are doing well. We are back with the new product updates in Predis.ai😀 But before we start,
-#     here is a quick refresher about us- Predis.ai is a powerful combination of ChatGPT, Canvas, and Hoot suite that
-#     allows you to create almost ready-to-publish but still completely editable social media content in your brand
-#     language. We are back with new updates!
-#
-#     🚀 Get Ready for Smoother Resizing! We've made some major improvements to our resizing feature, and we can't wait
-#     for you to try it out. Before, resizing could be a bit of a headache. Templates would often end up looking wonky
-#     and distorted. Not cool, right? But guess what? We've listened to your feedback and rolled out a much better
-#     resizing logic. Now, resizing works like a charm in most cases! Whether you're publishing in different sizes or
-#     using templates for ad creatives , you'll notice a big difference. We're still fine-tuning things, so consider
-#     this an experiment in progress. But hey, we're all about making things better for you, and this update is just
-#     the beginning into making multiple ad sizes.
-#     """
-#
-#     app = TEXT(text_article, 0.5)
-#     app.summarize()
