@@ -2,11 +2,11 @@ function generate(data) {
     var dataValue = data;
 
     if (dataValue) {
-        document.getElementById("zero-data-div").style.display = "block";
-        document.getElementById("chart-divs").style.display = "none";
-    } else {
         document.getElementById("zero-data-div").style.display = "none";
         document.getElementById("chart-divs").style.display = "block";
+    } else {
+        document.getElementById("zero-data-div").style.display = "block";
+        document.getElementById("chart-divs").style.display = "none";
     }
     return true;
 }

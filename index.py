@@ -11,9 +11,10 @@ def index():
         plot_dc_html = visuals.date_count_function()
         plot_sc_html = visuals.sender_count_function()
         plot_mt_html = visuals.mails_per_time_intervals()
+        plot_wc_html = visuals.word_cloud()
 
         return render_template("index.html", plot_dc_html=plot_dc_html, plot_sc_html=plot_sc_html,
-                               plot_mt_html=plot_mt_html, data_flag=True)
+                               plot_mt_html=plot_mt_html, plot_wc_html=plot_wc_html, data_flag=True)
 
     else:
         return render_template("index.html", data_flag=False)

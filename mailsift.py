@@ -200,7 +200,7 @@ class Mail:
     @staticmethod
     def mail_to_csv(email_json_data):
         data_frame = pd.read_json(email_json_data)
-        data_frame.to_csv('mail.csv', index=False)
+        data_frame.to_csv('mail.xlsx', index=False)
 
         print("Data Saved!!")
 

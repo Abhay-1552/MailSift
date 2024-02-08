@@ -16,7 +16,6 @@
 	<link rel="icon" type="image/x-icon" href="../static/images/mail.ico">
 
 	<style>
-		
 		.main-content {
 			margin-left: 250px;
 			padding: 20px;
@@ -54,7 +53,7 @@
 		.result-table table {
 			width: 100%;
 			max-width: 100%;
-			table-layout: fixed;
+			table-layout: auto;
 		}
 
 		.result-table td {
@@ -80,6 +79,16 @@
 		.result-table th,
 		.result-table tbody {
 			text-align: center;
+		}
+
+		#chart-divs .card {
+			margin-bottom: 10px;
+			/* Adjust this value as needed */
+		}
+
+		#chart-divs .card:last-child {
+			margin-bottom: 0;
+			/* Remove margin for the last .card */
 		}
 	</style>
 </head>
@@ -202,16 +211,59 @@
 
 		<!-- Option 1 Content -->
 		<div class="option-content" id="option2-content">
-			<h4>Option 1 Content</h4>
-			<p>This is content for Option 1.</p>
-			<form id="myForm">
-				<div class="form-group">
-					<label for="keywords">Email</label>
-					<input type="text" class="form-control" id="keywords" name="keywords"
-						placeholder="Enter your email">
+			<div class="container mt-4 d-flex justify-content-center">
+				<div class="card" style="max-width: 800px;">
+					<div class="card-body">
+						<h1 class="card-title">Form with Bootstrap</h1>
+						<form>
+							<div class="mb-3">
+								<label for="keywordInput" class="form-label">Keyword:</label>
+								<input type="text" class="form-control" id="keywordInput" placeholder="Enter keyword">
+							</div>
+							<div class="mb-3 form-check">
+								<input type="checkbox" class="form-check-input" id="includeCheckbox">
+								<label class="form-check-label" for="includeCheckbox">Include below inputs</label>
+							</div>
+							<div class="mb-3">
+								<label for="dropdown" class="form-label">Choose an option:</label>
+								<select class="form-select" id="dropdown">
+									<option selected disabled>Select an option</option>
+									<option value="name">Name</option>
+									<option value="email">Email</option>
+								</select>
+							</div>
+							<div class="mb-3">
+								<label for="choiceInput" class="form-label">Input for choice:</label>
+								<input type="text" class="form-control" id="choiceInput" placeholder="Enter choice">
+							</div>
+							<div class="row mb-3">
+								<div class="col">
+									<label for="startDate" class="form-label">Start Date:</label>
+									<input type="date" class="form-control" id="startDate">
+								</div>
+								<div class="col">
+									<label for="endDate" class="form-label">End Date:</label>
+									<input type="date" class="form-control" id="endDate">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col">
+									<label for="startTime" class="form-label">Start Time:</label>
+									<input type="time" class="form-control" id="startTime">
+								</div>
+								<div class="col">
+									<label for="endTime" class="form-label">End Time:</label>
+									<input type="time" class="form-control" id="endTime">
+								</div>
+							</div>
+							<div class="mb-3">
+								<button type="submit" class="btn btn-primary">Submit</button>
+								<button type="reset" class="btn btn-secondary">Clear</button>
+							</div>
+						</form>
+					</div>
 				</div>
-				<button type="button" class="btn btn-primary" onclick="filterMail()">Submit</button>
-			</form>
+			</div>
 
 			<div id="resultContainer" class="container result-table"></div>
 		</div>
@@ -241,6 +293,11 @@
 				<div class="card">
 					<div class="card-body">
 						{{ plot_mt_html|safe }}
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						{{ plot_wc_html|safe }}
 					</div>
 				</div>
 			</div>
