@@ -5,4 +5,5 @@ mail_env/
 .env
 
 # Ignore all JSON files
-*.json
+credentials.json
+token.json
