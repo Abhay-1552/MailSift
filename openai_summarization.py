@@ -11,13 +11,19 @@ class API:
 
     @staticmethod
     def summarize_text(input_text):
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt="Summarize the text while removing unnecessary things and preserving the text meaning" + input_text,
-            max_tokens=75
+        completion = openai.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "user",
+                    "content": "Generate a concise summary of the text while retaining its essence and omitting "
+                               "extraneous details." + input_text,
+                },
+            ],
+            temperature=0.4
         )
 
-        summarized_text = response.choices[0].text.strip()
+        summarized_text = completion.choices[0].message.content
         return summarized_text
 
 
@@ -42,4 +48,3 @@ if __name__ == '__main__':
         """
 
     print(app.summarize_text(text_article))
-
