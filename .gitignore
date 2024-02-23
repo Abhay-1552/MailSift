@@ -3,3 +3,6 @@ mail_env/
 
 # Ignore .env file
 .env
+
+# Ignore all JSON files
+*.json
