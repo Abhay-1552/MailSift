@@ -23,6 +23,8 @@
 
         .card {
             margin-bottom: 20px;
+            cursor: pointer;
+            /* Change cursor to pointer when hovering over cards */
         }
 
         .card-header {
@@ -153,13 +155,13 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-6 section">
+            <div class="col-md-6 section" id="section2">
                 <h2 class="mb-3">INBOX</h2>
                 <div class="search-bar">
                     <input type="text" class="form-control mb-3" placeholder="Search...">
                 </div>
                 <div class="scrollable-section">
-                    <div class="card">
+                    <div class="card" onclick="showMailContent()">
                         <div class="card-header">
                             <div class="sender-subject">
                                 Sender: John Doe<br>
@@ -171,19 +173,44 @@
                         </div>
                         <div class="card-body">
                             <p>This is the content of the email...</p>
-                            <div>
-                                <button type="button" class="btn btn-outline-danger"><i class="fa fa-trash"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary"><i class="fa fa-archive"></i>
-                                </button>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="showMailContent()">
+                        <div class="card-header">
+                            <div class="sender-subject">
+                                Sender: John Doe 2<br>
+                                Subject: Meeting Tomorrow 2
                             </div>
+                            <div class="date-time">
+                                Date: 2024-03-07 10:30 AM
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>This is the content of the email 2...</p>
                         </div>
                     </div>
                     <!-- Add more cards as needed -->
                 </div>
             </div>
-            <div class="col-md-4 section">
-                Section 3
+            <div class="col-md-4 section" id="section3" style="display: none;">
+                <h2 class="mb-3">Email Details</h2>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="sender-info">
+                            <strong>From:</strong> John Doe &lt;johndoe@example.com&gt;<br>
+                            <strong>Sent:</strong> 2024-03-07 10:30 AM
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>This is the content of the email...</p>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="reply">Reply:</label>
+                    <textarea class="form-control" id="reply" rows="3"></textarea>
+                </div>
+                <button type="button" class="btn btn-primary float-right">Send</button>
             </div>
         </div>
     </div>
@@ -191,6 +218,23 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showMailContent() {
+            // Copy email content from section 2 to section 3
+            var senderName = document.querySelector('#section2 .card-header .sender-subject').innerHTML;
+            var dateTime = document.querySelector('#section2 .card-header .date-time').innerHTML;
+            var mailContent = document.querySelector('#section2 .card-body').innerHTML;
+
+            var senderInfo = document.querySelector('#section3 .card .sender-info');
+            senderInfo.innerHTML = "<strong>From:</strong> " + senderName + "<br>" + "<strong>Sent:</strong> " + dateTime;
+
+            var mailBody = document.querySelector('#section3 .card-body p');
+            mailBody.innerHTML = mailContent;
+
+            // Show section 3
+            document.getElementById('section3').style.display = 'block';
+        }
+    </script>
 </body>
 
 </html>

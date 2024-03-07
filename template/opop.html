@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Details</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            height: 100%;
+        }
+
+        .section {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background-color: #e0e0e0;
+        }
+
+        .details {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="section" id="section1">
+            <div class="card" onclick="showDetails(this)">
+                <div class="card-header">
+                    <div class="sender-subject">
+                        Sender: John Doe 1<br>
+                        Subject: Meeting Tomorrow 1
+                    </div>
+                    <div class="date-time">
+                        Date: 2024-03-06 09:00 AM
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p>This is the content of the email 1...</p>
+                </div>
+            </div>
+            <div class="card" onclick="showDetails(this)">
+                <div class="card-header">
+                    <div class="sender-subject">
+                        Sender: John Doe 2<br>
+                        Subject: Meeting Tomorrow 2
+                    </div>
+                    <div class="date-time">
+                        Date: 2024-03-07 10:30 AM
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p>This is the content of the email 2...</p>
+                </div>
+            </div>
+            <!-- Add more cards as needed -->
+        </div>
+        <div class="section" id="section2">
+            <div class="details" id="details"></div>
+        </div>
+    </div>
+
+    <script>
+        function showDetails(cardElement) {
+            var detailsElement = document.getElementById('details');
+            detailsElement.innerHTML = '';
+
+            var cardHeader = cardElement.querySelector('.card-header').innerHTML;
+            var cardBody = cardElement.querySelector('.card-body').innerHTML;
+
+            var cardContent = cardHeader + cardBody;
+            detailsElement.innerHTML = cardContent;
+
+            detailsElement.classList.add('active');
+        }
+    </script>
+
+</body>
+
+</html>
