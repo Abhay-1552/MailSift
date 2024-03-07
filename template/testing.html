@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Page with Navbar and Vertical Sections</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .section {
+            height: 100%;
+            border: 1px solid #ccc;
+            padding: 20px;
+            overflow-y: auto;
+            /* Add scrollbar when content overflows vertically */
+        }
+
+        .scrollable-section {
+            max-height: calc(100% - 38px);
+            /* Adjust height for scrollbar width */
+        }
+
+        .card {
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sender-subject {
+            margin-bottom: 5px;
+        }
+
+        .date-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        /* Custom styles for login and signup buttons */
+        .navbar-nav .nav-link.login-signup {
+            color: #28a745;
+            /* Green color for text */
+            background-color: transparent;
+            /* Transparent background */
+            border: none;
+            /* No border */
+            padding: 0.5rem 1rem;
+            /* Padding for buttons */
+            margin-right: 10px;
+            /* Margin between buttons */
+        }
+
+        .navbar-nav .nav-link.login-signup:hover {
+            background-color: rgba(40, 167, 69, 0.1);
+            /* Light green background on hover */
+        }
+
+        /* Custom styles for dropdown */
+        .dropdown-menu {
+            padding: 0.5rem;
+        }
+
+        .dropdown-divider {
+            margin: 0.5rem 0;
+        }
+
+        /* Custom styles for vertical stacks */
+        .vertical-stack {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .vertical-stack li {
+            margin-bottom: 10px;
+        }
+
+        .vertical-stack li a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .vertical-stack li a:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link login-signup" href="#">Signup</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link login-signup" href="#">Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="height: 100vh;">
+        <div class="row" style="height: 100%;">
+            <div class="col-md-2 section">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Account
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Account 1</a>
+                        <a class="dropdown-item" href="#">Account 2</a>
+                        <a class="dropdown-item" href="#">Account 3</a>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <ul class="vertical-stack">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa fa-inbox"></i> Inbox</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa fa-file"></i> Draft</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa fa-paper-plane"></i> Sent</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa fa-trash"></i> Trash</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa fa-archive"></i> Archive</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6 section">
+                <h2 class="mb-3">INBOX</h2>
+                <div class="search-bar">
+                    <input type="text" class="form-control mb-3" placeholder="Search...">
+                </div>
+                <div class="scrollable-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="sender-subject">
+                                Sender: John Doe<br>
+                                Subject: Meeting Tomorrow
+                            </div>
+                            <div class="date-time">
+                                Date: 2024-03-07 10:30 AM
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>This is the content of the email...</p>
+                        </div>
+                    </div>
+                    <!-- Add more cards as needed -->
+                </div>
+            </div>
+            <div class="col-md-4 section">
+                Section 3
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
