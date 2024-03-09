@@ -4,21 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap Page with Navbar and Vertical Sections</title>
+    <title>MailSift</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        /* Scrollbar Styles */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 5px;
+        }
+
         .section {
             height: 100%;
             border: 1px solid #ccc;
             padding: 20px;
             overflow-y: auto;
-            /* Add scrollbar when content overflows vertically */
         }
 
         .scrollable-section {
             max-height: calc(100% - 38px);
-            /* Adjust height for scrollbar width */
         }
 
         .card {
@@ -42,20 +54,14 @@
         /* Custom styles for login and signup buttons */
         .navbar-nav .nav-link.login-signup {
             color: #28a745;
-            /* Green color for text */
             background-color: transparent;
-            /* Transparent background */
             border: none;
-            /* No border */
             padding: 0.5rem 1rem;
-            /* Padding for buttons */
             margin-right: 10px;
-            /* Margin between buttons */
         }
 
         .navbar-nav .nav-link.login-signup:hover {
             background-color: rgba(40, 167, 69, 0.1);
-            /* Light green background on hover */
         }
 
         /* Custom styles for dropdown */
@@ -87,12 +93,19 @@
         .vertical-stack li a:hover {
             background-color: rgba(0, 0, 0, 0.1);
         }
+
+        .divider {
+            border-left: 1px solid #0b0b0b;
+            margin-left: 10px;
+            margin-right: 15px;
+        }
     </style>
 </head>
 
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">MailSift</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -102,10 +115,10 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Analysis</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="#">Link</a>
                 </li>
             </ul>
@@ -120,9 +133,10 @@
         </div>
     </nav>
 
-    <div class="container-fluid" style="height: 100vh;">
+    <!-- Left Section -->
+    <div class="container-fluid" style="height: 92vh;">
         <div class="row" style="height: 100%;">
-            <div class="col-md-2 section">
+            <div class="col-md-2 section" name="left-section">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -153,10 +167,15 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-6 section">
+
+            <!-- Middle Section -->
+            <div class="col-md-6 section" name="middle-section">
                 <h2 class="mb-3">INBOX</h2>
-                <div class="search-bar">
-                    <input type="text" class="form-control mb-3" placeholder="Search...">
+                <div class="search-bar input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Search..." id="searchInput" name="searchInput">
                 </div>
                 <div class="scrollable-section">
                     <div class="card">
@@ -170,7 +189,83 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <p>This is the content of the email...</p>
+                            <p>Hey team, just a quick reminder about our meeting tomorrow at 10 am. Don't forget to
+                                bring your updates!</p>
+                            <div>
+                                <button type="button" class="btn btn-outline-danger"><i class="fa fa-trash"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary"><i class="fa fa-archive"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="sender-subject">
+                                Sender: Alex Johnson &lt;alex.johnson@example.com&gt;<br>
+                                Subject: Important Announcement
+                            </div>
+                            <div class="date-time">
+                                Date: 2024-03-07 10:30 AM
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Hi team, I hope this email finds you well. I wanted to inform you about an important
+                                company-wide announcement regarding the upcoming changes in our project management
+                                system. These changes are aimed at streamlining our processes and improving efficiency.
+                                Your cooperation and support during this transition period are highly appreciated.
+                                Please stay tuned for further updates and feel free to reach out if you have any
+                                questions or concerns. Thank you for your attention.</p>
+                            <div>
+                                <button type="button" class="btn btn-outline-danger"><i class="fa fa-trash"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary"><i class="fa fa-archive"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="sender-subject">
+                                Sender: Sarah Johnson &lt;sarah.johnson@example.com&gt;<br>
+                                Subject: Project Update
+                            </div>
+                            <div class="date-time">
+                                Date: 2024-03-07 10:30 AM
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Hi everyone, just wanted to share that we've made great progress on the project. Keep up
+                                the excellent work!</p>
+                            <div>
+                                <button type="button" class="btn btn-outline-danger"><i class="fa fa-trash"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary"><i class="fa fa-archive"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="sender-subject">
+                                Sender: Michael Thompson &lt;michael.thompson@example.com&gt;<br>
+                                Subject: Company Event RSVP
+                            </div>
+                            <div class="date-time">
+                                Date: 2024-03-07 10:30 AM
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Hi everyone, I hope this email finds you well. As you may know, our company is
+                                hosting a special event next week to celebrate a major milestone. We would like to
+                                extend an invitation to all employees to join us for this memorable occasion. Please
+                                RSVP by the end of this week, indicating whether you will be able to attend. We look
+                                forward to celebrating together as a team. If you have any dietary restrictions or
+                                special requests, please let us know in your response. Thank you, and we hope to see
+                                you there!</p>
                             <div>
                                 <button type="button" class="btn btn-outline-danger"><i class="fa fa-trash"></i>
                                 </button>
@@ -182,8 +277,30 @@
                     <!-- Add more cards as needed -->
                 </div>
             </div>
-            <div class="col-md-4 section">
-                <div class="card">
+
+            <!-- Right Section -->
+            <div class="col-md-4 section" name="right-section">
+                <div class="action-bar">
+                    <button type="button" class="btn btn-outline-danger action-btn" data-toggle="tooltip"
+                        data-placement="top" title="Trash"><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-outline-secondary action-btn" data-toggle="tooltip"
+                        data-placement="top" title="Archive"><i class="fa fa-archive"></i></button>
+
+                    <span class="divider"></span>
+
+                    <button type="button" class="btn btn-outline-primary action-btn" data-toggle="tooltip"
+                        data-placement="top" title="Snooze"><i class="fa fa-clock"></i></button>
+
+                    <span class="divider"></span>
+
+                    <button type="button" class="btn btn-outline-info action-btn" data-toggle="tooltip"
+                        data-placement="top" title="Reply"><i class="fa fa-reply"></i></button>
+                    <button type="button" class="btn btn-outline-info action-btn" data-toggle="tooltip"
+                        data-placement="top" title="Reply All"><i class="fa fa-reply-all"></i></button>
+                    <button type="button" class="btn btn-outline-info action-btn" data-toggle="tooltip"
+                        data-placement="top" title="Forward"><i class="fa fa-share"></i></button>
+                </div>
+                <div class="card mt-3">
                     <div class="card-header">
                         <div class="sender-subject">
                             Sender: John Doe &lt;johndoe@gmail.com&gt;<br>
@@ -194,6 +311,7 @@
                         <p>This is the content of the email...</p>
                     </div>
                 </div>
+                <textarea class="form-control mt-3" rows="5" placeholder="Type your reply here..."></textarea>
             </div>
         </div>
     </div>
@@ -201,6 +319,29 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function filterDivs() {
+            var input, filter, cards, card, cardContent, i, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            cards = document.querySelectorAll('.section[name="middle-section"] .card'); // Select cards only within the middle section
+
+            // Loop through all cards, and hide those who don't match the search query
+            cards.forEach(function (card) {
+                cardContent = card.querySelector('.card-header').textContent + card.querySelector('.card-body').textContent;
+                txtValue = cardContent.toUpperCase();
+                if (txtValue.indexOf(filter) > -1) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // Bind the filterDivs function to the input's 'input' event
+        document.getElementById('searchInput').addEventListener('input', filterDivs);
+
+    </script>
 </body>
 
 </html>
