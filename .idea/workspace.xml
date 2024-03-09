@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="98854811-4969-4cd3-befd-8275a336d75d" name="Changes" comment="Working">
-      <change afterPath="$PROJECT_DIR$/.idea/MailSift.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gmailapi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/summarization.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client_secret.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmail_token.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gmailapi.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +70,7 @@
       <recent name="A:\Projects\MailSift\static" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.gmailapi">
+  <component name="RunManager" selected="Python.index">
     <configuration name="gmailapi" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="MailSift" />
       <option name="ENV_FILES" value="" />
@@ -208,10 +205,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.index" />
         <item itemvalue="Python.gmailapi" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.openai_summarization" />
-        <item itemvalue="Python.index" />
         <item itemvalue="Python.visuals" />
       </list>
     </recent_temporary>
