@@ -187,9 +187,11 @@
                     </div>
                     <input type="text" class="form-control" placeholder="Search..." id="searchInput" name="searchInput">
                 </div>
+
+                <!-- Mail Cards -->
                 <div class="scrollable-section">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header" onclick="cardDetails(this)">
                             <div class="sender-subject">
                                 <b>
                                     <span id="sendername" name="sendername">John Doe</span>
@@ -209,7 +211,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header" onclick="cardDetails(this)">
                             <div class="sender-subject">
                                 <b>
                                     <span id="sendername" name="sendername">Alex Johnson</span>
@@ -233,7 +235,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header" onclick="cardDetails(this)">
                             <div class="sender-subject">
                                 <b>
                                     <span id="sendername" name="sendername">Sarah Johnson</span>
@@ -252,7 +254,7 @@
                         </div>
                     </div>
 
-                    <div class="card" onclick="cardDetails(this)">
+                    <div class="card">
                         <div class="card-header">
                             <div class="sender-subject">
                                 <b>
@@ -282,6 +284,8 @@
 
             <!-- Right Section -->
             <div class="col-md-4 section" name="right-section">
+
+                <!-- Response buttons to mails -->
                 <div class="action-bar">
                     <button type="button" class="btn btn-outline-danger action-btn" data-toggle="tooltip"
                         data-placement="top" title="Trash"><i class="fa fa-trash"></i></button>
@@ -302,6 +306,8 @@
                     <button type="button" class="btn btn-outline-info action-btn" data-toggle="tooltip"
                         data-placement="top" title="Forward"><i class="fa fa-share"></i></button>
                 </div>
+
+                <!-- Blank Card for response -->
                 <div class="card mt-3">
                     <div class="card-header">
                         <div class="sender-subject">
@@ -334,6 +340,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
     <script>
         function filterDivs() {
             var input, filter, cards, card, cardContent, i, txtValue;
@@ -361,16 +368,21 @@
             document.getElementById('mailcount').textContent = count;
         });
 
-        function cardDetails(card) {
-            var senderName = document.getElementById("sendername").innerText;
-            var senderEmail = document.getElementById("sendermail").innerText;
-            var subject = document.getElementById("subject").innerText;
+        // Show details of the clicked card
+        var cards = document.querySelectorAll('.section[name="middle-section"] .card-header');
+        cards.forEach(function (card) {
+            card.addEventListener("click", function () {
+                // Get values from the clicked card
+                var senderName = card.querySelector(".sendername").innerText;
+                var senderEmail = card.querySelector(".sendermail").innerText;
+                var subject = card.querySelector(".subject").innerText;
 
-            // Set values to the blank structure
-            document.getElementById("blankSenderName").innerText = senderName;
-            document.getElementById("blankSenderEmail").innerText = senderEmail;
-            document.getElementById("blankSubject").innerText = subject;
-        }
+                // Set values to the blank structure
+                document.getElementById("blankSenderName").innerText = senderName;
+                document.getElementById("blankSenderEmail").innerText = senderEmail;
+                document.getElementById("blankSubject").innerText = subject;
+            });
+        });
 
     </script>
 </body>
