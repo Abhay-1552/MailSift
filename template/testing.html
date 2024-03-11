@@ -7,7 +7,12 @@
     <title>MailSift</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap">
     <style>
+        body {
+            font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+        }
+
         /* Scrollbar Styles */
         ::-webkit-scrollbar {
             width: 7px;
@@ -25,7 +30,7 @@
         .section {
             height: 100%;
             border: 1px solid #ccc;
-            padding: 20px;
+            padding: 10px 20px 20px 20px;
             overflow-y: auto;
         }
 
@@ -99,59 +104,64 @@
             margin-left: 10px;
             margin-right: 15px;
         }
+
+        /* Submit and clear button */
+        .btn-animation {
+            transition: transform 0.2s ease;
+        }
+
+        .btn-animation:hover {
+            transform: scale(1.1);
+        }
+
+        /* Left section options */
+        li i {
+            padding-right: 10px;
+            opacity: 0.8;
+        }
+
+        .inbox-text {
+            margin-right: 10px;
+        }
+
+        /* Mail Card */
+        span[name="sendermail"] {
+            font-size: 0.8rem;
+        }
+
+        span[name="subject"] {
+            font-weight: 500;
+        }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">MailSift</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Analysis</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link login-signup" href="#">Signup</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link login-signup" href="#">Login</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Left Section -->
-    <div class="container-fluid" style="height: 92vh;">
+    <div class="container-fluid" style="height: 100vh;">
         <div class="row" style="height: 100%;">
+
+            <!-- Left Section -->
             <div class="col-md-2 section" name="left-section">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Account
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Account 1</a>
-                        <a class="dropdown-item" href="#">Account 2</a>
-                        <a class="dropdown-item" href="#">Account 3</a>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div class="rounded-circle bg-secondary text-light d-flex justify-content-center align-items-center"
+                                style="width: 40px; height: 40px;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <h5 class="m-0">Abhay Patel</h5>
+                        </div>
                     </div>
                 </div>
                 <div class="dropdown-divider"></div>
                 <ul class="vertical-stack">
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-inbox"></i> Inbox</a>
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-inbox"></i>
+                            <span class="inbox-text">Inbox</span>
+                            <span class="badge badge-success" id="mailcount"></span>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fa fa-file"></i> Draft</a>
@@ -170,7 +180,7 @@
 
             <!-- Middle Section -->
             <div class="col-md-6 section" name="middle-section">
-                <h2 class="mb-3">INBOX</h2>
+                <h2 class="mb-3" style="margin: 0;">INBOX</h2>
                 <div class="search-bar input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -181,30 +191,32 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="sender-subject">
-                                Sender: John Doe &lt;johndoe@gmail.com&gt;<br>
-                                Subject: Meeting Tomorrow
+                                <b>
+                                    <span id="sendername" name="sendername">John Doe</span>
+                                    <span id="sendermail" name="sendermail">&lt;johndoe@gmail.com&gt;</span>
+                                    <br>
+                                    <span id="subject" name="subject">Meeting Tomorrow</span>
+                                </b>
                             </div>
                             <div class="date-time">
-                                Date: 2024-03-07 10:30 AM
+                                Date: 2023-03-07 10:30 AM
                             </div>
                         </div>
                         <div class="card-body">
                             <p>Hey team, just a quick reminder about our meeting tomorrow at 10 am. Don't forget to
                                 bring your updates!</p>
-                            <div>
-                                <button type="button" class="btn btn-outline-danger"><i class="fa fa-trash"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary"><i class="fa fa-archive"></i>
-                                </button>
-                            </div>
                         </div>
                     </div>
 
                     <div class="card">
                         <div class="card-header">
                             <div class="sender-subject">
-                                Sender: Alex Johnson &lt;alex.johnson@example.com&gt;<br>
-                                Subject: Important Announcement
+                                <b>
+                                    <span id="sendername" name="sendername">Alex Johnson</span>
+                                    <span id="sendermail" name="sendermail">&lt;alex.johnson@example.com&gt;</span>
+                                    <br>
+                                    <span id="subject" name="subject">Important Announcement</span>
+                                </b>
                             </div>
                             <div class="date-time">
                                 Date: 2024-03-07 10:30 AM
@@ -217,20 +229,18 @@
                                 Your cooperation and support during this transition period are highly appreciated.
                                 Please stay tuned for further updates and feel free to reach out if you have any
                                 questions or concerns. Thank you for your attention.</p>
-                            <div>
-                                <button type="button" class="btn btn-outline-danger"><i class="fa fa-trash"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary"><i class="fa fa-archive"></i>
-                                </button>
-                            </div>
                         </div>
                     </div>
 
                     <div class="card">
                         <div class="card-header">
                             <div class="sender-subject">
-                                Sender: Sarah Johnson &lt;sarah.johnson@example.com&gt;<br>
-                                Subject: Project Update
+                                <b>
+                                    <span id="sendername" name="sendername">Sarah Johnson</span>
+                                    <span id="sendermail" name="sendermail">&lt;sarah.johnson@example.com&gt;</span>
+                                    <br>
+                                    <span id="subject" name="subject">Project Update</span>
+                                </b>
                             </div>
                             <div class="date-time">
                                 Date: 2024-03-07 10:30 AM
@@ -239,23 +249,21 @@
                         <div class="card-body">
                             <p>Hi everyone, just wanted to share that we've made great progress on the project. Keep up
                                 the excellent work!</p>
-                            <div>
-                                <button type="button" class="btn btn-outline-danger"><i class="fa fa-trash"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary"><i class="fa fa-archive"></i>
-                                </button>
-                            </div>
                         </div>
                     </div>
 
-                    <div class="card">
+                    <div class="card" onclick="cardDetails(this)">
                         <div class="card-header">
                             <div class="sender-subject">
-                                Sender: Michael Thompson &lt;michael.thompson@example.com&gt;<br>
-                                Subject: Company Event RSVP
+                                <b>
+                                    <span id="sendername" name="sendername">Michael Thompson</span>
+                                    <span id="sendermail" name="sendermail">&lt;michael.thompson@example.com&gt;</span>
+                                    <br>
+                                    <span id="subject" name="subject">Company Event RSVP</span>
+                                </b>
                             </div>
                             <div class="date-time">
-                                Date: 2024-03-07 10:30 AM
+                                Date: 2024-01-14 08:30 AM
                             </div>
                         </div>
                         <div class="card-body">
@@ -266,12 +274,6 @@
                                 forward to celebrating together as a team. If you have any dietary restrictions or
                                 special requests, please let us know in your response. Thank you, and we hope to see
                                 you there!</p>
-                            <div>
-                                <button type="button" class="btn btn-outline-danger"><i class="fa fa-trash"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary"><i class="fa fa-archive"></i>
-                                </button>
-                            </div>
                         </div>
                     </div>
                     <!-- Add more cards as needed -->
@@ -303,15 +305,28 @@
                 <div class="card mt-3">
                     <div class="card-header">
                         <div class="sender-subject">
-                            Sender: John Doe &lt;johndoe@gmail.com&gt;<br>
-                            Subject: Meeting Tomorrow
+                            Sender: <span id="blankSenderName" name="sendername">Sender's Name</span>
+                            <span id="blankSenderEmail" name="sendermail">&lt;Sender's Email&gt;</span>
+                            <br>
+                            Subject: <span id="blankSubject" name="subject">Subject pf Mail</span>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="height: 270px;">
                         <p>This is the content of the email...</p>
                     </div>
                 </div>
-                <textarea class="form-control mt-3" rows="5" placeholder="Type your reply here..."></textarea>
+                <form>
+                    <div class="form-group">
+                        <textarea class="form-control mt-3" rows="7" placeholder="Type your reply here..."
+                            style="resize: none;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-animation">
+                        <i class="fas fa-paper-plane mr-1"></i>Submit
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-animation ml-2">
+                        <i class="fas fa-ban mr-1"></i>Clear
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -340,6 +355,22 @@
 
         // Bind the filterDivs function to the input's 'input' event
         document.getElementById('searchInput').addEventListener('input', filterDivs);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var count = document.querySelectorAll('.section[name="middle-section"] .card').length;
+            document.getElementById('mailcount').textContent = count;
+        });
+
+        function cardDetails(card) {
+            var senderName = document.getElementById("sendername").innerText;
+            var senderEmail = document.getElementById("sendermail").innerText;
+            var subject = document.getElementById("subject").innerText;
+
+            // Set values to the blank structure
+            document.getElementById("blankSenderName").innerText = senderName;
+            document.getElementById("blankSenderEmail").innerText = senderEmail;
+            document.getElementById("blankSubject").innerText = subject;
+        }
 
     </script>
 </body>
