@@ -4,135 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>MailSift</title>
+    <link rel="icon" type="image/x-icon" href="../static/images/mail.ico">
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap">
-    <style>
-        body {
-            font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-        }
 
-        /* Scrollbar Styles */
-        ::-webkit-scrollbar {
-            width: 7px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 5px;
-        }
-
-        .section {
-            height: 100%;
-            border: 1px solid #ccc;
-            padding: 10px 20px 20px 20px;
-            overflow-y: auto;
-        }
-
-        .scrollable-section {
-            max-height: calc(100% - 38px);
-        }
-
-        .card {
-            margin-bottom: 20px;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .sender-subject {
-            margin-bottom: 5px;
-        }
-
-        .date-time {
-            font-size: 0.8rem;
-            color: #6c757d;
-        }
-
-        /* Custom styles for login and signup buttons */
-        .navbar-nav .nav-link.login-signup {
-            color: #28a745;
-            background-color: transparent;
-            border: none;
-            padding: 0.5rem 1rem;
-            margin-right: 10px;
-        }
-
-        .navbar-nav .nav-link.login-signup:hover {
-            background-color: rgba(40, 167, 69, 0.1);
-        }
-
-        /* Custom styles for dropdown */
-        .dropdown-menu {
-            padding: 0.5rem;
-        }
-
-        .dropdown-divider {
-            margin: 0.5rem 0;
-        }
-
-        /* Custom styles for vertical stacks */
-        .vertical-stack {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .vertical-stack li {
-            margin-bottom: 10px;
-        }
-
-        .vertical-stack li a {
-            display: block;
-            padding: 0.5rem 1rem;
-            color: #000;
-            text-decoration: none;
-        }
-
-        .vertical-stack li a:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .divider {
-            border-left: 1px solid #0b0b0b;
-            margin-left: 10px;
-            margin-right: 15px;
-        }
-
-        /* Submit and clear button */
-        .btn-animation {
-            transition: transform 0.2s ease;
-        }
-
-        .btn-animation:hover {
-            transform: scale(1.1);
-        }
-
-        /* Left section options */
-        li i {
-            padding-right: 10px;
-            opacity: 0.8;
-        }
-
-        .inbox-text {
-            margin-right: 10px;
-        }
-
-        /* Mail Card */
-        span[name="sendermail"] {
-            font-size: 0.8rem;
-        }
-
-        span[name="subject"] {
-            font-weight: 500;
-        }
-    </style>
+    <link rel="stylesheet" href="../static/css/mails.css">
 </head>
 
 <body>
@@ -191,7 +71,7 @@
                 <!-- Mail Cards -->
                 <div class="scrollable-section">
                     <div class="card">
-                        <div class="card-header" onclick="cardDetails(this)">
+                        <div class="card-header">
                             <div class="sender-subject">
                                 <b>
                                     <span id="sendername" name="sendername">John Doe</span>
@@ -211,7 +91,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header" onclick="cardDetails(this)">
+                        <div class="card-header">
                             <div class="sender-subject">
                                 <b>
                                     <span id="sendername" name="sendername">Alex Johnson</span>
@@ -235,7 +115,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-header" onclick="cardDetails(this)">
+                        <div class="card-header">
                             <div class="sender-subject">
                                 <b>
                                     <span id="sendername" name="sendername">Sarah Johnson</span>
@@ -308,13 +188,15 @@
                 </div>
 
                 <!-- Blank Card for response -->
-                <div class="card mt-3">
+                <div class="card mt-3" name="blank-card">
                     <div class="card-header">
                         <div class="sender-subject">
-                            Sender: <span id="blankSenderName" name="sendername">Sender's Name</span>
-                            <span id="blankSenderEmail" name="sendermail">&lt;Sender's Email&gt;</span>
+                            <span id="blankSenderName">Sender's Name</span>
                             <br>
-                            Subject: <span id="blankSubject" name="subject">Subject pf Mail</span>
+                            <span id="blankSubject">Subject</span>
+                            <br>
+                            <span style="font-weight: 500; font-size: small;">Reply-To:</span> <span
+                                id="blankSenderEmail">Email</span>
                         </div>
                     </div>
                     <div class="card-body" style="height: 270px;">
@@ -323,7 +205,7 @@
                 </div>
                 <form>
                     <div class="form-group">
-                        <textarea class="form-control mt-3" rows="7" placeholder="Type your reply here..."
+                        <textarea class="form-control mt-3" rows="6" placeholder="Type your reply here..."
                             style="resize: none;"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary btn-animation">
@@ -340,7 +222,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+
     <script>
         function filterDivs() {
             var input, filter, cards, card, cardContent, i, txtValue;
@@ -363,27 +245,26 @@
         // Bind the filterDivs function to the input's 'input' event
         document.getElementById('searchInput').addEventListener('input', filterDivs);
 
+        // Update the mail count
         document.addEventListener("DOMContentLoaded", function () {
             var count = document.querySelectorAll('.section[name="middle-section"] .card').length;
             document.getElementById('mailcount').textContent = count;
         });
 
         // Show details of the clicked card
-        var cards = document.querySelectorAll('.section[name="middle-section"] .card-header');
+        var cards = document.querySelectorAll('.section[name="middle-section"] .card');
         cards.forEach(function (card) {
-            card.addEventListener("click", function () {
-                // Get values from the clicked card
-                var senderName = card.querySelector(".sendername").innerText;
-                var senderEmail = card.querySelector(".sendermail").innerText;
-                var subject = card.querySelector(".subject").innerText;
+            card.addEventListener('click', function () {
+                var senderName = this.querySelector('.sendername').textContent;
+                var senderEmail = this.querySelector('.sendermail').textContent;
+                var subject = this.querySelector('.subject').textContent;
 
-                // Set values to the blank structure
-                document.getElementById("blankSenderName").innerText = senderName;
-                document.getElementById("blankSenderEmail").innerText = senderEmail;
-                document.getElementById("blankSubject").innerText = subject;
+                var blankCard = document.querySelector('.blank-card');
+                blankCard.querySelector('.blankSenderName').textContent = senderName;
+                blankCard.querySelector('.blankSenderEmail').textContent = senderEmail;
+                blankCard.querySelector('.blankSubject').textContent = subject;
             });
         });
-
     </script>
 </body>
 
