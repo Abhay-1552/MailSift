@@ -27,6 +27,10 @@ body {
     max-height: calc(100% - 38px);
 }
 
+.scrollable-section .card {
+    cursor: zoom-in;
+}
+
 .card {
     margin-bottom: 10px;
 }
