@@ -28,7 +28,7 @@ body {
 }
 
 .card {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .card-header {
@@ -120,6 +120,10 @@ span[name="sendermail"] {
 
 span[name="subject"] {
     font-weight: 500;
+}
+
+#payload {
+    display: none;
 }
 
 #blankSenderName {
