@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Show details of the clicked card
 var cards = document.querySelectorAll('.scrollable-section .card');
-var blankCard = document.getElementById('blankCard');
 
 // Add click event listener to each card
 cards.forEach(function (card) {
