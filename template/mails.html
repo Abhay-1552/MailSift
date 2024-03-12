@@ -7,7 +7,7 @@
 
     <title>MailSift</title>
     <link rel="icon" type="image/x-icon" href="../static/images/mail.ico">
-    
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap">
@@ -68,9 +68,10 @@
                     <input type="text" class="form-control" placeholder="Search..." id="searchInput" name="searchInput">
                 </div>
 
-                <!-- Mail Cards -->
+                <!-- Mail Cards Section -->
                 <div class="scrollable-section">
-                    <div class="card">
+                    <!-- Cards -->
+                    <div class="card" id="card">
                         <div class="card-header">
                             <div class="sender-subject">
                                 <b>
@@ -84,13 +85,13 @@
                                 Date: 2023-03-07 10:30 AM
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body"  id="payload">
                             <p>Hey team, just a quick reminder about our meeting tomorrow at 10 am. Don't forget to
                                 bring your updates!</p>
                         </div>
                     </div>
 
-                    <div class="card">
+                    <div class="card" id="card">
                         <div class="card-header">
                             <div class="sender-subject">
                                 <b>
@@ -104,7 +105,7 @@
                                 Date: 2024-03-07 10:30 AM
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" id="payload">
                             <p>Hi team, I hope this email finds you well. I wanted to inform you about an important
                                 company-wide announcement regarding the upcoming changes in our project management
                                 system. These changes are aimed at streamlining our processes and improving efficiency.
@@ -114,7 +115,7 @@
                         </div>
                     </div>
 
-                    <div class="card">
+                    <div class="card" id="card">
                         <div class="card-header">
                             <div class="sender-subject">
                                 <b>
@@ -128,13 +129,13 @@
                                 Date: 2024-03-07 10:30 AM
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" id="payload">
                             <p>Hi everyone, just wanted to share that we've made great progress on the project. Keep up
                                 the excellent work!</p>
                         </div>
                     </div>
 
-                    <div class="card">
+                    <div class="card" id="card">
                         <div class="card-header">
                             <div class="sender-subject">
                                 <b>
@@ -148,7 +149,7 @@
                                 Date: 2024-01-14 08:30 AM
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" id="payload">
                             <p>Hi everyone, I hope this email finds you well. As you may know, our company is
                                 hosting a special event next week to celebrate a major milestone. We would like to
                                 extend an invitation to all employees to join us for this memorable occasion. Please
@@ -199,7 +200,7 @@
                                 id="blankSenderEmail">Email</span>
                         </div>
                     </div>
-                    <div class="card-body" style="height: 270px;">
+                    <div class="card-body" style="height: 270px;" id="blankPayload">
                         <p>This is the content of the email...</p>
                     </div>
                 </div>
@@ -222,50 +223,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        function filterDivs() {
-            var input, filter, cards, card, cardContent, i, txtValue;
-            input = document.getElementById('searchInput');
-            filter = input.value.toUpperCase();
-            cards = document.querySelectorAll('.section[name="middle-section"] .card'); // Select cards only within the middle section
-
-            // Loop through all cards, and hide those who don't match the search query
-            cards.forEach(function (card) {
-                cardContent = card.querySelector('.card-header').textContent + card.querySelector('.card-body').textContent;
-                txtValue = cardContent.toUpperCase();
-                if (txtValue.indexOf(filter) > -1) {
-                    card.style.display = "";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        }
-
-        // Bind the filterDivs function to the input's 'input' event
-        document.getElementById('searchInput').addEventListener('input', filterDivs);
-
-        // Update the mail count
-        document.addEventListener("DOMContentLoaded", function () {
-            var count = document.querySelectorAll('.section[name="middle-section"] .card').length;
-            document.getElementById('mailcount').textContent = count;
-        });
-
-        // Show details of the clicked card
-        var cards = document.querySelectorAll('.section[name="middle-section"] .card');
-        cards.forEach(function (card) {
-            card.addEventListener('click', function () {
-                var senderName = this.querySelector('.sendername').textContent;
-                var senderEmail = this.querySelector('.sendermail').textContent;
-                var subject = this.querySelector('.subject').textContent;
-
-                var blankCard = document.querySelector('.blank-card');
-                blankCard.querySelector('.blankSenderName').textContent = senderName;
-                blankCard.querySelector('.blankSenderEmail').textContent = senderEmail;
-                blankCard.querySelector('.blankSubject').textContent = subject;
-            });
-        });
-    </script>
+    <script src="../static/js/mails.js"></script>
 </body>
 
 </html>
