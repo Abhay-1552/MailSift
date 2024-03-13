@@ -1,37 +1,41 @@
-import psycopg2
-from urllib.parse import urlparse
-from psycopg2 import extensions
-from psycopg2 import sql
-from dotenv import load_dotenv
+from pymongo import MongoClient
 import os
+from dotenv import load_dotenv
+
+load_dotenv('.env')
 
 
-class AnimeDB:
+class MongoDB:
     def __init__(self):
-        self.env = os.getenv('URL')
-        self.url = urlparse(self.env)
+        connection_string = os.getenv('URL')
 
-        # Connect to the CockroachDB database using the URL
-        self.conn = psycopg2.connect(
-            database=self.url.path[1:],
-            user=self.url.username,
-            password=self.url.password,
-            host=self.url.hostname,
-            port=self.url.port
-        )
+        # Create a MongoClient instance
+        client = MongoClient(connection_string)
 
         try:
-            if self.conn.status == extensions.STATUS_READY:
-                print("Connection Successful!")
-
+            client.admin.command('ping')
+            print("Pinged your deployment. You successfully connected to MongoDB!")
         except Exception as e:
-            print("Connection Failed:", e)
+            print(e)
 
-    def close_connection(self):
-        if hasattr(self, 'conn') and self.conn is not None:
-            self.conn.close()
-            print("Connection Closed")
+        # Access the database
+        db = client.get_database("Python_Project")
 
+        # Access the collection
+        self.collection = db.login_data
 
-if __name__ == '__main__':
-    AnimeDB()
+    # Insert data into the collection
+    def insert_data(self, username: str, email: str, passkey: str, password: str):
+        data_to_insert = {"username": username, "email": email, "passkey": passkey, "password": password}
+        self.collection.insert_one(data_to_insert)
+
+    # Retrieve data from the collection
+    def check_user(self, email: str, password: str):
+        # Check if a document with the provided email and password exists
+        user = self.collection.find_one({"email": email, "password": password})
+        return user is not None
+
+    # if check_user(email, password):
+    #     print("User exists in the database.")
+    # else:
+    #     print("User does not exist in the database.")
