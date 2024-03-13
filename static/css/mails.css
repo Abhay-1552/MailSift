@@ -28,7 +28,7 @@ body {
 }
 
 .scrollable-section .card {
-    cursor: zoom-in;
+    cursor: pointer;
 }
 
 .card {

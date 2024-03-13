@@ -4,21 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login/Signup Page</title>
+    <title>Welcome to Creativity Hub</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+        }
+
         .form-container {
             max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
+            padding: 30px;
+            border: 1px solid #ddd;
             border-radius: 10px;
-            background-color: #f9f9f9;
-            margin-top: 50px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 1;
+            height: auto;
+            transition: opacity 0.3s ease, height 0.3s ease;
+            margin-top: 30px;
+            margin-left: 70px;
+        }
+
+        .form-container.hidden {
+            opacity: 0;
+            top: 0;
+            height: 0;
+            margin-top: 0;
+            padding: 0;
+            overflow: hidden;
         }
 
         .form-container h2 {
             text-align: center;
+            color: #333;
         }
 
         .form-container .form-group {
@@ -31,10 +50,18 @@
 
         .form-container .btn-primary {
             width: 100%;
+            background-color: #007bff;
+            border: none;
+        }
+
+        .form-container .btn-primary:hover {
+            background-color: #0056b3;
         }
 
         .toggle-form {
             text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
         }
 
         .toggle-form a {
@@ -50,54 +77,80 @@
 
 <body>
 
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Creativity Hub</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 mx-auto">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
                 <div class="form-container" id="login-form">
-                    <h2>Login</h2>
+                    <h2>Welcome Back!</h2>
                     <form id="loginForm">
                         <div class="form-group">
                             <label for="loginEmail">Email</label>
-                            <input type="email" class="form-control" id="loginEmail" placeholder="Enter email" required>
+                            <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email"
+                                required>
                         </div>
                         <div class="form-group">
                             <label for="loginPassword">Password</label>
-                            <input type="password" class="form-control" id="loginPassword" placeholder="Password"
-                                required>
+                            <input type="password" class="form-control" id="loginPassword"
+                                placeholder="Enter your password" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
                     <div class="toggle-form">
-                        Don't have an account? <a href="#" onclick="toggleForm()">Sign Up</a>
+                        Don't have an account? <a href="#" onclick="toggleForm()">Sign Up Now</a>
                     </div>
                 </div>
 
-                <div class="form-container" id="signup-form" style="display: none;">
-                    <h2>Sign Up</h2>
+                <div class="form-container hidden" id="signup-form">
+                    <h2>Join Us!</h2>
                     <form id="signupForm">
                         <div class="form-group">
-                            <label for="signupName">Name</label>
-                            <input type="text" class="form-control" id="signupName" placeholder="Enter name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="signupEmail">Email</label>
-                            <input type="email" class="form-control" id="signupEmail" placeholder="Enter email"
+                            <label for="signupName">Your Name</label>
+                            <input type="text" class="form-control" id="signupName" placeholder="Enter your name"
                                 required>
                         </div>
                         <div class="form-group">
-                            <label for="signupPasskey">Passkey</label>
-                            <input type="text" class="form-control" id="signupPasskey" placeholder="Enter passkey"
+                            <label for="signupEmail">Email Address</label>
+                            <input type="email" class="form-control" id="signupEmail" placeholder="Enter your email"
                                 required>
                         </div>
                         <div class="form-group">
-                            <label for="signupPassword">Password</label>
-                            <input type="password" class="form-control" id="signupPassword" placeholder="Password"
+                            <label for="signupPasskey">Secret Passkey</label>
+                            <input type="text" class="form-control" id="signupPasskey" placeholder="Create a passkey"
                                 required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword">Create Password</label>
+                            <input type="password" class="form-control" id="signupPassword"
+                                placeholder="Create a password" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Sign Up</button>
                     </form>
                     <div class="toggle-form">
-                        Already have an account? <a href="#" onclick="toggleForm()">Login</a>
+                        Already have an account? <a href="#" onclick="toggleForm()">Log In</a>
                     </div>
                 </div>
             </div>
@@ -109,15 +162,19 @@
             var loginForm = document.getElementById("login-form");
             var signupForm = document.getElementById("signup-form");
 
-            if (loginForm.style.display === "none") {
-                loginForm.style.display = "block";
-                signupForm.style.display = "none";
+            if (loginForm.classList.contains("hidden")) {
+                loginForm.classList.remove("hidden");
+                signupForm.classList.add("hidden");
             } else {
-                loginForm.style.display = "none";
-                signupForm.style.display = "block";
+                loginForm.classList.add("hidden");
+                signupForm.classList.remove("hidden");
             }
         }
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
