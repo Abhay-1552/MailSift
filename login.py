@@ -8,18 +8,17 @@ import os
 
 class AnimeDB:
     def __init__(self):
-        self.url = urlparse(os.getenv('URL'))
+        self.env = os.getenv('URL')
+        self.url = urlparse(self.env)
 
         # Connect to the CockroachDB database using the URL
-        # self.conn = psycopg2.connect(
-        #     database=self.url.path[1:],
-        #     user=self.url.username,
-        #     password=self.url.password,
-        #     host=self.url.hostname,
-        #     port=self.url.port
-        # )
-
-        self.conn = psycopg2.connect(self.url)
+        self.conn = psycopg2.connect(
+            database=self.url.path[1:],
+            user=self.url.username,
+            password=self.url.password,
+            host=self.url.hostname,
+            port=self.url.port
+        )
 
         try:
             if self.conn.status == extensions.STATUS_READY:
