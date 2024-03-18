@@ -1,0 +1,79 @@
+body {
+    background-color: #f7f7f7;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    background-color: #343a40 !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #fff !important;
+}
+
+.navbar-brand img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+}
+
+.form-container {
+    max-width: 400px;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    height: auto;
+    transition: opacity 0.3s ease, height 0.3s ease;
+    margin-top: 30px;
+    margin-left: 70px;
+}
+
+.form-container.hidden {
+    opacity: 0;
+    top: 0;
+    height: 0;
+    margin-top: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #333;
+}
+
+.form-container .form-group {
+    margin-bottom: 20px;
+}
+
+.form-container .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-container .btn-primary {
+    width: 100%;
+    background-color: #007bff;
+    border: none;
+}
+
+.form-container .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.toggle-form {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.toggle-form a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.toggle-form a:hover {
+    text-decoration: underline;
+}
