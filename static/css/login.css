@@ -1,8 +1,23 @@
 body {
     background-color: #f7f7f7;
-    font-family: Arial, sans-serif;
+    font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
 }
 
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+}
+
+/* Navbar */
 .navbar {
     background-color: #343a40 !important;
 }
@@ -17,6 +32,7 @@ body {
     margin-right: 5px;
 }
 
+/* Login Form */
 .form-container {
     max-width: 400px;
     padding: 30px;

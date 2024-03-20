@@ -4,54 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <title>MailSift</title>
     <link rel="icon" type="image/x-icon" href="../static/images/mail.ico">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link rel="stylesheet" href="../static/css/home.css">
 
     <style>
         .card {
-            height: 300px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
         }
 
-        .navbar {
-            background-color: #343a40 !important;
-        }
-
-        .navbar-dark .navbar-nav .nav-link {
-            color: #fff !important;
-        }
-
-        .navbar-brand img {
-            width: 30px;
-            height: 30px;
-            margin-right: 5px;
-        }
-
-        .profile-card {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        .profile-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
-
-        .profile-info p {
-            margin: 0;
-            font-size: 18px;
-        }
-
-        .profile-info strong {
-            font-weight: bold;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -60,7 +32,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand disabled" href="#">
                 <img src="../static/images/email.png" alt="Icon">
                 MailSift
             </a>
@@ -75,7 +47,7 @@
                         <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://myanimelist.net/" target="_blank">About</a>
+                        <a class="nav-link" href="#" target="_blank">About</a>
                     </li>
                 </ul>
             </div>
@@ -87,7 +59,7 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        Data Analysis Chart
+                        User Input Form
                     </div>
                     <div class="card-body">
                         <form>
@@ -113,8 +85,8 @@
                     <div class="card-body text-center">
                         <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-img">
                         <div class="profile-info">
-                            <p><strong>John Doe</strong></p>
-                            <p><strong>john.doe@example.com</strong></p>
+                            <p>John Doe</p>
+                            <p>john.doe@example.com</p>
                         </div>
                     </div>
                 </div>
@@ -122,17 +94,22 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        Summary Statistics
+                        OpenAI API Key
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form id="openai-form" onsubmit="showContent(event)">
                             <div class="form-group">
                                 <label for="apiKey">OpenAI API Key</label>
-                                <input type="text" class="form-control" id="apiKey"
-                                    placeholder="Enter your OpenAI API key">
+                                <input type="text" class="form-control" placeholder="Enter your OpenAI API key"
+                                    id="openaiKey">
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-danger" onclick="clearOutput()">Remove</button>
                         </form>
+                    </div>
+                    <div class="card-footer">
+                        <span style="display: inline-block; vertical-align: middle;">OpenAI Key:</span>
+                        <p id="output" style="display: inline-block; vertical-align: middle; margin: 0;"></p>
                     </div>
                 </div>
             </div>
@@ -178,6 +155,32 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function showContent(event) {
+            event.preventDefault();
+
+            var inputText = document.getElementById('openaiKey').value;
+            var outputElement = document.getElementById('output');
+            var maxLength = 15;
+
+            outputElement.innerText = inputText;
+
+            if (inputText.length > maxLength) {
+                var visibleText = inputText.substring(0, maxLength / 2) + "...";
+                var remainingText = inputText.substring(inputText.length - maxLength / 2);
+                outputElement.innerText = visibleText + remainingText;
+            }
+
+            document.getElementById('openai-form').reset();
+        }
+
+        function clearOutput() {
+            document.getElementById('output').innerHTML = '';
+        }
+
+
+    </script>
 
 </body>
 
