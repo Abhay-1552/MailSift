@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from pymongo.errors import DuplicateKeyError
 import os
 from dotenv import load_dotenv
 
@@ -8,7 +9,6 @@ load_dotenv('.env')
 class MongoDB:
     def __init__(self):
         connection_string = os.getenv('URL')
-
         # Create a MongoClient instance
         client = MongoClient(connection_string)
 
@@ -26,8 +26,17 @@ class MongoDB:
 
     # Insert data into the collection
     def insert_data(self, username: str, email: str, passkey: str, password: str):
-        data_to_insert = {"username": username, "email": email, "passkey": passkey, "password": password}
-        self.collection.insert_one(data_to_insert)
+        try:
+            data_to_insert = {"username": username, "email": email, "passkey": passkey, "password": password}
+            result = self.collection.insert_one(data_to_insert)
+            if result.acknowledged:
+                return "Data inserted successfully."
+            else:
+                return "Insertion failed."
+        except DuplicateKeyError:
+            return "Duplicate key error: Username or email already exists."
+        except Exception as e:
+            return f"An error occurred:{e}"
 
     # Retrieve data from the collection
     def check_user(self, email: str, password: str):

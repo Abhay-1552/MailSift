@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 import visuals
+from login import MongoDB
+
 
 app = Flask(__name__, template_folder="template")
+
+mongo = MongoDB()
 
 
 @app.route('/')
@@ -15,7 +19,13 @@ def login():
         email = request.form.get('loginEmail')
         password = request.form.get('loginPassword')
         # Here you can process the login data, like checking against a database
-        return f"Login: Email - {email}, Password - {password}"
+
+        user_login = mongo.check_user(email, password)
+
+        if user_login:
+            return "Valid user"
+        else:
+            return "Unregistered"
 
 
 @app.route('/signup', methods=['POST'])
@@ -25,8 +35,10 @@ def signup():
         email = request.form.get('signupEmail')
         passkey = request.form.get('signupPasskey')
         password = request.form.get('signupPassword')
-        # Here you can process the signup data, like storing in a database
-        return f"Signup: Name - {name}, Email - {email}, Passkey - {passkey}, Password - {password}"
+
+        user_signup = mongo.insert_data(name, email, passkey, password)
+
+        return user_signup
 
 
 if __name__ == '__main__':
