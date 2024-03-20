@@ -6,42 +6,27 @@ app = Flask(__name__, template_folder="template")
 
 @app.route('/')
 def index():
-    check = visuals.check_file()
-    if check:
-        plot_dc_html = visuals.date_count_function()
-        plot_sc_html = visuals.sender_count_function()
-        plot_mt_html = visuals.mails_per_time_intervals()
-        plot_wc_html = visuals.word_cloud()
-
-        return render_template("index.html", plot_dc_html=plot_dc_html, plot_sc_html=plot_sc_html,
-                               plot_mt_html=plot_mt_html, plot_wc_html=plot_wc_html, data_flag=True)
-
-    else:
-        return render_template("index.html", data_flag=False)
+    return render_template('login.html')
 
 
-@app.route('/generate_report')
-def generate_report():
-    check = visuals.check_file()
-    if check == 1:
-        visuals.sweet_viz_report()
-
-        return render_template("REPORT.html")
-
-
-@app.route('/filter_mail', methods=['GET', 'POST'])
-def filter_mail():
+@app.route('/login', methods=['POST'])
+def login():
     if request.method == 'POST':
-        keywords = request.form['keywords']
+        email = request.form.get('loginEmail')
+        password = request.form.get('loginPassword')
+        # Here you can process the login data, like checking against a database
+        return f"Login: Email - {email}, Password - {password}"
 
-        result_df = visuals.filter_record_mails(keywords)
 
-        if result_df is not None and not result_df.empty:
-            result_table = result_df.to_html(classes='table table-striped')
-        else:
-            result_table = '<p>No data found for the given inputs.</p>'
-
-        return jsonify(result_table=result_table)
+@app.route('/signup', methods=['POST'])
+def signup():
+    if request.method == 'POST':
+        name = request.form.get('signupName')
+        email = request.form.get('signupEmail')
+        passkey = request.form.get('signupPasskey')
+        password = request.form.get('signupPassword')
+        # Here you can process the signup data, like storing in a database
+        return f"Signup: Name - {name}, Email - {email}, Passkey - {passkey}, Password - {password}"
 
 
 if __name__ == '__main__':
