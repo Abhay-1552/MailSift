@@ -13,68 +13,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <link rel="stylesheet" href="../static/css/home.css">
-
-    <style>
-        .card {
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-header {
-            font-size: 20px;
-        }
-
-        /* Weather Card */
-        .weather-body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            top: 0;
-            bottom: 0;            
-        }
-
-        .background-img {
-            background-image: url('../static/images/clouds.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            border-radius: 0 0 15px 15px;
-        }
-
-        .date {
-            font-size: 18px;
-            margin-bottom: 10px;
-            text-align: left;
-            position: absolute;
-            top: 35px;
-            left: 15px;
-        }
-
-        .temperature {
-            font-size: 54px;
-            font-weight: bold;
-            margin-bottom: 0px;
-            margin-top: 10px;
-        }
-
-        .situation {
-            font-size: 20px;
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand disabled" href="#">
@@ -212,71 +153,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        function showContent(event) {
-            event.preventDefault();
-
-            var inputText = document.getElementById('openaiKey').value;
-            var outputElement = document.getElementById('output');
-            var maxLength = 15;
-
-            outputElement.innerText = inputText;
-
-            if (inputText.length > maxLength) {
-                var visibleText = inputText.substring(0, maxLength / 2) + "...";
-                var remainingText = inputText.substring(inputText.length - maxLength / 2);
-                outputElement.innerText = visibleText + remainingText;
-            }
-
-            document.getElementById('openai-form').reset();
-        }
-
-        function clearOutput() {
-            document.getElementById('output').innerHTML = '';
-        }
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            function getDate() {
-                const date = new Date();
-                const options = { weekday: 'short', month: '2-digit', day: '2-digit' };
-                return date.toLocaleDateString('en-US', options);
-            }
-
-            function fetchWeather(latitude, longitude) {
-                const apiKey = '3c0d1d785caddf55d97a21cc571fdbfb'; // Replace with your OpenWeatherMap API key
-                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-
-                fetch(apiUrl)
-                    .then(response => response.json())
-                    .then(data => {
-                        const temperature = Math.round(data.main.temp);
-                        const weatherDescription = data.weather[0].description;
-                        document.getElementById('temperature').textContent = `${temperature}°C`;
-                        document.getElementById('weather').textContent = weatherDescription;
-                    })
-                    .catch(error => console.log('Error fetching weather data:', error));
-            }
-
-            document.getElementById('date').textContent = getDate();
-
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    fetchWeather(latitude, longitude);
-                }, error => {
-                    console.log('Error getting location:', error);
-                    document.getElementById('temperature').textContent = 'Error fetching weather data';
-                });
-            } else {
-                console.log('Geolocation is not supported by this browser.');
-                document.getElementById('temperature').textContent = 'Geolocation is not supported by this browser.';
-            }
-        });
-    </script>
-
+    <script src="../static/js/home.js"></script>
 </body>
 
 </html>
