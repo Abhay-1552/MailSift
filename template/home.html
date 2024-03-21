@@ -33,7 +33,7 @@
                         <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" target="_blank">About</a>
+                        <a class="nav-link" href="{{ url_for('mail') }}" target="_blank">Inbox</a>
                     </li>
                 </ul>
             </div>
@@ -48,7 +48,7 @@
                         User Input Form
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form id="date-form">
                             <div class="form-group">
                                 <label for="startDate">Start Date</label>
                                 <input type="date" class="form-control" id="startDate">
@@ -154,6 +154,21 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../static/js/home.js"></script>
+
+    <script>
+        // Wait for the document to be ready
+        $(document).ready(function () {
+            // Add an event listener for form submission
+            $('#date-form').submit(function (e) {
+                // Prevent the default form submission
+                e.preventDefault();
+                // Show the modal
+                $('#myModal').modal('show');
+                // Clear the form fields
+                $(this)[0].reset();
+            });
+        });
+    </script>
 </body>
 
 </html>

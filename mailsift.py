@@ -10,7 +10,6 @@ import re
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 import sys
-from summarization import TEXT
 
 
 class Mail:
@@ -131,8 +130,6 @@ class Mail:
                 phone_numbers = re.findall(pattern, decoded_payload)
 
                 cleaned_payload = Mail.cleaning_mail(decoded_payload)
-
-                # summary = TEXT(' '.join(cleaned_payload.split())).summarize()
 
                 email_info = {
                     "SenderName": sender_name,
