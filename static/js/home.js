@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function fetchWeather(latitude, longitude) {
-        const apiKey = '3c0d1d785caddf55d97a21cc571fdbfb'; // Replace with your OpenWeatherMap API key
+        const apiKey = 'API'; // Replace with your OpenWeatherMap API key
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
         fetch(apiUrl)

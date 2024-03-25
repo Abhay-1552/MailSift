@@ -1,19 +1,34 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from login import MongoDB
+import random
+import string
 
 app = Flask(__name__, template_folder="template")
+
+characters = string.ascii_letters + string.digits + string.punctuation
+random_string = ''.join(random.choice(characters) for _ in range(20))
+
+app.secret_key = random_string
 
 mongo = MongoDB()
 
 
 @app.route('/')
 def index():
-    return render_template('login.html')
+    message = session.get('response')
+
+    if message:
+        return render_template('login.html', popup=True, message=message)
+    else:
+        return render_template('login.html', popup=False)
 
 
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    username = session.get('name')
+    email = session.get('email')
+
+    return render_template('home.html', name=username, email=email)
 
 
 @app.route('/mail')
@@ -29,10 +44,16 @@ def login():
 
         user_login = mongo.check_user(email, password)
 
-        if user_login:
-            return redirect(url_for('home'))
+        if user_login[0]:
+            session['name'] = user_login[0]
+            session['email'] = user_login[1]
+
+            return redirect(url_for('home', name=user_login[0], email=user_login[1]))
         else:
-            return redirect(url_for('index'))
+            message = "Invalid Credentials!"
+            session['response'] = message
+
+            return redirect(url_for('index', message=message))
 
 
 @app.route('/signup', methods=['POST'])
@@ -43,9 +64,10 @@ def signup():
         passkey = request.form.get('signupPasskey')
         password = request.form.get('signupPassword')
 
-        mongo.insert_data(name, email, passkey, password)
+        message = mongo.insert_data(name, email, passkey, password)
+        session['response'] = message
 
-        return redirect(url_for('index'))
+        return redirect(url_for('index', message=message))
 
 
 if __name__ == '__main__':
