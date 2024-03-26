@@ -10,6 +10,7 @@ import re
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 import sys
+from datetime import datetime
 
 
 class Mail:
@@ -18,8 +19,8 @@ class Mail:
 
         self.email_address = os.getenv('MAIL')
         self.email_password = os.getenv('PASSWORD')
-        self.imap_server = os.getenv('SERVER')
-        self.imap_port = int(os.getenv('PORT'))
+        self.imap_server = os.getenv('IMAP_SERVER')
+        self.imap_port = int(os.getenv('IMAP_PORT'))
 
         self.mail = imaplib.IMAP4_SSL(self.imap_server, self.imap_port)
         self.mail.login(self.email_address, self.email_password)
@@ -28,8 +29,13 @@ class Mail:
         try:
             self.mail.select("inbox")
 
+            start_date = datetime(2024, 3, 1)  # Start date (YYYY, MM, DD)
+            end_date = datetime(2024, 3, 25)  # End date (YYYY, MM, DD)
+
+            search_query = f'(SINCE {start_date.strftime("%d-%b-%Y")}) (BEFORE {end_date.strftime("%d-%b-%Y")})'
+
             # Search for the latest 10 emails in the mailbox
-            status, messages = self.mail.search(None, "ALL")
+            status, messages = self.mail.search(None, search_query)
             messages = messages[0].split()
             messages.reverse()
             top_messages = messages[:]
@@ -54,47 +60,40 @@ class Mail:
                     subject = subject.decode(encoding or "utf-8")
 
                     # Changing specials characters in heading
-                    subject = re.sub(r'[^\x00-\x7F]+', '<Special Characters>', subject)
+                    # subject = re.sub(r'[^\x00-\x7F]+', '<Special Characters>', subject)
 
                 # Get date and time of receiving email
                 date_time_received = parsedate_to_datetime(email_message["Date"])
                 date_received = date_time_received.strftime("%d-%b-%Y")
                 time_received = date_time_received.strftime("%H:%M")
 
-                payload = email_message.get_payload()
                 decoded_payload = " "
 
                 # Get the body of the email, prioritizing text/plain parts
                 if email_message.is_multipart():
-                    for part in payload:
+                    for part in email_message.get_payload():
                         content_type = part.get_content_type()
                         if content_type == "text/plain":
                             decoded_payload += part.get_payload(decode=True).decode(
                                 part.get_content_charset() or "utf-8", errors="ignore")
 
                         elif content_type == "text/html":
-                            html_payload = part.get_payload(decode=True)  # Decode HTML payload
+                            html_payload = part.get_payload(decode=True)
                             soup = BeautifulSoup(html_payload, 'html.parser')
                             if soup.body:
                                 main_content = soup.body.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span'])
-                            else:
-                                continue
+                                data = ''
+                                for content in main_content:
+                                    data += content.get_text(strip=True) + ' '
+                                decoded_payload += data
 
-                            data = ''
-                            for content in main_content:
-                                data += content.get_text(strip=True) + ' '
-                            decoded_payload += data
-
-                        elif part.get_content_type().startswith('image/'):
+                        elif content_type.startswith('image/'):
                             filename = part.get_filename()
-                            decoded_payload += (f"Image Attachment: {filename}, Content Type: "
-                                                f"{part.get_content_type()}\t")
+                            decoded_payload += f"Image Attachment: {filename}, Content Type: {content_type}\t"
 
-                        elif part.get_content_type().startswith('application/'):
+                        elif content_type.startswith('application/'):
                             filename = part.get_filename()
-                            decoded_payload += (f"Document Attachment: {filename}, Content Type: "
-                                                f"{part.get_content_type()}\t")
-
+                            decoded_payload += f"Document Attachment: {filename}, Content Type: {content_type}\t"
                 else:
                     if email_message.get_content_type() == "text/plain":
                         decoded_payload += email_message.get_payload(decode=True).decode(
@@ -105,23 +104,18 @@ class Mail:
                         soup = BeautifulSoup(html_payload, 'html.parser')
                         if soup.body:
                             main_content = soup.body.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span'])
-                        else:
-                            continue
-
-                        data = ''
-                        for content in main_content:
-                            data += content.get_text(strip=True) + ' '
-                        decoded_payload += data
+                            data = ''
+                            for content in main_content:
+                                data += content.get_text(strip=True) + ' '
+                            decoded_payload += data
 
                     elif email_message.get_content_type().startswith('image/'):
                         attachment_filename = email_message.get_filename()
-                        decoded_payload += (f"Image Attachment: {attachment_filename}, Content Type: "
-                                            f"{email_message.get_content_type()}\t")
+                        decoded_payload += f"Image Attachment: {attachment_filename}, Content Type: {email_message.get_content_type()}\t"
 
                     elif email_message.get_content_type().startswith('application/'):
                         attachment_filename = email_message.get_filename()
-                        decoded_payload += (f"Document Attachment: {attachment_filename}, Content Type: "
-                                            f"{email_message.get_content_type()}\t")
+                        decoded_payload += f"Document Attachment: {attachment_filename}, Content Type: {email_message.get_content_type()}\t"
 
                     else:
                         decoded_payload += "<Unsupported Content or Blank Mail>"
@@ -197,7 +191,7 @@ class Mail:
     @staticmethod
     def mail_to_csv(email_json_data):
         data_frame = pd.read_json(email_json_data)
-        data_frame.to_csv('mail.xlsx', index=False)
+        data_frame.to_csv('mail1.csv', index=False)
 
         print("Data Saved!!")
 

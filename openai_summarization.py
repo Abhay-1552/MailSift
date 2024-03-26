@@ -1,17 +1,17 @@
-from openai import OpenAI
+import openai
 import os
 from dotenv import load_dotenv
+
+load_dotenv(".env")
 
 
 class API:
     def __init__(self):
-        load_dotenv(".env")
+        openai.api_key = os.getenv('OPENAI')
 
-        self.client = OpenAI()
-        # OpenAI.api_key = os.getenv('OPENAI')
-
-    def summarize_text(self, input_text):
-        completion = self.client.chat.completions.create(
+    @staticmethod
+    def summarize_text(input_text):
+        completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
                 {

@@ -5,5 +5,7 @@ mail_env/
 .env
 
 # Ignore all JSON files
-credentials.json
-token.json
+client_secret.json
+
+.idea
+__pycache__
