@@ -5,11 +5,13 @@ import string
 
 app = Flask(__name__, template_folder="template")
 
+# For Sessions
 characters = string.ascii_letters + string.digits + string.punctuation
 random_string = ''.join(random.choice(characters) for _ in range(20))
 
 app.secret_key = random_string
 
+# Database connectivity
 mongo = MongoDB()
 
 
@@ -68,6 +70,17 @@ def signup():
         session['response'] = message
 
         return redirect(url_for('index', message=message))
+
+
+@app.route('/mail_interval', methods=['POST'])
+def mail_interval():
+    if request.method == 'POST':
+        staring_date = request.form.get('startDate')
+        ending_date = request.form.get('endDate')
+
+        print("Starting Date:", staring_date, " | Ending Date:", ending_date)
+
+        return staring_date, ending_date
 
 
 if __name__ == '__main__':

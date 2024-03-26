@@ -48,14 +48,14 @@
                         User Input Form
                     </div>
                     <div class="card-body">
-                        <form id="date-form">
+                        <form id="date-form" method="post" action="{{ url_for('mail_interval') }}">
                             <div class="form-group">
                                 <label for="startDate">Start Date</label>
-                                <input type="date" class="form-control" id="startDate">
+                                <input type="date" class="form-control" id="startDate" name="startDate">
                             </div>
                             <div class="form-group">
                                 <label for="endDate">End Date</label>
-                                <input type="date" class="form-control" id="endDate">
+                                <input type="date" class="form-control" id="endDate" name="endDate">
                             </div>
                             <button type="submit" class="btn btn-primary" data-toggle="modal"
                                 data-target="#myModal">Submit</button>

@@ -28,9 +28,9 @@ class MongoDB:
     def insert_data(self, username: str, email: str, passkey: str, password: str):
         try:
             # Check if username or email already exists
-            existing_user = self.collection.find_one({"$or": [{"username": username}, {"email": email}]})
+            existing_user = self.collection.find_one({"email": email})
             if existing_user:
-                return "Duplicate key error: Username or email already exists."
+                return "User email already exists."
 
             # Data is unique, proceed with insertion
             data_to_insert = {"username": username, "email": email, "passkey": passkey, "password": password}
