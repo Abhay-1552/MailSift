@@ -46,3 +46,8 @@ cards.forEach(function (card) {
         document.getElementById('blankDatetime').textContent = senderdatetime;
     });
 });
+
+function clearForm() {
+    var form = document.getElementById('myForm');
+    form.reset();
+}

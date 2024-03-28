@@ -7,6 +7,7 @@ import os
 import mimetypes
 from dotenv import load_dotenv
 
+
 class SMTP:
     def __init__(self):
         load_dotenv('.env')
@@ -54,13 +55,13 @@ class SMTP:
         except Exception as e:
             print(f"An error occurred while sending the email: {str(e)}")
 
-
-if __name__ == '__main__':
-    app = SMTP()
-
-    email = 'popstar1552@gmail.com'
-    title = 'MailSift - Test Email'
-    payload = 'This is a test email sent using smtplib.'
-    file_path = 'mail.csv'
-
-    app.send_mail(email, title, payload, file_path)
+#
+# if __name__ == '__main__':
+#     app = SMTP()
+#
+#     email = 'popstar1552@gmail.com'
+#     title = 'MailSift - Test Email'
+#     payload = 'This is a test email sent using smtp lib.'
+#     file_path = 'mail.csv'
+#
+#     app.send_mail(email, title, payload, file_path)

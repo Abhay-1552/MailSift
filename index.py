@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, session, redirect
 from login import MongoDB
+from send_mail import SMTP
+import os
 import random
 import string
 
@@ -14,15 +16,15 @@ app.secret_key = random_string
 # Database connectivity
 mongo = MongoDB()
 
+# SMTP connectivity
+smtp = SMTP()
+
 
 @app.route('/')
 def index():
-    message = session.get('response')
+    message = session.pop('response', None)
 
-    if message:
-        return render_template('login.html', popup=True, message=message)
-    else:
-        return render_template('login.html', popup=False)
+    return render_template('login.html', popup=message is not None, message=message)
 
 
 @app.route('/home')
@@ -50,12 +52,10 @@ def login():
             session['name'] = user_login[0]
             session['email'] = user_login[1]
 
-            return redirect(url_for('home', name=user_login[0], email=user_login[1]))
-        else:
-            message = "Invalid Credentials!"
-            session['response'] = message
+            return redirect('/home')
 
-            return redirect(url_for('index', message=message))
+    session['response'] = "Invalid Credentials!"
+    return redirect('/')
 
 
 @app.route('/signup', methods=['POST'])
@@ -69,19 +69,48 @@ def signup():
         message = mongo.insert_data(name, email, passkey, password)
         session['response'] = message
 
-        return redirect(url_for('index', message=message))
+    return redirect('/')
 
 
-@app.route('/mail_interval', methods=['POST'])
-def mail_interval():
+@app.route('/send_mail', methods=['POST'])
+def send_mail():
     if request.method == 'POST':
-        staring_date = request.form.get('startDate')
-        ending_date = request.form.get('endDate')
+        reply = request.form.get('reply')
+        attachment_files = request.files.getlist('attachment')
 
-        print("Starting Date:", staring_date, " | Ending Date:", ending_date)
+        reply_text = f'Reply: {reply}'
+        attachments = []
 
-        return staring_date, ending_date
+        if attachment_files:
+            for file in attachment_files:
+                filename = file.filename
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                attachments.append(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        print(attachments)
+
+        # Send email
+        email = 'popstar1552@gmail.com'  # Replace with recipient email address
+        title = 'MailSift - Test Email'
+
+        smtp.send_mail(email, title, reply_text, attachments)
+
+        # Return a response to the user
+        return "Form submitted successfully. Email sent."
+    else:
+        return "Method not allowed."
 
 
 if __name__ == '__main__':
+    app.config['UPLOAD_FOLDER'] = os.path.expanduser("~/Downloads/MailSift")
+
+    if os.path.exists(app.config['UPLOAD_FOLDER']):
+        print(f"Upload folder exists at {app.config['UPLOAD_FOLDER']}")
+    else:
+        try:
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+            print(f"Upload folder created at {app.config['UPLOAD_FOLDER']}")
+        except OSError as e:
+            print(f"Error creating upload folder: {e}")
+
     app.run(port=8000, debug=True)

@@ -207,19 +207,19 @@
                         <p>This is the content of the email...</p>
                     </div>
                 </div>
-                <form enctype="multipart/form-data">
+                <form id="myForm" enctype="multipart/form-data" method="post" action="{{ url_for('send_mail') }}">
                     <div class="form-group">
                         <textarea class="form-control mt-3" rows="6" placeholder="Type your reply here..."
                             style="resize: none;"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="fileAttachment">Attach File:</label>
-                        <input type="file" class="form-control-file" id="fileAttachment" name="attachment" multiple>
+                        <input type="file" class="form-control-file" id="fileAttachment" name="fileAttachment" multiple>
                     </div>
                     <button type="submit" class="btn btn-primary btn-animation">
                         <i class="fas fa-paper-plane mr-1"></i>Submit
                     </button>
-                    <button type="button" class="btn btn-secondary btn-animation ml-2">
+                    <button type="button" class="btn btn-secondary btn-animation ml-2" onclick="clearForm()">
                         <i class="fas fa-ban mr-1"></i>Clear
                     </button>
                 </form>
