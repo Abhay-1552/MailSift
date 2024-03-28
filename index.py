@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, session, redirect
 from login import MongoDB
 from send_mail import SMTP
 import os
+import sys
+import stat
 import random
 import string
 
@@ -75,8 +77,8 @@ def signup():
 @app.route('/send_mail', methods=['POST'])
 def send_mail():
     if request.method == 'POST':
-        reply = request.form.get('reply')
-        attachment_files = request.files.getlist('attachment')
+        reply = request.form.get('mailReply')
+        attachment_files = request.files.getlist('fileAttachment')
 
         reply_text = f'Reply: {reply}'
         attachments = []
@@ -88,6 +90,7 @@ def send_mail():
                 attachments.append(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         print(attachments)
+        print(reply_text)
 
         # Send email
         email = 'popstar1552@gmail.com'  # Replace with recipient email address
@@ -102,7 +105,12 @@ def send_mail():
 
 
 if __name__ == '__main__':
-    app.config['UPLOAD_FOLDER'] = os.path.expanduser("~/Downloads/MailSift")
+    UPLOAD_FOLDER = os.path.expanduser("~/Downloads/MailSift/")
+
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+    os.chmod(UPLOAD_FOLDER, stat.S_IRWXU | stat.S_IRGRP | stat.S_IROTH)
+
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
     if os.path.exists(app.config['UPLOAD_FOLDER']):
         print(f"Upload folder exists at {app.config['UPLOAD_FOLDER']}")
