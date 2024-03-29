@@ -3,9 +3,3 @@ mail_env/
 
 # Ignore .env file
 .env
-
-# Ignore IDE settings
-.idea
-
-# Ignore Python bytecode cache
-__pycache__
