@@ -2,8 +2,6 @@ from flask import Flask, render_template, request, session, redirect
 from login import MongoDB
 from send_mail import SMTP
 import os
-import sys
-import stat
 import random
 import string
 
@@ -14,6 +12,14 @@ characters = string.ascii_letters + string.digits + string.punctuation
 random_string = ''.join(random.choice(characters) for _ in range(20))
 
 app.secret_key = random_string
+
+# Creating folder for attachments
+UPLOAD_FOLDER = os.path.expanduser("~\\Downloads\\MailSift")
+
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.chmod(UPLOAD_FOLDER, 0o744)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Database connectivity
 mongo = MongoDB()
@@ -105,13 +111,6 @@ def send_mail():
 
 
 if __name__ == '__main__':
-    UPLOAD_FOLDER = os.path.expanduser("~/Downloads/MailSift/")
-
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-    os.chmod(UPLOAD_FOLDER, stat.S_IRWXU | stat.S_IRGRP | stat.S_IROTH)
-
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
     if os.path.exists(app.config['UPLOAD_FOLDER']):
         print(f"Upload folder exists at {app.config['UPLOAD_FOLDER']}")
     else:
