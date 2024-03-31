@@ -16,7 +16,6 @@ app.secret_key = random_string
 # Creating folder for attachments
 UPLOAD_FOLDER = os.path.expanduser("~\\Downloads\\MailSift")
 
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.chmod(UPLOAD_FOLDER, 0o744)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -115,7 +114,7 @@ if __name__ == '__main__':
         print(f"Upload folder exists at {app.config['UPLOAD_FOLDER']}")
     else:
         try:
-            os.makedirs(app.config['UPLOAD_FOLDER'])
+            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
             print(f"Upload folder created at {app.config['UPLOAD_FOLDER']}")
         except OSError as e:
             print(f"Error creating upload folder: {e}")
