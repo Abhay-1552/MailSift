@@ -143,4 +143,5 @@ span[name="subject"] {
 #blankPayload {
     font-size: 16px;
     overflow: scroll;
+    line-height: 10px;
 }

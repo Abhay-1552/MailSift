@@ -105,9 +105,6 @@ def send_mail():
         else:
             attachments = None
 
-        print(attachments)
-        print(reply_text)
-
         # Send email
         email = 'popstar1552@gmail.com'  # Replace with recipient email address
         title = 'MailSift - Test Email'

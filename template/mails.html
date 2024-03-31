@@ -13,6 +13,25 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap">
 
     <link rel="stylesheet" href="../static/css/mails.css">
+    <style>
+        .btn-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-container .btn {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .btn-container .separator {
+            border: 1px solid #000;
+            height: 40px;
+            margin: 0 10px;
+            margin-right: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,7 +40,27 @@
 
             <!-- Left Section -->
             <div class="col-md-6 section" name="middle-section">
-                <h2 class="mb-3" style="margin: 0;">INBOX</h2>
+                <div class="btn-container">
+                    <button type="button" class="btn btn-primary position-relative">
+                        Inbox
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="mailcount">
+                            <span class="visually-hidden">Inbox messages</span>
+                        </span>
+                    </button>
+
+                    <div class="separator"></div>
+
+                    <button type="button" class="btn btn-secondary position-relative">
+                        Sent
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="">
+                            0
+                            <!-- <span class="visually-hidden">Send messages</span> -->
+                        </span>
+                    </button>
+                </div>
+
                 <div class="search-bar input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -91,8 +130,17 @@
                             </div>
                         </div>
                         <div class="card-body" id="payload">
-                            <p>Hi everyone, just wanted to share that we've made great progress on the project. Keep up
-                                the excellent work!</p>
+                            <p>---------- Forwarded message ---------</p>
+                            <p>From: HyDrA Gaming <gamerspropaganda143@gmail.com>
+                            </p>
+                            <p>Date: Wed, 31 Jan 2024 at 11:27</p>
+                            <p>Subject: Phone Number</p>
+                            <p>To: <popstar1552@gmaiil.com>
+                            </p>
+                            <p>Below is my phone number. Must access that for the project.</p>
+                            <p>Regards,</p>
+                            <p>Abhay Patel</p>
+                            <p>7007267441</p>
                         </div>
                     </div>
 
@@ -111,13 +159,13 @@
                             </div>
                         </div>
                         <div class="card-body" id="payload">
-                            <p>Hi everyone, I hope this email finds you well. As you may know, our company is
-                                hosting a special event next week to celebrate a major milestone. We would like to
-                                extend an invitation to all employees to join us for this memorable occasion. Please
-                                RSVP by the end of this week, indicating whether you will be able to attend. We look
-                                forward to celebrating together as a team. If you have any dietary restrictions or
-                                special requests, please let us know in your response. Thank you, and we hope to see
-                                you there!</p>
+                            <p>Hi Team,</p>
+                            <p>Just a quick reminder that we have our weekly team meeting scheduled for</p>
+                            <p>tomorrow at 10:00 AM in the conference room. Please make sure to bring any</p>
+                            <p>updates or questions you have regarding ongoing projects.</p>
+                            <p>Looking forward to seeing you all there!</p>
+                            <p>Best,</p>
+                            <p>Darshan</p>
                         </div>
                     </div>
                     <!-- Add more cards as needed -->
@@ -126,7 +174,6 @@
 
             <!-- Right Section -->
             <div class="col-md-6 section" name="right-section">
-
                 <!-- Response buttons to mails -->
                 <div class="action-bar">
                     <button type="button" class="btn btn-outline-danger action-btn" data-toggle="tooltip"
@@ -147,6 +194,11 @@
                         data-placement="top" title="Reply All"><i class="fa fa-reply-all"></i></button>
                     <button type="button" class="btn btn-outline-info action-btn" data-toggle="tooltip"
                         data-placement="top" title="Forward"><i class="fa fa-share"></i></button>
+
+                    <span class="divider"></span>
+
+                    <button type="button" class="btn btn-outline-success action-btn" data-toggle="tooltip"
+                        data-placement="top" title="Summarize"><i class="fa fa-cogs"></i></button>
                 </div>
 
                 <!-- Blank Card for response -->
@@ -188,7 +240,7 @@
         </div>
     </div>
 
-    <script> {{ alert_message|safe }}</script>
+    <script> { { alert_message | safe } }</script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
