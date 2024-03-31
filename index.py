@@ -88,11 +88,20 @@ def send_mail():
         reply_text = f'Reply: {reply}'
         attachments = []
 
+        if os.path.exists(app.config['UPLOAD_FOLDER']):
+            print(f"Upload folder exists at {app.config['UPLOAD_FOLDER']}")
+        else:
+            try:
+                os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+                print(f"Upload folder created at {app.config['UPLOAD_FOLDER']}")
+            except OSError as e:
+                print(f"Error creating upload folder: {e}")
+
         if attachment_files:
             for file in attachment_files:
-                filename = file.filename
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                attachments.append(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+                file.save(file_path)
+                attachments.append(file_path)
 
         print(attachments)
         print(reply_text)
@@ -110,13 +119,4 @@ def send_mail():
 
 
 if __name__ == '__main__':
-    if os.path.exists(app.config['UPLOAD_FOLDER']):
-        print(f"Upload folder exists at {app.config['UPLOAD_FOLDER']}")
-    else:
-        try:
-            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-            print(f"Upload folder created at {app.config['UPLOAD_FOLDER']}")
-        except OSError as e:
-            print(f"Error creating upload folder: {e}")
-
     app.run(port=8000, debug=True)

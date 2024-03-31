@@ -18,7 +18,7 @@ class Mail:
         load_dotenv(".env")
 
         self.email_address = os.getenv('MAIL')
-        self.email_password = os.getenv('PASSWORD')
+        self.email_password = os.getenv('PASSKEY')
         self.imap_server = os.getenv('IMAP_SERVER')
         self.imap_port = int(os.getenv('IMAP_PORT'))
 
