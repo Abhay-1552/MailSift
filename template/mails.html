@@ -20,45 +20,6 @@
         <div class="row" style="height: 100%;">
 
             <!-- Left Section -->
-            <div class="col-md-2 section" name="left-section">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="rounded-circle bg-secondary text-light d-flex justify-content-center align-items-center"
-                                style="width: 40px; height: 40px;">
-                                <i class="fas fa-user"></i>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <h5 class="m-0">Abhay Patel</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="dropdown-divider"></div>
-                <ul class="vertical-stack">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fa fa-inbox"></i>
-                            <span class="inbox-text">Inbox</span>
-                            <span class="badge badge-success" id="mailcount"></span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-file"></i> Draft</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-paper-plane"></i> Sent</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-trash"></i> Trash</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-exclamation-circle"></i> Spam</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Middle Section -->
             <div class="col-md-6 section" name="middle-section">
                 <h2 class="mb-3" style="margin: 0;">INBOX</h2>
                 <div class="search-bar input-group mb-3">
@@ -164,7 +125,7 @@
             </div>
 
             <!-- Right Section -->
-            <div class="col-md-4 section" name="right-section">
+            <div class="col-md-6 section" name="right-section">
 
                 <!-- Response buttons to mails -->
                 <div class="action-bar">
@@ -226,6 +187,8 @@
             </div>
         </div>
     </div>
+
+    <script> {{ alert_message|safe }}</script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, jsonify
 from login import MongoDB
 from send_mail import SMTP
 import os
@@ -102,6 +102,8 @@ def send_mail():
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
                 file.save(file_path)
                 attachments.append(file_path)
+        else:
+            attachments = None
 
         print(attachments)
         print(reply_text)
@@ -113,9 +115,9 @@ def send_mail():
         smtp.send_mail(email, title, reply_text, attachments)
 
         # Return a response to the user
-        return "Form submitted successfully. Email sent."
+        return "alert('Process completed successfully!');"
     else:
-        return "Method not allowed."
+        return "alert('Error occurs! Try Again');"
 
 
 if __name__ == '__main__':
