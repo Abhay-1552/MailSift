@@ -48,14 +48,11 @@
                         User Input Form
                     </div>
                     <div class="card-body">
-                        <form id="date-form" method="post">
+                        <form id="date-form" method="post" action="{{ url_for('date_input') }}">
                             <div class="form-group">
-                                <label for="startDate">Start Date</label>
-                                <input type="date" class="form-control" id="startDate" name="startDate">
-                            </div>
-                            <div class="form-group">
-                                <label for="endDate">End Date</label>
-                                <input type="date" class="form-control" id="endDate" name="endDate">
+                                <label for="monthYear">Month and Year</label>
+                                <select class="form-control" id="monthYear" name="monthYear" required>
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-primary" data-toggle="modal"
                                 data-target="#myModal">Submit</button>
@@ -168,6 +165,21 @@
                 $(this)[0].reset();
             });
         });
+
+        // JavaScript to populate the month and year dropdown dynamically
+        var monthYearSelect = document.getElementById("monthYear");
+        var currentYear = new Date().getFullYear();
+        var startYear = 2000; // Change this to your desired start year
+
+        for (var year = currentYear; year >= startYear; year--) {
+            for (var month = 1; month <= 12; month++) {
+                var monthName = new Date(year, month - 1, 1).toLocaleString('default', { month: 'long' });
+                var option = document.createElement("option");
+                option.text = monthName + " " + year;
+                option.value = year + "-" + month;
+                monthYearSelect.add(option);
+            }
+        }
     </script>
 </body>
 

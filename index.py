@@ -79,6 +79,15 @@ def signup():
     return redirect('/')
 
 
+@app.route('/date_input', methods=['POST'])
+def date_input():
+    if request.method == 'POST':
+        date = request.form.get('monthYear')
+
+        print(date)
+    return '', 204
+
+
 @app.route('/send_mail', methods=['POST'])
 def send_mail():
     if request.method == 'POST':
