@@ -115,7 +115,10 @@ class MAIL:
 
     def to_csv(self):
         # Save data to CSV file
-        csv_filename = "C:/Users/patel/Downloads/MailSift/mails.csv"
+        upload_folder = os.path.expanduser("~\\Downloads\\MailSift")
+        os.chmod(upload_folder, 0o744)
+
+        csv_filename = os.path.join(upload_folder, 'mails.csv')
 
         with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:
             fieldnames = ['From', 'Subject', 'Date', 'Time', 'Body', 'Attachments', 'Phone Numbers']
