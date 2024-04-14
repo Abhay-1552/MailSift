@@ -82,9 +82,9 @@ def signup():
 @app.route('/date_input', methods=['POST'])
 def date_input():
     if request.method == 'POST':
-        date = request.form.get('monthYear')
+        date1 = request.form.get('monthYear')
 
-        print(date)
+        print(date1)
     return '', 204
 
 

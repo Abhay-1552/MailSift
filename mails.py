@@ -36,7 +36,11 @@ class MAIL:
             year = 2024
 
             start_date = datetime(year, month, 1)
-            end_date = datetime(year, month + 1, 1)
+
+            if month == 12:
+                end_date = datetime(year + 1, 1, 1)
+            else:
+                end_date = datetime(year, month + 1, 1)
 
             # Format the dates in the required IMAP format
             start_date_str = start_date.strftime("%d-%b-%Y")
@@ -77,6 +81,9 @@ class MAIL:
 
                                 email_body = (f"<p>{email_body}</p>".replace('\r', '')
                                               .replace('\n', '</p><p>').replace('<p></p>', ''))
+
+                                email_body = (re.sub(r'<(https:[^>]+)>', r"<a href='\1'>Click Here</a>", email_body)
+                                              .replace(r'(https?://\S+)', r"<a href='\1'>Click Here</a>"))
 
                                 email_data['Body'] = email_body
 

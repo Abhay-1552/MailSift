@@ -48,18 +48,19 @@
                         User Input Form
                     </div>
                     <div class="card-body">
-                        <form id="date-form" method="post" action="{{ url_for('date_input') }}">
+                        <form id="date-form" method="post" action="{{ url_for('date_input') }}"
+                            onsubmit="handleFormSubmit(event)">
                             <div class="form-group">
                                 <label for="monthYear">Month and Year</label>
                                 <select class="form-control" id="monthYear" name="monthYear" required>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary" data-toggle="modal"
-                                data-target="#myModal">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
@@ -74,6 +75,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
@@ -125,27 +127,6 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Submission Successful</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Your data analysis request has been submitted successfully!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -169,16 +150,25 @@
         // JavaScript to populate the month and year dropdown dynamically
         var monthYearSelect = document.getElementById("monthYear");
         var currentYear = new Date().getFullYear();
-        var startYear = 2000; // Change this to your desired start year
+        var startYear = 2000;
 
+        // Loop through years, starting from the current year going back to the start year
         for (var year = currentYear; year >= startYear; year--) {
-            for (var month = 1; month <= 12; month++) {
-                var monthName = new Date(year, month - 1, 1).toLocaleString('default', { month: 'long' });
+            for (var month = 0; month <= 11; month++) {
+                var monthName = new Date(year, month, 1).toLocaleString('default', { month: 'long' });
                 var option = document.createElement("option");
+
                 option.text = monthName + " " + year;
-                option.value = year + "-" + month;
+                option.value = year + "-" + (month + 1).toString().padStart(2, '0');
                 monthYearSelect.add(option);
             }
+        }
+
+        function handleFormSubmit(event) {
+            var time = document.getElementById("monthYear").value;
+            alert('Data Inserted');
+            // Optionally prevent the form from submitting
+            event.preventDefault();
         }
     </script>
 </body>
