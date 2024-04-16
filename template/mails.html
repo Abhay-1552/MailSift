@@ -69,105 +69,8 @@
                 </div>
 
                 <!-- Mail Cards Section -->
-                <div class="scrollable-section">
+                <div class="scrollable-section" id="scrollable-section">
                     <!-- Cards -->
-                    <div class="card" id="card">
-                        <div class="card-header">
-                            <div class="sender-subject">
-                                <b>
-                                    <span id="sendername" name="sendername">John Doe</span>
-                                    <span id="sendermail" name="sendermail">&lt;johndoe@gmail.com&gt;</span>
-                                    <br>
-                                    <span id="subject" name="subject">Meeting Tomorrow</span>
-                                </b>
-                            </div>
-                            <div class="date-time" id="senderdatetime">
-                                <p>2024-02-14, 10:30 AM</p>
-                            </div>
-                        </div>
-                        <div class="card-body" id="payload">
-                            <p>Hey team, just a quick reminder about our meeting tomorrow at 10 am. Don't forget to
-                                bring your updates!</p>
-                        </div>
-                    </div>
-
-                    <div class="card" id="card">
-                        <div class="card-header">
-                            <div class="sender-subject">
-                                <b>
-                                    <span id="sendername" name="sendername">Alex Johnson</span>
-                                    <span id="sendermail" name="sendermail">&lt;alex.johnson@example.com&gt;</span>
-                                    <br>
-                                    <span id="subject" name="subject">Important Announcement</span>
-                                </b>
-                            </div>
-                            <div class="date-time" id="senderdatetime">
-                                <p>2024-01-12, 08:30 AM</p>
-                            </div>
-                        </div>
-                        <div class="card-body" id="payload">
-                            <p>Hi team, I hope this email finds you well. I wanted to inform you about an important
-                                company-wide announcement regarding the upcoming changes in our project management
-                                system. These changes are aimed at streamlining our processes and improving efficiency.
-                                Your cooperation and support during this transition period are highly appreciated.
-                                Please stay tuned for further updates and feel free to reach out if you have any
-                                questions or concerns. Thank you for your attention.</p>
-                        </div>
-                    </div>
-
-                    <div class="card" id="card">
-                        <div class="card-header">
-                            <div class="sender-subject">
-                                <b>
-                                    <span id="sendername" name="sendername">Sarah Johnson</span>
-                                    <span id="sendermail" name="sendermail">&lt;sarah.johnson@example.com&gt;</span>
-                                    <br>
-                                    <span id="subject" name="subject">Project Update</span>
-                                </b>
-                            </div>
-                            <div class="date-time" id="senderdatetime">
-                                <p>2024-01-01, 06:24 PM</p>
-                            </div>
-                        </div>
-                        <div class="card-body" id="payload">
-                            <p>---------- Forwarded message ---------</p>
-                            <p>From: HyDrA Gaming <gamerspropaganda143@gmail.com>
-                            </p>
-                            <p>Date: Wed, 31 Jan 2024 at 11:27</p>
-                            <p>Subject: Phone Number</p>
-                            <p>To: <popstar1552@gmaiil.com>
-                            </p>
-                            <p>Below is my phone number. Must access that for the project.</p>
-                            <p>Regards,</p>
-                            <p>Abhay Patel</p>
-                            <p>7007267441</p>
-                        </div>
-                    </div>
-
-                    <div class="card" id="card">
-                        <div class="card-header">
-                            <div class="sender-subject">
-                                <b>
-                                    <span id="sendername" name="sendername">Michael Thompson</span>
-                                    <span id="sendermail" name="sendermail">&lt;michael.thompson@example.com&gt;</span>
-                                    <br>
-                                    <span id="subject" name="subject">Company Event RSVP</span>
-                                </b>
-                            </div>
-                            <div class="date-time" id="senderdatetime">
-                                <p>2023-12-25, 04:49 PM</p>
-                            </div>
-                        </div>
-                        <div class="card-body" id="payload">
-                            <p>Hi Team,</p>
-                            <p>Just a quick reminder that we have our weekly team meeting scheduled for</p>
-                            <p>tomorrow at 10:00 AM in the conference room. Please make sure to bring any</p>
-                            <p>updates or questions you have regarding ongoing projects.</p>
-                            <p>Looking forward to seeing you all there!</p>
-                            <p>Best,</p>
-                            <p>Darshan</p>
-                        </div>
-                    </div>
                     <!-- Add more cards as needed -->
                 </div>
             </div>
@@ -246,6 +149,53 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../static/js/mails.js"></script>
+
+    <script>
+        // Function to fetch JSON data from Flask route
+        async function fetchEmails() {
+            const response = await fetch('/emails');
+            const data = await response.json();
+            return data;
+        }
+
+        // Function to create HTML card for each email entry
+        function createEmailCards(emails) {
+            const emailCardsContainer = document.getElementById('scrollable-section');
+
+            emails.forEach(email => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="sender-subject">
+                            <b>
+                                <span>${email.From.split('<')[0]}</span>
+                                <span>${email.From.split('<')[1].split('>')[0]}</span>
+                                <br>
+                                <span>${email.Subject}</span>
+                            </b>
+                        </div>
+                        <div class="date-time">
+                            <p>${email.Date}, ${email.Time}</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        ${email.Body}
+                    </div>
+                `;
+
+                emailCardsContainer.appendChild(card);
+            });
+        }
+
+        // Fetch emails and create HTML cards
+        fetchEmails().then(emails => {
+            createEmailCards(emails);
+        }).catch(error => {
+            console.error('Error fetching emails:', error);
+        });
+    </script>
 </body>
 
 </html>

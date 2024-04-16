@@ -76,9 +76,6 @@
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
-                        <div id="loading" style="display: none;">
-                            <img src="loading.gif" alt="Loading..." width="50" height="50">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -149,6 +146,7 @@
         </div>
     </div>
 
+
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -156,19 +154,6 @@
     <script src="../static/js/home.js"></script>
 
     <script>
-        // Wait for the document to be ready
-        $(document).ready(function () {
-            // Add an event listener for form submission
-            $('#date-form').submit(function (e) {
-                // Prevent the default form submission
-                e.preventDefault();
-                // Show the modal
-                $('#myModal').modal('show');
-                // Clear the form fields
-                $(this)[0].reset();
-            });
-        });
-
         // JavaScript to populate the month and year dropdown dynamically
         var currentYear = new Date().getFullYear();
 
@@ -185,12 +170,6 @@
             var year = document.getElementById("year").value;
             alert('Data generated for ' + month + '/' + year + ' successfully!');
         }
-
-        function handleFormSubmit(event) {
-            // Show loading symbol
-            document.getElementById("loading").style.display = "block";
-        }
-
     </script>
 </body>
 

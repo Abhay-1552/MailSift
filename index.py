@@ -1,11 +1,10 @@
 import os
 import random
 import string
-
-from flask import Flask, render_template, request, session, redirect
-
+from flask import Flask, render_template, request, session, redirect, jsonify
 from login import MongoDB
 from send_mail import SMTP
+from mails import MAIL
 
 app = Flask(__name__, template_folder="template")
 
@@ -28,6 +27,9 @@ mongo = MongoDB()
 # SMTP connectivity
 smtp = SMTP()
 
+# Mail connectivity
+mail = MAIL()
+
 
 @app.route('/')
 def index():
@@ -46,7 +48,8 @@ def home():
 
 @app.route('/mail')
 def mail():
-    return render_template('mails.html')
+    mails = session.get('mail_data')
+    return render_template('mails.html', mail_data=mails)
 
 
 @app.route('/login', methods=['POST'])
@@ -88,7 +91,7 @@ def date_input():
         year = request.form.get('year')
 
         print(f"Month: {month}, Year: {year}")
-    return '', 204
+    return redirect('/home')
 
 
 @app.route('/send_mail', methods=['POST'])

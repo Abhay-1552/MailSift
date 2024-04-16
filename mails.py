@@ -27,13 +27,13 @@ class MAIL:
 
         self.emails = []
 
-    def inbox_mails(self):
+    def inbox_mails(self, month, year):
         try:
             # Select the mailbox (in this case, the "INBOX")
             self.mail.select('inbox')
 
-            month = 3
-            year = 2024
+            month = month
+            year = year
 
             start_date = datetime(year, month, 1)
 
@@ -126,8 +126,8 @@ class MAIL:
         return json_data
 
 
-if __name__ == '__main__':
-    app = MAIL()
-
-    mail_data = app.inbox_mails()
-    print(mail_data)
+# if __name__ == '__main__':
+#     app = MAIL()
+#
+#     mail_data = app.inbox_mails()
+#     print(mail_data)
