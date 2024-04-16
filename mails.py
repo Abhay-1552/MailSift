@@ -9,11 +9,11 @@ import sys
 from datetime import datetime
 import json
 
-load_dotenv('.env')
-
 
 class MAIL:
     def __init__(self):
+        load_dotenv('.env')
+
         # IMAP server settings
         imap_server = os.getenv('IMAP_SERVER')
         mail_id = os.getenv('MAIL')
@@ -32,8 +32,8 @@ class MAIL:
             # Select the mailbox (in this case, the "INBOX")
             self.mail.select('inbox')
 
-            month = month
-            year = year
+            month = int(month)
+            year = int(year)
 
             start_date = datetime(year, month, 1)
 
@@ -99,7 +99,8 @@ class MAIL:
 
                         self.emails.append(email_data)
 
-            return self.to_json()
+            save = MAIL.to_json(self.emails)
+            return save
 
         except (KeyboardInterrupt, Exception, ConnectionError) as e:
             e_type, e_object, e_traceback = sys.exc_info()
@@ -120,9 +121,10 @@ class MAIL:
         finally:
             self.mail.logout()
 
-    def to_json(self):
+    @staticmethod
+    def to_json(data):
         # Convert data to JSON format
-        json_data = json.dumps(self.emails, indent=4)
+        json_data = json.dumps(data, indent=4)
         return json_data
 
 

@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/index.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mails.py" beforeDir="false" afterPath="$PROJECT_DIR$/mails.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/template/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/template/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/template/mails.html" beforeDir="false" afterPath="$PROJECT_DIR$/template/mails.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

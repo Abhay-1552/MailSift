@@ -28,7 +28,7 @@ mongo = MongoDB()
 smtp = SMTP()
 
 # Mail connectivity
-mail = MAIL()
+inbox = MAIL()
 
 
 @app.route('/')
@@ -49,7 +49,9 @@ def home():
 @app.route('/mail')
 def mail():
     mails = session.get('mail_data')
-    return render_template('mails.html', mail_data=mails)
+    data = session.get('json_data')
+
+    return render_template('mails.html', mail_data=mails, json_data=data)
 
 
 @app.route('/login', methods=['POST'])
@@ -90,7 +92,11 @@ def date_input():
         month = request.form.get('month')
         year = request.form.get('year')
 
+        data = inbox.inbox_mails(month, year)
+        session['json_data'] = data
+
         print(f"Month: {month}, Year: {year}")
+        print(data)
     return redirect('/home')
 
 
