@@ -5,120 +5,109 @@ from wordcloud import WordCloud
 import sweetviz as sw
 import os
 
-df = pd.read_csv(r"mail.csv")
-if df is not None and not df.empty:
-    pass
-else:
-    df = None
 
+class Graph:
+    def __init__(self, json_data):
+        print("Hello Graphs.")
 
-def check_file():
-    if df is not None and not df.empty:
-        return True
-    else:
-        return False
+        self.df = pd.DataFrame(json_data)
+        print(self.df)
+        
+    # Mail filtering as per keywords
+    def filter_record_mails(self, keywords):
+        if self.df is not None and not self.df.empty:
+            words = [word.strip() for word in keywords.split(',')]
+            pattern = '|'.join(words)
+            filtered_rows = self.df[self.df['Payload'].str.contains(pattern, case=False, regex=True)]
 
+            filtered_rows = filtered_rows.reindex(
+                filtered_rows['Payload'].str.findall(pattern).apply(len).sort_values(ascending=False).index)
 
-# Mail filtering as per keywords
-def filter_record_mails(keywords):
-    if df is not None and not df.empty:
-        words = [word.strip() for word in keywords.split(',')]
-        pattern = '|'.join(words)
-        filtered_rows = df[df['Payload'].str.contains(pattern, case=False, regex=True)]
+            filtered_rows.reset_index(drop=True, inplace=True)
+            filtered_rows.index += 1
 
-        filtered_rows = filtered_rows.reindex(
-            filtered_rows['Payload'].str.findall(pattern).apply(len).sort_values(ascending=False).index)
+            return filtered_rows
+        else:
+            return None
 
-        filtered_rows.reset_index(drop=True, inplace=True)
-        filtered_rows.index += 1
+    # SweetViz report
+    def sweet_viz_report(self):
+        report_path = 'A:/Projects/MailSift/template/REPORT.html'
+        if os.path.exists(report_path):
+            pass
+        else:
+            report = sw.analyze(self.df)
+            report.show_html(filepath='A:/Projects/MailSift/template/REPORT.html')
 
-        return filtered_rows
-    else:
-        return None
+    # DashBoard
+    # Total number of mails by individual senders
+    def sender_count_function(self):
+        date_counts = self.df['SenderEmail'].value_counts().reset_index()
 
+        date_counts.columns = ['SenderEmail', 'Count']
+        sorted_date_counts = date_counts.sort_values(by='Count', ascending=False).head(8)
 
-# SweetViz report
-def sweet_viz_report():
-    report_path = 'A:/Projects/MailSift/template/REPORT.html'
-    if os.path.exists(report_path):
-        pass
-    else:
-        report = sw.analyze(df)
-        report.show_html(filepath='A:/Projects/MailSift/template/REPORT.html')
+        color_scale = px.colors.qualitative.Plotly
+        fig = px.bar(sorted_date_counts, x='SenderEmail', y='Count', title='Top 10 Sender Counts - Bar Graph',
+                     hover_data={'SenderEmail': True, 'Count': True}, color='Count', color_continuous_scale=color_scale)
 
+        fig.update_xaxes(categoryorder='total descending')
+        fig.update_layout(height=500, width=1000)
 
-# DashBoard
-# Total number of mails by individual senders
-def sender_count_function():
-    date_counts = df['SenderEmail'].value_counts().reset_index()
+        plot_sc_html = fig.to_html(full_html=False)
 
-    date_counts.columns = ['SenderEmail', 'Count']
-    sorted_date_counts = date_counts.sort_values(by='Count', ascending=False).head(8)
+        return plot_sc_html
 
-    color_scale = px.colors.qualitative.Plotly
-    fig = px.bar(sorted_date_counts, x='SenderEmail', y='Count', title='Top 10 Sender Counts - Bar Graph',
-                 hover_data={'SenderEmail': True, 'Count': True}, color='Count', color_continuous_scale=color_scale)
+    # Mail counts on individual date
+    def date_count_function(self):
+        date_counts = self.df['Date'].value_counts().reset_index()
 
-    fig.update_xaxes(categoryorder='total descending')
-    fig.update_layout(height=500, width=1000)
+        date_counts.columns = ['Date', 'Count']
+        sorted_date_counts = date_counts.sort_values(by='Date', ascending=False)
 
-    plot_sc_html = fig.to_html(full_html=False)
+        color_scale = px.colors.qualitative.Plotly
+        fig = px.bar(sorted_date_counts, x='Date', y='Count', title='Date Counts - Bar Graph', color='Count',
+                     color_continuous_scale=color_scale)
 
-    return plot_sc_html
+        fig.update_xaxes(categoryorder='category ascending')
+        fig.update_layout(height=500, width=1200)
 
+        plot_dc_html = fig.to_html(full_html=False)
 
-# Mail counts on individual date
-def date_count_function():
-    date_counts = df['Date'].value_counts().reset_index()
+        return plot_dc_html
 
-    date_counts.columns = ['Date', 'Count']
-    sorted_date_counts = date_counts.sort_values(by='Date', ascending=False)
+    # Mail counts per time intervals
+    def mails_per_time_intervals(self):
+        datetime = pd.to_datetime(self.df['Date'] + ' ' + self.df['Time'], format='%d-%m-%Y %H:%M')
 
-    color_scale = px.colors.qualitative.Plotly
-    fig = px.bar(sorted_date_counts, x='Date', y='Count', title='Date Counts - Bar Graph', color='Count',
-                 color_continuous_scale=color_scale)
+        interval = pd.cut(datetime.dt.hour,
+                          bins=[0, 6, 12, 18, 24],
+                          labels=['00:00-06:00', '06:00-12:00', '12:00-18:00', '18:00-24:00'],
+                          include_lowest=True, right=False)
 
-    fig.update_xaxes(categoryorder='category ascending')
-    fig.update_layout(height=500, width=1200)
+        interval_counts = interval.value_counts().reset_index()
+        interval_counts.columns = ['TimeInterval', 'Count']
 
-    plot_dc_html = fig.to_html(full_html=False)
+        # Create a pie chart using Plotly Express
+        fig = px.pie(interval_counts, names='TimeInterval', values='Count', title='Mail Counts by Time Interval')
+        fig.update_layout(height=500, width=600)
 
-    return plot_dc_html
+        plot_mt_html = fig.to_html(full_html=False)
 
+        return plot_mt_html
 
-# Mail counts per time intervals
-def mails_per_time_intervals():
-    datetime = pd.to_datetime(df['Date'] + ' ' + df['Time'], format='%d-%m-%Y %H:%M')
+    # WordCloud using Subject
+    def word_cloud(self):
+        subject = self.df['Subject'].astype(str)
+        text = ' '.join(subject)
 
-    interval = pd.cut(datetime.dt.hour,
-                      bins=[0, 6, 12, 18, 24],
-                      labels=['00:00-06:00', '06:00-12:00', '12:00-18:00', '18:00-24:00'],
-                      include_lowest=True, right=False)
+        wordcloud = WordCloud(width=1200, height=600, background_color='white').generate(text)
+        fig = go.Figure(go.Image(z=wordcloud.to_array()))
 
-    interval_counts = interval.value_counts().reset_index()
-    interval_counts.columns = ['TimeInterval', 'Count']
+        # Remove axes
+        fig.update_layout(xaxis=dict(visible=False), yaxis=dict(visible=False))
+        fig.update_layout(height=500, width=600)
 
-    # Create a pie chart using Plotly Express
-    fig = px.pie(interval_counts, names='TimeInterval', values='Count', title='Mail Counts by Time Interval')
-    fig.update_layout(height=500, width=600)
+        plot_mt_html = fig.to_html(full_html=False)
 
-    plot_mt_html = fig.to_html(full_html=False)
-
-    return plot_mt_html
-
-
-# WordCloud using Subject
-def word_cloud():
-    subject = df['Subject'].astype(str)
-    text = ' '.join(subject)
-
-    wordcloud = WordCloud(width=1200, height=600, background_color='white').generate(text)
-    fig = go.Figure(go.Image(z=wordcloud.to_array()))
-
-    # Remove axes
-    fig.update_layout(xaxis=dict(visible=False), yaxis=dict(visible=False))
-    fig.update_layout(height=500, width=600)
-
-    plot_mt_html = fig.to_html(full_html=False)
-
-    return plot_mt_html
+        return plot_mt_html

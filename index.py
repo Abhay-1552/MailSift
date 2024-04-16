@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, session, redirect, jsonify
-from login import MongoDB
-from send_mail import SMTP
 import os
 import random
 import string
+
+from flask import Flask, render_template, request, session, redirect
+
+from login import MongoDB
+from send_mail import SMTP
 
 app = Flask(__name__, template_folder="template")
 
@@ -82,9 +84,10 @@ def signup():
 @app.route('/date_input', methods=['POST'])
 def date_input():
     if request.method == 'POST':
-        date1 = request.form.get('monthYear')
+        month = request.form.get('month')
+        year = request.form.get('year')
 
-        print(date1)
+        print(f"Month: {month}, Year: {year}")
     return '', 204
 
 

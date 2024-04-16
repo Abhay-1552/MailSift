@@ -48,15 +48,37 @@
                         User Input Form
                     </div>
                     <div class="card-body">
-                        <form id="date-form" method="post" action="{{ url_for('date_input') }}"
+                        <form id="dateForm" method="post" action="{{ url_for('date_input') }}"
                             onsubmit="handleFormSubmit(event)">
                             <div class="form-group">
-                                <label for="monthYear">Month and Year</label>
-                                <select class="form-control" id="monthYear" name="monthYear" required>
+                                <label for="month">Month</label>
+                                <select class="form-control" id="month" name="month" required>
+                                    <option value="">Select Month</option>
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="year">Year</label>
+                                <select class="form-control" id="year" name="year" required>
+                                    <option value="">Select Year</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
+                        <div id="loading" style="display: none;">
+                            <img src="loading.gif" alt="Loading..." width="50" height="50">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
@@ -148,28 +170,27 @@
         });
 
         // JavaScript to populate the month and year dropdown dynamically
-        var monthYearSelect = document.getElementById("monthYear");
         var currentYear = new Date().getFullYear();
-        var startYear = 2000;
 
-        // Loop through years, starting from the current year going back to the start year
-        for (var year = currentYear; year >= startYear; year--) {
-            for (var month = 0; month <= 11; month++) {
-                var monthName = new Date(year, month, 1).toLocaleString('default', { month: 'long' });
-                var option = document.createElement("option");
-
-                option.text = monthName + " " + year;
-                option.value = year + "-" + (month + 1).toString().padStart(2, '0');
-                monthYearSelect.add(option);
-            }
+        // Dynamically generate the years from 2000 to the current year
+        for (var i = currentYear; i >= 2000; i--) {
+            var option = document.createElement("option");
+            option.text = i;
+            option.value = i;
+            document.getElementById("year").appendChild(option);
         }
 
         function handleFormSubmit(event) {
-            var time = document.getElementById("monthYear").value;
-            alert('Data Inserted');
-            // Optionally prevent the form from submitting
-            event.preventDefault();
+            var month = document.getElementById("month").value;
+            var year = document.getElementById("year").value;
+            alert('Data generated for ' + month + '/' + year + ' successfully!');
         }
+
+        function handleFormSubmit(event) {
+            // Show loading symbol
+            document.getElementById("loading").style.display = "block";
+        }
+
     </script>
 </body>
 
