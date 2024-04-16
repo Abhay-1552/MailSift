@@ -5,9 +5,9 @@ import re
 from dotenv import load_dotenv
 from dateutil import parser as date_parser
 from tqdm import tqdm
-import csv
 import sys
 from datetime import datetime
+import json
 
 load_dotenv('.env')
 
@@ -99,7 +99,7 @@ class MAIL:
 
                         self.emails.append(email_data)
 
-            MAIL.to_csv(self)
+            return self.to_json()
 
         except (KeyboardInterrupt, Exception, ConnectionError) as e:
             e_type, e_object, e_traceback = sys.exc_info()
@@ -120,23 +120,14 @@ class MAIL:
         finally:
             self.mail.logout()
 
-    def to_csv(self):
-        # Save data to CSV file
-        upload_folder = os.path.expanduser("~\\Downloads\\MailSift")
-        os.chmod(upload_folder, 0o744)
-
-        csv_filename = os.path.join(upload_folder, 'mails.csv')
-
-        with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:
-            fieldnames = ['From', 'Subject', 'Date', 'Time', 'Body', 'Attachments', 'Phone Numbers']
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-            writer.writeheader()
-            for email_data in self.emails:
-                writer.writerow(email_data)
+    def to_json(self):
+        # Convert data to JSON format
+        json_data = json.dumps(self.emails, indent=4)
+        return json_data
 
 
 if __name__ == '__main__':
     app = MAIL()
 
-    app.inbox_mails()
+    mail_data = app.inbox_mails()
+    print(mail_data)
