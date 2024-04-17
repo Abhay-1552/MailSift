@@ -1,10 +1,12 @@
 import os
 import random
 import string
-from flask import Flask, render_template, request, session, redirect, jsonify
+
+from flask import Flask, render_template, request, session, redirect
+
 from login import MongoDB
-from send_mail import SMTP
 from mails import MAIL
+from send_mail import SMTP
 from visuals import Graph
 
 app = Flask(__name__, template_folder="template")
@@ -28,8 +30,8 @@ mongo = MongoDB()
 # SMTP connectivity
 smtp = SMTP()
 
-# Mail connectivity
-inbox = MAIL()
+# Define json_mail_data globally
+json_mail_data = None
 
 
 @app.route('/')
@@ -43,7 +45,7 @@ def index():
 def home():
     username = session.get('name')
     email = session.get('email')
-    data = session.get('json_data')
+    data = json_mail_data
 
     if data is not None:
         graph = Graph(data)
@@ -61,7 +63,7 @@ def home():
 
 @app.route('/mail')
 def mail():
-    json_data = session.get('json_data')
+    json_data = json_mail_data
 
     return render_template('mails.html', json_data=json_data)
 
@@ -100,12 +102,15 @@ def signup():
 
 @app.route('/date_input', methods=['POST'])
 def date_input():
+    global json_mail_data
+
     if request.method == 'POST':
         month = request.form.get('month')
         year = request.form.get('year')
 
-        data = inbox.inbox_mails(month, year)
-        session['json_data'] = data
+        # Mail connectivity
+        inbox = MAIL()
+        json_mail_data = inbox.inbox_mails(month, year)
 
     return redirect('/home')
 

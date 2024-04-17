@@ -117,10 +117,3 @@ class MAIL:
 
         finally:
             self.mail.logout()
-
-
-if __name__ == '__main__':
-    app = MAIL()
-
-    mail_data = app.inbox_mails(1, 2024)
-    print(mail_data)

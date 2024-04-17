@@ -147,22 +147,24 @@
         </div>
 
         <div class="row mt-3">
-            <div class="col-md-4">
-                <div class="card">
-                    {{ sender_count | safe }}
-                </div>
+            <div class="col-md-6" style="height: 400px; width: 600px;">
+                {{ sender_count | safe }}
             </div>
-            
-            <div class="col-md-4">
-                <div class="card">
-                    {{ date_count | safe }}
-                </div>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-md-6">
+                {{ date_count | safe }}
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-6">
+                {{ mails_per_time | safe }}
             </div>
 
-            <div class="col-md-4">
-                <div class="card">
-                    {{ word_cloud | safe }}
-                </div>
+            <div class="col-md-6">
+                {{ word_cloud | safe }}
             </div>
         </div>
     </div>

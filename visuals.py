@@ -2,23 +2,11 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from wordcloud import WordCloud
-import sweetviz as sw
-import os
 
 
 class Graph:
     def __init__(self, json_data):
         self.df = pd.DataFrame(json_data)
-        print(self.df)
-
-    # SweetViz report
-    def sweet_viz_report(self):
-        report_path = 'A:/Projects/MailSift/template/REPORT.html'
-        if os.path.exists(report_path):
-            pass
-        else:
-            report = sw.analyze(self.df)
-            report.show_html(filepath='A:/Projects/MailSift/template/REPORT.html')
 
     # Dashboard
     # Total number of mails by individual senders
