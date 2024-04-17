@@ -48,10 +48,9 @@ def home():
 
 @app.route('/mail')
 def mail():
-    mails = session.get('mail_data')
-    data = session.get('json_data')
-
-    return render_template('mails.html', mail_data=mails, json_data=data)
+    json_data = session.get('json_data')
+    # return jsonify(json_data)
+    return render_template('mails.html', json_data=json_data)
 
 
 @app.route('/login', methods=['POST'])
@@ -96,7 +95,6 @@ def date_input():
         session['json_data'] = data
 
         print(f"Month: {month}, Year: {year}")
-        print(data)
     return redirect('/home')
 
 
@@ -136,6 +134,13 @@ def send_mail():
         return "alert('Process completed successfully!');"
     else:
         return "alert('Error occurs! Try Again');"
+
+
+# def mails_from_json():
+#     json_data = session.get('json_data')
+#
+#     html_content = ""
+#     for i in json_data:
 
 
 if __name__ == '__main__':

@@ -70,6 +70,27 @@
 
                 <!-- Mail Cards Section -->
                 <div class="scrollable-section" id="scrollable-section">
+                    {% for mail in json_data %}
+                    <div class="card" id="card">
+                        <div class="card-header">
+                            <div class="sender-subject">
+                                <b>
+                                    <span id="sendername" name="sendername">{{ mail.SenderName }}</span>
+                                    <span id="sendermail" name="sendermail">&lt;{{ mail.SenderEmail }}&gt;</span>
+                                    <br>
+                                    <span id="subject" name="subject">{{ mail.Subject }}</span>
+                                </b>
+                            </div>
+                            <div class="date-time" id="senderdatetime">
+                                <p>{{ mail.Date }}, {{ mail.Time }}</p>
+                            </div>
+                        </div>
+                        <div class="card-body" id="payload">
+                            {{ mail.Body | safe }}
+                        </div>
+                    </div>
+                    {% endfor %}
+
                     <!-- Cards -->
                     <div class="card" id="card">
                         <div class="card-header">
@@ -196,60 +217,11 @@
         </div>
     </div>
 
-    <script> { { alert_message | safe } }</script>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../static/js/mails.js"></script>
-
-    <script>
-        // Function to fetch JSON data from Flask route
-        async function fetchEmails() {
-            const dataString = '{{ json_data | tojson | safe }}'; // Ensure safe rendering
-            const data = JSON.parse(dataString);
-            return data;
-        }
-
-
-        // Function to create HTML card for each email entry
-        function createEmailCards(emails) {
-            const emailCardsContainer = document.getElementById('scrollable-section');
-
-            emails.forEach(email => {
-                const card = document.createElement('div');
-                card.classList.add('card');
-
-                card.innerHTML = `
-                    <div class="card-header">
-                        <div class="sender-subject">
-                            <b>
-                                <span>${email.From.split('<')[0]}</span>
-                                <span>${email.From.split('<')[1].split('>')[0]}</span>
-                                <br>
-                                <span>${email.Subject}</span>
-                            </b>
-                        </div>
-                        <div class="date-time">
-                            <p>${email.Date}, ${email.Time}</p>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        ${email.Body}
-                    </div>
-                `;
-
-                emailCardsContainer.appendChild(card);
-            });
-        }
-
-        // Fetch emails and create HTML cards
-        fetchEmails().then(emails => {
-            createEmailCards(emails);
-        }).catch(error => {
-            console.error('Error fetching emails:', error);
-        });
-    </script>
 </body>
 
 </html>

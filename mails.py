@@ -52,8 +52,6 @@ class MAIL:
             # Search for all emails in the "Primary" folder
             result, data = self.mail.search(None, search_query)
 
-            phone_number_pattern = re.compile(r'\b(?:\+?91|0)?\d{10}\b')
-
             if result == 'OK':
                 for num in tqdm(data[0].split()):
                     result, data = self.mail.fetch(num, '(RFC822)')
@@ -61,15 +59,19 @@ class MAIL:
                     if result == 'OK':
                         email_message = email.message_from_bytes(data[0][1])
                         date_string = email_message['Date']
+
                         parsed_date = date_parser.parse(date_string)
 
+                        sender = email.utils.parseaddr(email_message['From'])
+                        sender_name, sender_email = sender
+
                         email_data = {
-                            'From': email_message['From'],
+                            'SenderName': sender_name,
+                            'SenderEmail': sender_email,
                             'Subject': email_message['Subject'],
                             'Date': parsed_date.strftime('%d/%m/%Y'),
                             'Time': parsed_date.strftime('%H:%M'),
                             'Attachments': [],
-                            'Phone Numbers': []
                         }
 
                         # Iterate over each part of the email (plaintext or multipart)
@@ -87,11 +89,6 @@ class MAIL:
 
                                 email_data['Body'] = email_body
 
-                                # Extract phone numbers from the email body
-                                phone_numbers = phone_number_pattern.findall(email_body)
-                                if phone_numbers:
-                                    email_data['Phone Numbers'] = phone_numbers
-
                             else:
                                 filename = part.get_filename()
                                 if filename:
@@ -99,8 +96,8 @@ class MAIL:
 
                         self.emails.append(email_data)
 
-            save = MAIL.to_json(self.emails)
-            return save
+            # return self.to_json()
+            return self.emails
 
         except (KeyboardInterrupt, Exception, ConnectionError) as e:
             e_type, e_object, e_traceback = sys.exc_info()
@@ -121,11 +118,11 @@ class MAIL:
         finally:
             self.mail.logout()
 
-    @staticmethod
-    def to_json(data):
-        # Convert data to JSON format
-        json_data = json.dumps(data, indent=4)
-        return json_data
+    # def to_json(self):
+    #     # Convert data to JSON format
+    #     json_data = json.dumps(self.emails)
+    #
+    #     return json_data
 
 
 # if __name__ == '__main__':
