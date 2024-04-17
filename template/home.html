@@ -149,19 +149,19 @@
         <div class="row mt-3">
             <div class="col-md-4">
                 <div class="card">
-                    {{ sender_count }}
+                    {{ sender_count | safe }}
                 </div>
             </div>
             
             <div class="col-md-4">
                 <div class="card">
-                    {{ date_count }}
+                    {{ date_count | safe }}
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="card">
-                    {{ word_cloud }}
+                    {{ word_cloud | safe }}
                 </div>
             </div>
         </div>
