@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, session, redirect, jsonify
 from login import MongoDB
 from send_mail import SMTP
 from mails import MAIL
+from visuals import Graph
 
 app = Flask(__name__, template_folder="template")
 
@@ -42,14 +43,26 @@ def index():
 def home():
     username = session.get('name')
     email = session.get('email')
+    data = session.get('json_data')
 
-    return render_template('home.html', name=username, email=email)
+    if data is not None:
+        graph = Graph(data)
+
+        sender_count = graph.sender_count_function()
+        date_count = graph.date_count_function()
+        mails_per_time = graph.mails_per_time_intervals()
+        word_cloud = graph.word_cloud()
+
+        return render_template('home.html', name=username, email=email, sender_count=sender_count,
+                               date_count=date_count, mails_per_time=mails_per_time, word_cloud=word_cloud)
+    else:
+        return render_template('home.html', name=username, email=email)
 
 
 @app.route('/mail')
 def mail():
     json_data = session.get('json_data')
-    # return jsonify(json_data)
+
     return render_template('mails.html', json_data=json_data)
 
 
@@ -94,7 +107,6 @@ def date_input():
         data = inbox.inbox_mails(month, year)
         session['json_data'] = data
 
-        print(f"Month: {month}, Year: {year}")
     return redirect('/home')
 
 
@@ -134,13 +146,6 @@ def send_mail():
         return "alert('Process completed successfully!');"
     else:
         return "alert('Error occurs! Try Again');"
-
-
-# def mails_from_json():
-#     json_data = session.get('json_data')
-#
-#     html_content = ""
-#     for i in json_data:
 
 
 if __name__ == '__main__':

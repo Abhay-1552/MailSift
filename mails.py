@@ -118,15 +118,9 @@ class MAIL:
         finally:
             self.mail.logout()
 
-    # def to_json(self):
-    #     # Convert data to JSON format
-    #     json_data = json.dumps(self.emails)
-    #
-    #     return json_data
 
+if __name__ == '__main__':
+    app = MAIL()
 
-# if __name__ == '__main__':
-#     app = MAIL()
-#
-#     mail_data = app.inbox_mails()
-#     print(mail_data)
+    mail_data = app.inbox_mails(1, 2024)
+    print(mail_data)
