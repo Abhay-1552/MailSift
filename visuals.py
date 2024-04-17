@@ -20,7 +20,7 @@ class Graph:
                      hover_data={'SenderEmail': True, 'Count': True}, color='Count', color_continuous_scale=color_scale)
 
         fig.update_xaxes(categoryorder='total descending')
-        fig.update_layout(height=500, width=1000)
+        fig.update_layout(height=450, width=700)
 
         plot_sc_html = fig.to_html(full_html=False)
 
@@ -37,7 +37,7 @@ class Graph:
                      color_continuous_scale=color_scale)
 
         fig.update_xaxes(categoryorder='category ascending')
-        fig.update_layout(height=500, width=1200)
+        fig.update_layout(height=450, width=700)
 
         plot_dc_html = fig.to_html(full_html=False)
 

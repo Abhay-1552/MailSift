@@ -1,9 +1,7 @@
 import os
 import random
 import string
-
 from flask import Flask, render_template, request, session, redirect
-
 from login import MongoDB
 from mails import MAIL
 from send_mail import SMTP

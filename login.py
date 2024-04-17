@@ -1,13 +1,12 @@
-from pymongo import MongoClient
-from pymongo.errors import DuplicateKeyError
 import os
 from dotenv import load_dotenv
-
-load_dotenv('.env')
+from pymongo import MongoClient
 
 
 class MongoDB:
     def __init__(self):
+        load_dotenv('.env')
+
         connection_string = os.getenv('URL')
         # Create a MongoClient instance
         client = MongoClient(connection_string)

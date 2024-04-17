@@ -7,7 +7,6 @@ from dateutil import parser as date_parser
 from tqdm import tqdm
 import sys
 from datetime import datetime
-import json
 
 
 class MAIL:

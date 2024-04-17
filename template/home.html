@@ -139,32 +139,57 @@
                         Detailed Analysis
                     </div>
                     <div class="card-body">
-                        <!-- Insert detailed analysis content here -->
-                        <p>This is where your detailed analysis would go.</p>
+                        <p style="font-size: large;">Our analysis offers insights into sender diversity, email
+                            distribution over time, peak
+                            activity periods, and prevalent topics. Use these insights to optimize your email management
+                            and boost productivity.</p>
+
+                        <div class="row">
+                            <div class="col-md-3 text-center">
+                                <img src="../static/images/man.png" alt="Sender Icon" width="100">
+                                <p>Sender Count</p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <img src="../static/images/schedule.png" alt="Date Icon" width="100">
+                                <p>Date Count</p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <img src="../static/images/clock.png" alt="Mails Icon" width="100">
+                                <p>Mails per Time</p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <img src="../static/images/cloud.png" alt="Word Cloud Icon" width="100">
+                                <p>Word Cloud</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row mt-3">
-            <div class="col-md-6" style="height: 400px; width: 600px;">
-                {{ sender_count | safe }}
-            </div>
-        </div>
-        
-        <div class="row mt-3">
+        <div class="row mt-3" style="height: fit-content;">
             <div class="col-md-6">
-                {{ date_count | safe }}
+                <div class="card">
+                    {{ sender_count | safe }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    {{ date_count | safe }}
+                </div>
             </div>
         </div>
 
         <div class="row mt-3">
             <div class="col-md-6">
-                {{ mails_per_time | safe }}
+                <div class="card">
+                    {{ mails_per_time | safe }}
+                </div>
             </div>
-
             <div class="col-md-6">
-                {{ word_cloud | safe }}
+                <div class="card">
+                    {{ word_cloud | safe }}
+                </div>
             </div>
         </div>
     </div>
