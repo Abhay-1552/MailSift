@@ -57,7 +57,7 @@ class Graph:
 
         # Create a pie chart using Plotly Express
         fig = px.pie(interval_counts, names='TimeInterval', values='Count', title='Mail Counts by Time Interval')
-        fig.update_layout(height=500, width=600)
+        fig.update_layout(height=450, width=500)
 
         plot_mt_html = fig.to_html(full_html=False)
 
@@ -73,7 +73,7 @@ class Graph:
 
         # Remove axes
         fig.update_layout(xaxis=dict(visible=False), yaxis=dict(visible=False))
-        fig.update_layout(height=500, width=600)
+        fig.update_layout(height=450, width=500)
 
         plot_wc_html = fig.to_html(full_html=False)
 
