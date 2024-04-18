@@ -48,13 +48,12 @@ def home():
     if data is not None:
         graph = Graph(data)
 
-        sender_count = graph.sender_count_function()
-        date_count = graph.date_count_function()
-        mails_per_time = graph.mails_per_time_intervals()
-        word_cloud = graph.word_cloud()
+        sender_count = graph.sender_count_to_json()
+        # date_count = graph.date_count_function()
+        # mails_per_time = graph.mails_per_time_intervals()
+        # word_cloud = graph.word_cloud()
 
-        return render_template('home.html', name=username, email=email, sender_count=sender_count,
-                               date_count=date_count, mails_per_time=mails_per_time, word_cloud=word_cloud)
+        return render_template('home.html', name=username, email=email, sender_count=sender_count)
     else:
         return render_template('home.html', name=username, email=email)
 

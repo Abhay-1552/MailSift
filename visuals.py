@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from wordcloud import WordCloud
+import json
 
 
 class Graph:
@@ -10,21 +11,19 @@ class Graph:
 
     # Dashboard
     # Total number of mails by individual senders
-    def sender_count_function(self):
+    def sender_count_to_json(self):
         sender_counts = self.df['SenderEmail'].value_counts().reset_index()
         sender_counts.columns = ['SenderEmail', 'Count']
         sorted_sender_counts = sender_counts.sort_values(by='Count', ascending=False).head(10)
 
-        color_scale = px.colors.qualitative.Plotly
-        fig = px.bar(sorted_sender_counts, x='SenderEmail', y='Count', title='Top 10 Sender Counts - Bar Graph',
-                     hover_data={'SenderEmail': True, 'Count': True}, color='Count', color_continuous_scale=color_scale)
+        # Extract data from DataFrame
+        sender_data = sorted_sender_counts.to_dict(orient='records')
 
-        fig.update_xaxes(categoryorder='total descending')
-        fig.update_layout(height=450, width=700)
+        # Serialize to JSON
+        json_data = json.dumps(sender_data)
 
-        plot_sc_html = fig.to_html(full_html=False)
-
-        return plot_sc_html
+        print(json_data)
+        return json_data
 
     # Mail counts on individual date
     def date_count_function(self):
