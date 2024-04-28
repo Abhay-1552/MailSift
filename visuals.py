@@ -21,8 +21,6 @@ class Graph:
 
         # Serialize to JSON
         json_data = json.dumps(sender_data)
-
-        print(json_data)
         return json_data
 
     # Mail counts on individual date

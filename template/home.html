@@ -173,21 +173,27 @@
             </div>
         </div>
 
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <div id="chartdiv1" class="design"></div>
+        <div style="display: block">
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div id="chartdiv1" class="design">
+                        <script>
+                            var sender_count = "{{ sender_count | safe }}";
+                        </script>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div id="chartdiv2" class="design"></div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <div id="chartdiv2" class="design"></div>
-            </div>
-        </div>
 
-        <div class="row mt-3">
-            <div class="col-md-6">
-                <div id="chartdiv3" class="design"></div>
-            </div>
-            <div class="col-md-6">
-                <div id="chartdiv4" class="design"></div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div id="chartdiv3" class="design"></div>
+                </div>
+                <div class="col-md-6">
+                    <div id="chartdiv4" class="design"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -303,40 +309,7 @@
                 return chart.get("colors").getIndex(series.columns.indexOf(target));
             });
 
-            var data = [{
-                country: "USA",
-                value: 2025
-            }, {
-                country: "China",
-                value: 1882
-            }, {
-                country: "Japan",
-                value: 1809
-            }, {
-                country: "Germany",
-                value: 1322
-            }, {
-                country: "UK",
-                value: 1122
-            }, {
-                country: "France",
-                value: 1114
-            }, {
-                country: "India",
-                value: 984
-            }, {
-                country: "Spain",
-                value: 711
-            }, {
-                country: "Netherlands",
-                value: 665
-            }, {
-                country: "South Korea",
-                value: 443
-            }, {
-                country: "Canada",
-                value: 441
-            }];
+            var data = sender_count;
 
             xAxis.data.setAll(data);
             series.data.setAll(data);

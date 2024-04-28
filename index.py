@@ -1,6 +1,7 @@
 import os
 import random
 import string
+import json
 from flask import Flask, render_template, request, session, redirect
 from login import MongoDB
 from mails import MAIL
@@ -8,28 +9,6 @@ from send_mail import SMTP
 from visuals import Graph
 
 app = Flask(__name__, template_folder="template")
-
-# For Sessions
-characters = string.ascii_letters + string.digits + string.punctuation
-random_string = ''.join(random.choice(characters) for _ in range(20))
-
-app.secret_key = random_string
-
-# Creating folder for attachments
-UPLOAD_FOLDER = os.path.expanduser("~\\Downloads\\MailSift")
-
-os.chmod(UPLOAD_FOLDER, 0o744)
-
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# Database connectivity
-mongo = MongoDB()
-
-# SMTP connectivity
-smtp = SMTP()
-
-# Define json_mail_data globally
-json_mail_data = None
 
 
 @app.route('/')
@@ -47,11 +26,9 @@ def home():
 
     if data is not None:
         graph = Graph(data)
+        json_data = graph.sender_count_to_json()
 
-        sender_count = graph.sender_count_to_json()
-        # date_count = graph.date_count_function()
-        # mails_per_time = graph.mails_per_time_intervals()
-        # word_cloud = graph.word_cloud()
+        sender_count = json.loads(json_data)
 
         return render_template('home.html', name=username, email=email, sender_count=sender_count)
     else:
@@ -121,15 +98,6 @@ def send_mail():
         reply_text = f'Reply: {reply}'
         attachments = []
 
-        if os.path.exists(app.config['UPLOAD_FOLDER']):
-            print(f"Upload folder exists at {app.config['UPLOAD_FOLDER']}")
-        else:
-            try:
-                os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-                print(f"Upload folder created at {app.config['UPLOAD_FOLDER']}")
-            except OSError as e:
-                print(f"Error creating upload folder: {e}")
-
         if attachment_files:
             for file in attachment_files:
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
@@ -151,4 +119,35 @@ def send_mail():
 
 
 if __name__ == '__main__':
+    # For Sessions
+    characters = string.ascii_letters + string.digits + string.punctuation
+    random_string = ''.join(random.choice(characters) for _ in range(20))
+
+    app.secret_key = random_string
+
+    # Creating folder for attachments
+    UPLOAD_FOLDER = os.path.join(os.path.expanduser("~"), "Downloads", "MailSift")
+
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+    if os.path.exists(app.config['UPLOAD_FOLDER']):
+        print(f"Upload folder exists at {app.config['UPLOAD_FOLDER']}")
+    else:
+        try:
+            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+            print(f"Upload folder created at {app.config['UPLOAD_FOLDER']}")
+        except OSError as e:
+            print(f"Error creating upload folder: {e}")
+
+    os.chmod(UPLOAD_FOLDER, 0o744)
+
+    # Database connectivity
+    mongo = MongoDB()
+
+    # SMTP connectivity
+    smtp = SMTP()
+
+    # Define json_mail_data globally
+    json_mail_data = None
+
     app.run(port=8000, debug=True)
