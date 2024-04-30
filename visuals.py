@@ -20,6 +20,7 @@ class Graph:
         emails = sorted_sender_counts['SenderEmail'].tolist()
         counts = sorted_sender_counts['Count'].tolist()
 
+        print(emails, counts)
         return emails, counts
 
     # Mail counts on individual date

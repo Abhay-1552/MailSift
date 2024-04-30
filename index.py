@@ -1,7 +1,6 @@
 import os
 import random
 import string
-import json
 from flask import Flask, render_template, request, session, redirect
 from login import MongoDB
 from mails import MAIL
@@ -9,6 +8,37 @@ from send_mail import SMTP
 from visuals import Graph
 
 app = Flask(__name__, template_folder="templates")
+
+# For Sessions
+characters = string.ascii_letters + string.digits + string.punctuation
+random_string = ''.join(random.choice(characters) for _ in range(20))
+
+app.secret_key = random_string
+
+# Creating folder for attachments
+UPLOAD_FOLDER = os.path.join(os.path.expanduser("~"), "Downloads", "MailSift")
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+if os.path.exists(app.config['UPLOAD_FOLDER']):
+    print(f"Upload folder exists at {app.config['UPLOAD_FOLDER']}")
+else:
+    try:
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+        print(f"Upload folder created at {app.config['UPLOAD_FOLDER']}")
+    except OSError as e:
+        print(f"Error creating upload folder: {e}")
+
+os.chmod(UPLOAD_FOLDER, 0o744)
+
+# Database connectivity
+mongo = MongoDB()
+
+# SMTP connectivity
+smtp = SMTP()
+
+# Define json_mail_data globally
+json_mail_data = None
 
 
 @app.route('/')
@@ -118,35 +148,4 @@ def send_mail():
 
 
 if __name__ == '__main__':
-    # For Sessions
-    characters = string.ascii_letters + string.digits + string.punctuation
-    random_string = ''.join(random.choice(characters) for _ in range(20))
-
-    app.secret_key = random_string
-
-    # Creating folder for attachments
-    UPLOAD_FOLDER = os.path.join(os.path.expanduser("~"), "Downloads", "MailSift")
-
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-    if os.path.exists(app.config['UPLOAD_FOLDER']):
-        print(f"Upload folder exists at {app.config['UPLOAD_FOLDER']}")
-    else:
-        try:
-            os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-            print(f"Upload folder created at {app.config['UPLOAD_FOLDER']}")
-        except OSError as e:
-            print(f"Error creating upload folder: {e}")
-
-    os.chmod(UPLOAD_FOLDER, 0o744)
-
-    # Database connectivity
-    mongo = MongoDB()
-
-    # SMTP connectivity
-    smtp = SMTP()
-
-    # Define json_mail_data globally
-    json_mail_data = None
-
     app.run(port=8000, debug=True)

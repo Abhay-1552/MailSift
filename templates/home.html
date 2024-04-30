@@ -109,7 +109,7 @@
                     <div class="card-body">
                         <form id="openai-form" onsubmit="showContent(event)">
                             <div class="form-group">
-                                <label for="apiKey">OpenAI API Key</label>
+                                <label for="openaiKey">OpenAI API Key</label>
                                 <input type="text" class="form-control" placeholder="Enter your OpenAI API key"
                                     id="openaiKey">
                             </div>
@@ -194,6 +194,8 @@
         </div>
     </div>
 
+    sc
+
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -201,7 +203,7 @@
     <script src="../static/js/home.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    
+
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
@@ -231,62 +233,73 @@
     </script>
 
     <script>
-        // First chart
-        var options = {
-            series: [{
-                name: 'Servings',
-                data: {{ count_list }},
-            }],
-            chart: {
-                height: 500,
-                type: 'bar',
-            },
-            plotOptions: {
-                bar: {
-                    borderRadius: 10,
-                    columnWidth: '50%',
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                width: 0
-            },
-            grid: {
-                row: {
-                    colors: ['#fff', '#f2f2f2']
-                }
-            },
-            xaxis: {
-                labels: {
-                    rotate: -45
-                },
-                categories: "{{ mail_list }}",
-                tickPlacement: 'on'
-            },
-            yaxis: {
-                title: {
-                    text: 'Servings',
-                },
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'light',
-                    type: "horizontal",
-                    shadeIntensity: 0.25,
-                    gradientToColors: undefined,
-                    inverseColors: true,
-                    opacityFrom: 0.85,
-                    opacityTo: 0.85,
-                    stops: [50, 0, 100]
-                },
-            }
-        };
+        fetch('/home').then(response => response.json()).then(data => {
+            var count_list = count_list;
+            var email_list = email_list;
 
-        var chart = new ApexCharts(document.querySelector("#chartdiv1"), options);
-        chart.render();
+            var options = {
+                series: [{
+                    name: 'Mail Count',
+                    data: count_list,
+                }],
+                chart: {
+                    height: 450,
+                    type: 'bar',
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 10,
+                        columnWidth: '50%',
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    width: 0
+                },
+                grid: {
+                    row: {
+                        colors: ['#fff', '#f2f2f2']
+                    }
+                },
+                xaxis: {
+                    title: {
+                        text: 'Sender Email',
+                    },
+                    labels: {
+                        rotate: -30,
+                    },
+                    categories: email_list,
+                    tickPlacement: 'on'
+                },
+                yaxis: {
+                    title: {
+                        text: 'Mail Counts',
+                    },
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'light',
+                        type: "horizontal",
+                        shadeIntensity: 0.25,
+                        gradientToColors: undefined,
+                        inverseColors: true,
+                        opacityFrom: 0.85,
+                        opacityTo: 0.85,
+                        stops: [50, 0, 100]
+                    },
+                }
+            };
+    
+            var chart = new ApexCharts(document.querySelector("#chartdiv1"), options);
+            chart.render();
+        });
+    </script>
+
+    <script>
+        // First chart
 
         // Second chart
         am5.ready(function () {
