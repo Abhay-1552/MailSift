@@ -176,11 +176,7 @@
         <div style="display: block">
             <div class="row mt-4">
                 <div class="col-md-6">
-                    <div id="chartdiv1" class="design">
-                        <script>
-                            var sender_count = "{{ sender_count | safe }}";
-                        </script>
-                    </div>
+                    <div id="chartdiv1" class="design"></div>
                 </div>
                 <div class="col-md-6">
                     <div id="chartdiv2" class="design"></div>
@@ -204,7 +200,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../static/js/home.js"></script>
 
-    <script src="../static/js/graph.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
@@ -235,88 +232,61 @@
 
     <script>
         // First chart
-        am5.ready(function () {
+        var options = {
+            series: [{
+                name: 'Servings',
+                data: {{ count_list }},
+            }],
+            chart: {
+                height: 500,
+                type: 'bar',
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 10,
+                    columnWidth: '50%',
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 0
+            },
+            grid: {
+                row: {
+                    colors: ['#fff', '#f2f2f2']
+                }
+            },
+            xaxis: {
+                labels: {
+                    rotate: -45
+                },
+                categories: "{{ mail_list }}",
+                tickPlacement: 'on'
+            },
+            yaxis: {
+                title: {
+                    text: 'Servings',
+                },
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'light',
+                    type: "horizontal",
+                    shadeIntensity: 0.25,
+                    gradientToColors: undefined,
+                    inverseColors: true,
+                    opacityFrom: 0.85,
+                    opacityTo: 0.85,
+                    stops: [50, 0, 100]
+                },
+            }
+        };
 
-            var root = am5.Root.new("chartdiv1");
-
-            root.setThemes([
-                am5themes_Animated.new(root)
-            ]);
-
-            var chart = root.container.children.push(am5xy.XYChart.new(root, {
-                panX: true,
-                panY: true,
-                wheelX: "panX",
-                wheelY: "zoomX",
-                pinchZoomX: true,
-                paddingLeft: 0,
-                paddingRight: 1
-            }));
-
-            var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
-            cursor.lineY.set("visible", false);
-
-            var xRenderer = am5xy.AxisRendererX.new(root, {
-                minGridDistance: 30,
-                minorGridEnabled: true
-            });
-
-            xRenderer.labels.template.setAll({
-                rotation: -90,
-                centerY: am5.p50,
-                centerX: am5.p100,
-                paddingRight: 15
-            });
-
-            xRenderer.grid.template.setAll({
-                location: 1
-            })
-
-            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-                maxDeviation: 0.3,
-                categoryField: "country",
-                renderer: xRenderer,
-                tooltip: am5.Tooltip.new(root, {})
-            }));
-
-            var yRenderer = am5xy.AxisRendererY.new(root, {
-                strokeOpacity: 0.1
-            })
-
-            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-                maxDeviation: 0.3,
-                renderer: yRenderer
-            }));
-
-            var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-                name: "Series 1",
-                xAxis: xAxis,
-                yAxis: yAxis,
-                valueYField: "value",
-                sequencedInterpolation: true,
-                categoryXField: "country",
-                tooltip: am5.Tooltip.new(root, {
-                    labelText: "{valueY}"
-                })
-            }));
-
-            series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
-            series.columns.template.adapters.add("fill", function (fill, target) {
-                return chart.get("colors").getIndex(series.columns.indexOf(target));
-            });
-
-            series.columns.template.adapters.add("stroke", function (stroke, target) {
-                return chart.get("colors").getIndex(series.columns.indexOf(target));
-            });
-
-            var data = sender_count;
-
-            xAxis.data.setAll(data);
-            series.data.setAll(data);
-
-            series.appear(1000);
-            chart.appear(1000, 100);
-        });
+        var chart = new ApexCharts(document.querySelector("#chartdiv1"), options);
+        chart.render();
 
         // Second chart
         am5.ready(function () {

@@ -8,7 +8,7 @@ from mails import MAIL
 from send_mail import SMTP
 from visuals import Graph
 
-app = Flask(__name__, template_folder="template")
+app = Flask(__name__, template_folder="templates")
 
 
 @app.route('/')
@@ -26,11 +26,10 @@ def home():
 
     if data is not None:
         graph = Graph(data)
-        json_data = graph.sender_count_to_json()
+        email_list, count_list = graph.sender_count_to_lists()
 
-        sender_count = json.loads(json_data)
-
-        return render_template('home.html', name=username, email=email, sender_count=sender_count)
+        return render_template('home.html', name=username, email=email, email_list=email_list,
+                               count_list=count_list)
     else:
         return render_template('home.html', name=username, email=email)
 

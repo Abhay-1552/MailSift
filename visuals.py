@@ -11,17 +11,16 @@ class Graph:
 
     # Dashboard
     # Total number of mails by individual senders
-    def sender_count_to_json(self):
+    def sender_count_to_lists(self):
         sender_counts = self.df['SenderEmail'].value_counts().reset_index()
         sender_counts.columns = ['SenderEmail', 'Count']
         sorted_sender_counts = sender_counts.sort_values(by='Count', ascending=False).head(10)
 
-        # Extract data from DataFrame
-        sender_data = sorted_sender_counts.to_dict(orient='records')
+        # Extract email and count data
+        emails = sorted_sender_counts['SenderEmail'].tolist()
+        counts = sorted_sender_counts['Count'].tolist()
 
-        # Serialize to JSON
-        json_data = json.dumps(sender_data)
-        return json_data
+        return emails, counts
 
     # Mail counts on individual date
     def date_count_function(self):
