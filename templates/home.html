@@ -1,9 +1,10 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta id="sender_count" data-count='{{ count_list | safe }}' data-email='{{ email_list | safe }}'>
 
     <title>MailSift</title>
     <link rel="icon" type="image/x-icon" href="../static/images/mail.ico">
@@ -234,8 +235,8 @@
 
     <script>
         fetch('/home').then(response => response.json()).then(data => {
-            var count_list = count_list;
-            var email_list = email_list;
+            var count_list = $("#sender_count").data('count');
+            var email_list = $("#sender_count").data('email');
 
             var options = {
                 series: [{
