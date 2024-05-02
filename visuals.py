@@ -64,13 +64,4 @@ class Graph:
         subject = self.df['Subject'].astype(str)
         text = ' '.join(subject)
 
-        wordcloud = WordCloud(width=1200, height=600, background_color='white').generate(text)
-        fig = go.Figure(go.Image(z=wordcloud.to_array()))
-
-        # Remove axes
-        fig.update_layout(xaxis=dict(visible=False), yaxis=dict(visible=False))
-        fig.update_layout(height=450, width=500)
-
-        plot_wc_html = fig.to_html(full_html=False)
-
-        return plot_wc_html
+        return text

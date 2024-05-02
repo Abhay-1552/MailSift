@@ -1,7 +1,7 @@
 import os
 import random
 import string
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, jsonify
 from login import MongoDB
 from mails import MAIL
 from send_mail import SMTP
@@ -56,10 +56,10 @@ def home():
 
     if data is not None:
         graph = Graph(data)
-        email_list, count_list = graph.sender_count_to_lists()
 
-        return render_template('home.html', name=username, email=email, email_list=email_list,
-                               count_list=count_list)
+        cloud_text = graph.word_cloud()
+
+        return render_template('home.html', name=username, email=email, cloud_text=cloud_text)
     else:
         return render_template('home.html', name=username, email=email)
 
