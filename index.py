@@ -58,8 +58,10 @@ def home():
         graph = Graph(data)
 
         cloud_text = graph.word_cloud()
+        sender, count = graph.sender_count_to_lists()
 
-        return render_template('home.html', name=username, email=email, cloud_text=cloud_text)
+        return render_template('home.html', name=username, email=email, cloud_text=cloud_text,
+                               sender=sender, count=count)
     else:
         return render_template('home.html', name=username, email=email)
 

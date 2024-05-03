@@ -184,7 +184,10 @@
 
             <div class="row mt-3">
                 <div class="col-md-6">
-                    <div id="chartdiv3" class="design"></div>
+                    <div id="chartdiv3" class="design">
+                        {{ sender | safe }}
+                        {{ count | safe }}
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div id="chartdiv4" class="design"></div>
@@ -283,7 +286,6 @@
     </script>
 
     <script>
-        // Fourth chart
         am4core.useTheme(am4themes_animated);
 
         var chart = am4core.create("chartdiv2", am4plugins_wordCloud.WordCloud);
@@ -299,219 +301,6 @@
         series.maxFontSize = am4core.percent(30);
 
         series.text = '{{ cloud_text }}'; 
-    </script>
-
-    <script>
-        // First chart
-
-        // Second chart
-        am5.ready(function () {
-            var root = am5.Root.new("chartdiv4");
-
-
-            var myTheme = am5.Theme.new(root);
-
-            myTheme.rule("Grid", ["base"]).setAll({
-                strokeOpacity: 0.1
-            });
-
-            root.setThemes([
-                am5themes_Animated.new(root),
-                myTheme
-            ]);
-
-            var chart = root.container.children.push(
-                am5xy.XYChart.new(root, {
-                    panX: false,
-                    panY: false,
-                    wheelX: "none",
-                    wheelY: "none",
-                    paddingLeft: 0
-                })
-            );
-
-            var yRenderer = am5xy.AxisRendererY.new(root, {
-                minGridDistance: 30,
-                minorGridEnabled: true
-            });
-            yRenderer.grid.template.set("location", 1);
-
-            var yAxis = chart.yAxes.push(
-                am5xy.CategoryAxis.new(root, {
-                    maxDeviation: 0,
-                    categoryField: "country",
-                    renderer: yRenderer
-                })
-            );
-
-            var xAxis = chart.xAxes.push(
-                am5xy.ValueAxis.new(root, {
-                    maxDeviation: 0,
-                    min: 0,
-                    renderer: am5xy.AxisRendererX.new(root, {
-                        visible: true,
-                        strokeOpacity: 0.1,
-                        minGridDistance: 80
-                    })
-                })
-            );
-
-            var series = chart.series.push(
-                am5xy.ColumnSeries.new(root, {
-                    name: "Series 1",
-                    xAxis: xAxis,
-                    yAxis: yAxis,
-                    valueXField: "value",
-                    sequencedInterpolation: true,
-                    categoryYField: "country"
-                })
-            );
-
-            var columnTemplate = series.columns.template;
-
-            columnTemplate.setAll({
-                draggable: true,
-                cursorOverStyle: "pointer",
-                tooltipText: "drag to rearrange",
-                cornerRadiusBR: 10,
-                cornerRadiusTR: 10,
-                strokeOpacity: 0
-            });
-            columnTemplate.adapters.add("fill", (fill, target) => {
-                return chart.get("colors").getIndex(series.columns.indexOf(target));
-            });
-
-            columnTemplate.adapters.add("stroke", (stroke, target) => {
-                return chart.get("colors").getIndex(series.columns.indexOf(target));
-            });
-
-            columnTemplate.events.on("dragstop", () => {
-                sortCategoryAxis();
-            });
-
-            function getSeriesItem(category) {
-                for (var i = 0; i < series.dataItems.length; i++) {
-                    var dataItem = series.dataItems[i];
-                    if (dataItem.get("categoryY") == category) {
-                        return dataItem;
-                    }
-                }
-            }
-
-            function sortCategoryAxis() {
-                series.dataItems.sort(function (x, y) {
-                    return y.get("graphics").y() - x.get("graphics").y();
-                });
-
-                var easing = am5.ease.out(am5.ease.cubic);
-
-                am5.array.each(yAxis.dataItems, function (dataItem) {
-                    var seriesDataItem = getSeriesItem(dataItem.get("category"));
-
-                    if (seriesDataItem) {
-                        var index = series.dataItems.indexOf(seriesDataItem);
-
-                        var column = seriesDataItem.get("graphics");
-
-                        var fy =
-                            yRenderer.positionToCoordinate(yAxis.indexToPosition(index)) -
-                            column.height() / 2;
-
-                        if (index != dataItem.get("index")) {
-                            dataItem.set("index", index);
-
-                            // current position
-                            var x = column.x();
-                            var y = column.y();
-
-                            column.set("dy", -(fy - y));
-                            column.set("dx", x);
-
-                            column.animate({ key: "dy", to: 0, duration: 600, easing: easing });
-                            column.animate({ key: "dx", to: 0, duration: 600, easing: easing });
-                        } else {
-                            column.animate({ key: "y", to: fy, duration: 600, easing: easing });
-                            column.animate({ key: "x", to: 0, duration: 600, easing: easing });
-                        }
-                    }
-                });
-
-                yAxis.dataItems.sort(function (x, y) {
-                    return x.get("index") - y.get("index");
-                });
-            }
-
-            // Set data
-            var data = [{
-                country: "USA",
-                value: 2025
-            }, {
-                country: "China",
-                value: 1882
-            }, {
-                country: "Japan",
-                value: 1809
-            }, {
-                country: "Germany",
-                value: 1322
-            }, {
-                country: "UK",
-                value: 1122
-            }];
-
-            yAxis.data.setAll(data);
-            series.data.setAll(data);
-
-            series.appear(1000);
-            chart.appear(1000, 100);
-        });
-
-        // Third chart
-        am5.ready(function () {
-            var root = am5.Root.new("chartdiv3");
-
-            root.setThemes([
-                am5themes_Animated.new(root)
-            ]);
-
-            var chart = root.container.children.push(am5percent.PieChart.new(root, {
-                layout: root.verticalLayout,
-                innerRadius: am5.percent(50)
-            }));
-
-            var series = chart.series.push(am5percent.PieSeries.new(root, {
-                valueField: "value",
-                categoryField: "category",
-                alignLabels: false
-            }));
-
-            series.labels.template.setAll({
-                textType: "circular",
-                centerX: 0,
-                centerY: 0
-            });
-
-            series.data.setAll([
-                { value: 10, category: "One" },
-                { value: 9, category: "Two" },
-                { value: 6, category: "Three" },
-                { value: 5, category: "Four" },
-                { value: 4, category: "Five" },
-                { value: 3, category: "Six" },
-                { value: 1, category: "Seven" },
-            ]);
-
-            var legend = chart.children.push(am5.Legend.new(root, {
-                centerX: am5.percent(50),
-                x: am5.percent(50),
-                marginTop: 15,
-                marginBottom: 15,
-            }));
-
-            legend.data.setAll(series.dataItems);
-
-            series.appear(1000, 100);
-        });
     </script>
 </body>
 
