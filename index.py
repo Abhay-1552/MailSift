@@ -69,8 +69,12 @@ def home():
 @app.route('/mail')
 def mail():
     json_data = json_mail_data
+    alert_msg = session.get('alert_msg')
 
-    return render_template('mails.html', json_data=json_data)
+    if alert_msg is not None:
+        return render_template('mails.html', json_data=json_data, alert_msg=alert_msg)
+    else:
+        return render_template('mails.html', json_data=json_data)
 
 
 @app.route('/login', methods=['POST'])
@@ -143,10 +147,15 @@ def send_mail():
 
         smtp.send_mail(email, title, reply_text, attachments)
 
+        msg = "Process completed successfully!"
+        session['alert_msg'] = msg
         # Return a response to the user
-        return "alert('Process completed successfully!');"
+        return redirect('/mail')
     else:
-        return "alert('Error occurs! Try Again');"
+        msg = "Error occurs! Try Again"
+        session['alert_msg'] = msg
+
+        return redirect('/mail')
 
 
 if __name__ == '__main__':
