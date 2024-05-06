@@ -20,7 +20,12 @@ class Graph:
         emails = sorted_sender_counts['SenderEmail'].tolist()
         counts = sorted_sender_counts['Count'].tolist()
 
-        return emails, counts
+        json_output = []
+        for i, j in zip(emails, counts):
+            k = {'email': i, 'count': j}
+            json_output.append(k)
+
+        return json_output
 
     # Mail counts on individual date
     def date_count_function(self):

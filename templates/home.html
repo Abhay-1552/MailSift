@@ -184,10 +184,7 @@
 
             <div class="row mt-3">
                 <div class="col-md-6">
-                    <div id="chartdiv3" class="design">
-                        {{ sender | safe }}
-                        {{ count | safe }}
-                    </div>
+                    <div id="chartdiv3" class="design"></div>
                 </div>
                 <div class="col-md-6">
                     <div id="chartdiv4" class="design"></div>
@@ -235,60 +232,325 @@
     </script>
 
     <script>
-        // Fetch data from Flask backend
-        fetch('/home')
-            .then(response => response.json())
-            .then(data => {
-                // Data received, create bar graph
-                var ctx = document.getElementById('chartdiv1').getContext('2d');
+        // Graph 1: Sender Count
+        am5.ready(function () {
+            var root = am5.Root.new("chartdiv1");
 
-                // Generate random colors for bars
-                var backgroundColors = [];
-                var borderColors = [];
-                for (var i = 0; i < data.values.length; i++) {
-                    backgroundColors.push(getRandomColor());
-                    borderColors.push(getRandomColor());
-                }
+            root.setThemes([
+                am5themes_Animated.new(root)
+            ]);
 
-                var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: data.labels,
-                        datasets: [{
-                            label: 'Data',
-                            data: data.values,
-                            backgroundColor: backgroundColors,
-                            borderColor: borderColors,
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        }
-                    }
-                });
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: true,
+                panY: true,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                pinchZoomX: true,
+                paddingLeft: 0,
+                paddingRight: 1
+            }));
+
+            var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+            cursor.lineY.set("visible", false);
+
+            var xRenderer = am5xy.AxisRendererX.new(root, {
+                minGridDistance: 30,
+                minorGridEnabled: true
             });
 
-        // Function to generate random color
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
+            xRenderer.labels.template.setAll({
+                rotation: -45,
+                centerY: am5.p50,
+                centerX: am5.p100,
+                paddingRight: 15
+            });
+
+            xRenderer.grid.template.setAll({
+                location: 1
+            })
+
+            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                maxDeviation: 0.3,
+                categoryField: "email",
+                renderer: xRenderer,
+                tooltip: am5.Tooltip.new(root, {})
+            }));
+
+            var yRenderer = am5xy.AxisRendererY.new(root, {
+                strokeOpacity: 0.1
+            })
+
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                maxDeviation: 0.3,
+                renderer: yRenderer
+            }));
+
+            var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                name: "Series 1",
+                xAxis: xAxis,
+                yAxis: yAxis,
+                valueYField: "count",
+                sequencedInterpolation: true,
+                categoryXField: "email",
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "{valueY}"
+                })
+            }));
+
+            series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
+            series.columns.template.adapters.add("fill", function (fill, target) {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            });
+
+            series.columns.template.adapters.add("stroke", function (stroke, target) {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            });
+
+            // Set data
+            var data = [{
+                email: "200020116025ait@gmail.com", 
+                count: 2
+            }, {
+                email: "no-reply@accounts.google.com", 
+                count: 2
+            }, {
+                email: "jeniljani14@gmail.com", 
+                count: 1
+            }, {
+                email: "gamerspropaganda143@gmail.com", 
+                count: 1
+            }, {
+                email: "darshangupta404@gmail.com", 
+                count: 1
+            }];
+
+            xAxis.data.setAll(data);
+            series.data.setAll(data);
+
+            series.appear(1000);
+            chart.appear(1000, 100);
+
+        });
     </script>
 
     <script>
+        // Graph 2: Date Count
+
+        am5.ready(function () {
+            var root = am5.Root.new("chartdiv2");
+            var myTheme = am5.Theme.new(root);
+
+            myTheme.rule("Grid", ["base"]).setAll({
+                strokeOpacity: 0.1
+            });
+
+            root.setThemes([
+                am5themes_Animated.new(root),
+                myTheme
+            ]);
+
+            var chart = root.container.children.push(
+                am5xy.XYChart.new(root, {
+                    panX: false,
+                    panY: false,
+                    wheelX: "none",
+                    wheelY: "none",
+                    paddingLeft: 0
+                })
+            );
+
+            var yRenderer = am5xy.AxisRendererY.new(root, {
+                minGridDistance: 30,
+                minorGridEnabled: true
+            });
+            yRenderer.grid.template.set("location", 1);
+
+            var yAxis = chart.yAxes.push(
+                am5xy.CategoryAxis.new(root, {
+                    maxDeviation: 0,
+                    categoryField: "country",
+                    renderer: yRenderer
+                })
+            );
+
+            var xAxis = chart.xAxes.push(
+                am5xy.ValueAxis.new(root, {
+                    maxDeviation: 0,
+                    min: 0,
+                    renderer: am5xy.AxisRendererX.new(root, {
+                        visible: true,
+                        strokeOpacity: 0.1,
+                        minGridDistance: 80
+                    })
+                })
+            );
+
+            var series = chart.series.push(
+                am5xy.ColumnSeries.new(root, {
+                    name: "Series 1",
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueXField: "value",
+                    sequencedInterpolation: true,
+                    categoryYField: "country"
+                })
+            );
+
+            var columnTemplate = series.columns.template;
+
+            columnTemplate.setAll({
+                draggable: true,
+                cursorOverStyle: "pointer",
+                tooltipText: "drag to rearrange",
+                cornerRadiusBR: 10,
+                cornerRadiusTR: 10,
+                strokeOpacity: 0
+            });
+            columnTemplate.adapters.add("fill", (fill, target) => {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            });
+
+            columnTemplate.adapters.add("stroke", (stroke, target) => {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            });
+
+            columnTemplate.events.on("dragstop", () => {
+                sortCategoryAxis();
+            });
+
+            function getSeriesItem(category) {
+                for (var i = 0; i < series.dataItems.length; i++) {
+                    var dataItem = series.dataItems[i];
+                    if (dataItem.get("categoryY") == category) {
+                        return dataItem;
+                    }
+                }
+            }
+
+            function sortCategoryAxis() {
+                series.dataItems.sort(function (x, y) {
+                    return y.get("graphics").y() - x.get("graphics").y();
+                });
+
+                var easing = am5.ease.out(am5.ease.cubic);
+
+                am5.array.each(yAxis.dataItems, function (dataItem) {
+                    var seriesDataItem = getSeriesItem(dataItem.get("category"));
+
+                    if (seriesDataItem) {
+                        var index = series.dataItems.indexOf(seriesDataItem);
+
+                        var column = seriesDataItem.get("graphics");
+
+                        var fy =
+                            yRenderer.positionToCoordinate(yAxis.indexToPosition(index)) -
+                            column.height() / 2;
+
+                        if (index != dataItem.get("index")) {
+                            dataItem.set("index", index);
+
+                            // current position
+                            var x = column.x();
+                            var y = column.y();
+
+                            column.set("dy", -(fy - y));
+                            column.set("dx", x);
+
+                            column.animate({ key: "dy", to: 0, duration: 600, easing: easing });
+                            column.animate({ key: "dx", to: 0, duration: 600, easing: easing });
+                        } else {
+                            column.animate({ key: "y", to: fy, duration: 600, easing: easing });
+                            column.animate({ key: "x", to: 0, duration: 600, easing: easing });
+                        }
+                    }
+                });
+
+                yAxis.dataItems.sort(function (x, y) {
+                    return x.get("index") - y.get("index");
+                });
+            }
+
+            // Set data
+            var data = [{
+                country: "USA",
+                value: 2025
+            }, {
+                country: "China",
+                value: 1882
+            }, {
+                country: "Japan",
+                value: 1809
+            }, {
+                country: "Germany",
+                value: 1322
+            }, {
+                country: "UK",
+                value: 1122
+            }];
+
+            yAxis.data.setAll(data);
+            series.data.setAll(data);
+
+            series.appear(1000);
+            chart.appear(1000, 100);
+
+        });
+    </script>
+
+    <script>
+        // Graph 3: Mails per Time
+
+        am5.ready(function () {
+            var root = am5.Root.new("chartdiv3");
+
+            root.setThemes([
+                am5themes_Animated.new(root)
+            ]);
+
+            var chart = root.container.children.push(am5percent.PieChart.new(root, {
+                layout: root.verticalLayout,
+                innerRadius: am5.percent(50)
+            }));
+
+            var series = chart.series.push(am5percent.PieSeries.new(root, {
+                valueField: "value",
+                categoryField: "category",
+                alignLabels: false
+            }));
+
+            series.labels.template.setAll({
+                textType: "circular",
+                centerX: 0,
+                centerY: 0
+            });
+
+            series.data.setAll([
+                { value: 10, category: "One" },
+                { value: 9, category: "Two" },
+                { value: 6, category: "Three" },
+                { value: 5, category: "Four" },
+                { value: 4, category: "Five" },
+                { value: 3, category: "Six" },
+                { value: 1, category: "Seven" },
+            ]);
+
+            var legend = chart.children.push(am5.Legend.new(root, {
+                centerX: am5.percent(50),
+                x: am5.percent(50),
+                marginTop: 15,
+                marginBottom: 15,
+            }));
+
+            legend.data.setAll(series.dataItems);
+            series.appear(1000, 100);
+        });
+    </script>
+
+    <script>
+        // Graph 4: Word Cloud
         am4core.useTheme(am4themes_animated);
 
-        var chart = am4core.create("chartdiv2", am4plugins_wordCloud.WordCloud);
+        var chart = am4core.create("chartdiv4", am4plugins_wordCloud.WordCloud);
         var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
 
         series.accuracy = 4;
