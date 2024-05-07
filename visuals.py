@@ -58,11 +58,10 @@ class Graph:
         # Convert DataFrame rows to lists
         result_lists = interval_counts.values.tolist()
         print(result_lists)
-        time_quarter = ['00:00-06:00', '06:00-12:00', '12:00-18:00', '18:00-24:00']
 
         json_output = []
-        for i, j in zip(result_lists, time_quarter):
-            k = {'value': i, 'category': j}
+        for i in result_lists:
+            k = {'value': i[1], 'category': i[0]}
             json_output.append(k)
 
         return json_output
