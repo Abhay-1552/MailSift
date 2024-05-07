@@ -212,6 +212,8 @@
     <script src="https://www.amcharts.com/lib/4/plugins/wordCloud.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 
+    <script src="//cdn.amcharts.com/lib/5/themes/Kelly.js"></script>
+
     <script>
         // JavaScript to populate the month and year dropdown dynamically
         var currentYear = new Date().getFullYear();
@@ -237,7 +239,8 @@
             var root = am5.Root.new("chartdiv1");
 
             root.setThemes([
-                am5themes_Animated.new(root)
+                am5themes_Animated.new(root),
+                am5themes_Kelly.new(root)
             ]);
 
             var chart = root.container.children.push(am5xy.XYChart.new(root, {
@@ -259,7 +262,10 @@
             });
 
             xRenderer.labels.template.setAll({
-                rotation: -45,
+                // rotation: -30,
+                oversizedBehavior: "wrap",
+                maxWidth: 150,
+                textAlign: "center",
                 centerY: am5.p50,
                 centerX: am5.p100,
                 paddingRight: 15
@@ -307,22 +313,7 @@
             });
 
             // Set data
-            var data = [{
-                email: "200020116025ait@gmail.com", 
-                count: 2
-            }, {
-                email: "no-reply@accounts.google.com", 
-                count: 2
-            }, {
-                email: "jeniljani14@gmail.com", 
-                count: 1
-            }, {
-                email: "gamerspropaganda143@gmail.com", 
-                count: 1
-            }, {
-                email: "darshangupta404@gmail.com", 
-                count: 1
-            }];
+            var data = {{ sender_data | safe }};
 
             xAxis.data.setAll(data);
             series.data.setAll(data);
@@ -368,7 +359,7 @@
             var yAxis = chart.yAxes.push(
                 am5xy.CategoryAxis.new(root, {
                     maxDeviation: 0,
-                    categoryField: "country",
+                    categoryField: "date",
                     renderer: yRenderer
                 })
             );
@@ -390,9 +381,9 @@
                     name: "Series 1",
                     xAxis: xAxis,
                     yAxis: yAxis,
-                    valueXField: "value",
+                    valueXField: "count",
                     sequencedInterpolation: true,
-                    categoryYField: "country"
+                    categoryYField: "date"
                 })
             );
 
@@ -471,22 +462,7 @@
             }
 
             // Set data
-            var data = [{
-                country: "USA",
-                value: 2025
-            }, {
-                country: "China",
-                value: 1882
-            }, {
-                country: "Japan",
-                value: 1809
-            }, {
-                country: "Germany",
-                value: 1322
-            }, {
-                country: "UK",
-                value: 1122
-            }];
+            var data = {{ date_count | safe }};
 
             yAxis.data.setAll(data);
             series.data.setAll(data);
@@ -524,15 +500,7 @@
                 centerY: 0
             });
 
-            series.data.setAll([
-                { value: 10, category: "One" },
-                { value: 9, category: "Two" },
-                { value: 6, category: "Three" },
-                { value: 5, category: "Four" },
-                { value: 4, category: "Five" },
-                { value: 3, category: "Six" },
-                { value: 1, category: "Seven" },
-            ]);
+            series.data.setAll({{ time_quarter | safe }});
 
             var legend = chart.children.push(am5.Legend.new(root, {
                 centerX: am5.percent(50),
@@ -562,7 +530,7 @@
         series.fontFamily = "Courier New";
         series.maxFontSize = am4core.percent(30);
 
-        series.text = '{{ cloud_text }}'; 
+        series.text = {{ cloud_text }}; 
     </script>
 </body>
 

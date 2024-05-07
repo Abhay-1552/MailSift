@@ -59,9 +59,11 @@ def home():
 
         cloud_text = graph.word_cloud()
         sender_data = graph.sender_count_to_lists()
+        date_count = graph.date_count_function()
+        time_quarter = graph.mails_per_time_intervals()
 
         return render_template('home.html', name=username, email=email, cloud_text=cloud_text,
-                               sender_data=sender_data)
+                               sender_data=sender_data, date_count=date_count, time_quarter=time_quarter)
     else:
         return render_template('home.html', name=username, email=email)
 

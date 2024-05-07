@@ -33,16 +33,15 @@ class Graph:
         date_counts.columns = ['Date', 'Count']
         sorted_date_counts = date_counts.sort_values(by='Date', ascending=True)
 
-        color_scale = px.colors.qualitative.Plotly
-        fig = px.bar(sorted_date_counts, x='Date', y='Count', title='Date Counts - Bar Graph', color='Count',
-                     color_continuous_scale=color_scale)
+        emails = sorted_date_counts['Date'].tolist()
+        counts = sorted_date_counts['Count'].tolist()
 
-        fig.update_xaxes(categoryorder='category ascending')
-        fig.update_layout(height=450, width=700)
+        json_output = []
+        for i, j in zip(emails, counts):
+            k = {'date': i, 'count': j}
+            json_output.append(k)
 
-        plot_dc_html = fig.to_html(full_html=False)
-
-        return plot_dc_html
+        return json_output
 
     # Mail counts per time intervals
     def mails_per_time_intervals(self):
@@ -56,13 +55,17 @@ class Graph:
         interval_counts = interval.value_counts().reset_index()
         interval_counts.columns = ['TimeInterval', 'Count']
 
-        # Create a pie chart using Plotly Express
-        fig = px.pie(interval_counts, names='TimeInterval', values='Count', title='Mail Counts by Time Interval')
-        fig.update_layout(height=450, width=500)
+        # Convert DataFrame rows to lists
+        result_lists = interval_counts.values.tolist()
+        print(result_lists)
+        time_quarter = ['00:00-06:00', '06:00-12:00', '12:00-18:00', '18:00-24:00']
 
-        plot_mt_html = fig.to_html(full_html=False)
+        json_output = []
+        for i, j in zip(result_lists, time_quarter):
+            k = {'value': i, 'category': j}
+            json_output.append(k)
 
-        return plot_mt_html
+        return json_output
 
     # WordCloud using Subject
     def word_cloud(self):
