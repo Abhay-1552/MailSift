@@ -1,8 +1,4 @@
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-from wordcloud import WordCloud
-import json
 
 
 class Graph:
@@ -57,7 +53,6 @@ class Graph:
 
         # Convert DataFrame rows to lists
         result_lists = interval_counts.values.tolist()
-        print(result_lists)
 
         json_output = []
         for i in result_lists:

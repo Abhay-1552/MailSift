@@ -1,6 +1,4 @@
 import os
-import random
-import string
 from flask import Flask, render_template, request, session, redirect, jsonify
 from login import MongoDB
 from mails import MAIL
@@ -10,10 +8,9 @@ from visuals import Graph
 app = Flask(__name__, template_folder="templates")
 
 # For Sessions
-characters = string.ascii_letters + string.digits + string.punctuation
-random_string = ''.join(random.choice(characters) for _ in range(20))
+key_string = os.urandom(32)
 
-app.secret_key = random_string
+app.secret_key = key_string
 
 # Creating folder for attachments
 UPLOAD_FOLDER = os.path.join(os.path.expanduser("~"), "Downloads", "MailSift")
@@ -63,9 +60,9 @@ def home():
         time_quarter = graph.mails_per_time_intervals()
 
         return render_template('home.html', name=username, email=email, cloud_text=cloud_text,
-                               sender_data=sender_data, date_count=date_count, time_quarter=time_quarter)
+                               sender_data=sender_data, date_count=date_count, time_quarter=time_quarter, visible=True)
     else:
-        return render_template('home.html', name=username, email=email)
+        return render_template('home.html', name=username, email=email, visible=False)
 
 
 @app.route('/mail')
@@ -161,4 +158,4 @@ def send_mail():
 
 
 if __name__ == '__main__':
-    app.run(port=8000, debug=True)
+    app.run(port=8000, debug=True, use_reloader=False)

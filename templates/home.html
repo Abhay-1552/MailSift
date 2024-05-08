@@ -172,7 +172,7 @@
             </div>
         </div>
 
-        <div style="display: block">
+        <div id="dashboard" style="{% if visible %}display: block;{% else %}display: none;{% endif %}">
             <div class="row mt-4">
                 <div class="col-md-6">
                     <div id="chartdiv1" class="design"></div>
@@ -200,7 +200,6 @@
     <script src="../static/js/home.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
@@ -211,8 +210,7 @@
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/plugins/wordCloud.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-
-    <script src="//cdn.amcharts.com/lib/5/themes/Kelly.js"></script>
+    <script src="//cdn.amcharts.com/lib/5/themes/Kelly.js"></script>   
 
     <script>
         // JavaScript to populate the month and year dropdown dynamically
@@ -530,7 +528,7 @@
         series.fontFamily = "Courier New";
         series.maxFontSize = am4core.percent(30);
 
-        series.text = {{ cloud_text }}; 
+        series.text = {{ cloud_text | safe }}; 
     </script>
 </body>
 
