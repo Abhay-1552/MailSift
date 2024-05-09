@@ -5,11 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="98854811-4969-4cd3-befd-8275a336d75d" name="Changes" comment="Working">
-      <change afterPath="$PROJECT_DIR$/oip.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/index.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mails.py" beforeDir="false" afterPath="$PROJECT_DIR$/mails.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/graph.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/mails.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/mails.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visuals.py" beforeDir="false" afterPath="$PROJECT_DIR$/visuals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/mails.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/mails.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,48 +58,48 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Python tests.Python tests in testing.py.executor": "Run",
-    "Python.app.executor": "Run",
-    "Python.dframe.executor": "Run",
-    "Python.gmailapi.executor": "Run",
-    "Python.image.executor": "Run",
-    "Python.index.executor": "Run",
-    "Python.login.executor": "Run",
-    "Python.mail_analysis.executor": "Run",
-    "Python.mails.executor": "Run",
-    "Python.mailsift.executor": "Run",
-    "Python.oip.executor": "Run",
-    "Python.openai_summarization.executor": "Run",
-    "Python.pastei.executor": "Run",
-    "Python.popstar.executor": "Run",
-    "Python.pry.executor": "Run",
-    "Python.send_mail.executor": "Run",
-    "Python.streamlit_visualization.executor": "Run",
-    "Python.summarization.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.trying.executor": "Run",
-    "Python.visuals.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.google.cloudcode.ide_session_index": "20240506_0001",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "A:/Projects/MailSift/static",
-    "settings.editor.selected.configurable": "Errors"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python tests.Python tests in testing.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dframe.executor&quot;: &quot;Run&quot;,
+    &quot;Python.gmailapi.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image.executor&quot;: &quot;Run&quot;,
+    &quot;Python.index.executor&quot;: &quot;Run&quot;,
+    &quot;Python.login.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mail_analysis.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mails.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mailsift.executor&quot;: &quot;Run&quot;,
+    &quot;Python.oip.executor&quot;: &quot;Run&quot;,
+    &quot;Python.openai_summarization.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pastei.executor&quot;: &quot;Run&quot;,
+    &quot;Python.popstar.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pry.executor&quot;: &quot;Run&quot;,
+    &quot;Python.send_mail.executor&quot;: &quot;Run&quot;,
+    &quot;Python.streamlit_visualization.executor&quot;: &quot;Run&quot;,
+    &quot;Python.summarization.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.trying.executor&quot;: &quot;Run&quot;,
+    &quot;Python.visuals.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.google.cloudcode.ide_session_index&quot;: &quot;20240506_0001&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;A:/Projects/MailSift/static&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="A:\Projects\MailSift\static" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.oip">
+  <component name="RunManager" selected="Python.index">
     <configuration name="index" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="MailSift" />
       <option name="ENV_FILES" value="" />
@@ -210,8 +212,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.oip" />
         <item itemvalue="Python.index" />
+        <item itemvalue="Python.oip" />
         <item itemvalue="Python.pry" />
         <item itemvalue="Python.visuals" />
         <item itemvalue="Python.pastei" />

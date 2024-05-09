@@ -36,14 +36,14 @@ cards.forEach(function (card) {
         var senderEmail = this.querySelector('#sendermail').textContent;
         var subject = this.querySelector('#subject').textContent;
         var body = this.querySelector('#payload').innerHTML;
-        var datetime = this.querySelector('#senderdatetime').innerHTML;
+        var senderdatetime = this.querySelector('#senderdatetime').innerHTML;
 
         // Populate information into the blank card
         document.getElementById('blankSenderName').textContent = senderName;
         document.getElementById('blankSenderEmail').textContent = senderEmail;
         document.getElementById('blankSubject').textContent = subject;
         document.getElementById('blankPayload').innerHTML = body;
-        document.getElementById('blankDatetime').innerHTML = datetime;
+        document.getElementById('blankDatetime').innerHTML = senderdatetime;
     });
 });
 

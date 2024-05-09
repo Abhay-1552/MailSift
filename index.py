@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, session, redirect, jsonify
+from flask import Flask, render_template, request, session, redirect
 from login import MongoDB
 from mails import MAIL
 from send_mail import SMTP
@@ -8,9 +8,7 @@ from visuals import Graph
 app = Flask(__name__, template_folder="templates")
 
 # For Sessions
-key_string = os.urandom(32)
-
-app.secret_key = key_string
+app.secret_key = os.urandom(32)
 
 # Creating folder for attachments
 UPLOAD_FOLDER = os.path.join(os.path.expanduser("~"), "Downloads", "MailSift")
@@ -141,14 +139,14 @@ def send_mail():
             attachments = None
 
         # Send email
-        email = 'popstar1552@gmail.com'  # Replace with recipient email address
+        email = 'popstar1552@gmail.com'
         title = 'MailSift - Test Email'
 
         smtp.send_mail(email, title, reply_text, attachments)
 
         msg = "Process completed successfully!"
         session['alert_msg'] = msg
-        # Return a response to the user
+
         return redirect('/mail')
     else:
         msg = "Error occurs! Try Again"

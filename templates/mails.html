@@ -82,12 +82,14 @@
                                     <span id="subject" name="subject">{{ mail.Subject }}</span>
                                 </b>
                             </div>
-                            <div class="date-time" id="senderdatetime">
+                            <div class="date-time" id="senderdatetime" name="senderdatetime">
                                 <p>{{ mail.Date }}, {{ mail.Time }}</p>
                             </div>
                         </div>
                         <div class="card-body" id="payload">
-                            {{ mail.Body | safe }}
+                            <p>{{ mail.Body | safe }}</p>
+                            <hr>
+                            <p><b>Attachments:</b>{% if mail.Attachments %} {% for file in mail.Attachments %} {{ file }} {% endfor %} {% else %} None {% endif %}</p>
                         </div>
                     </div>
                     {% endfor %}
