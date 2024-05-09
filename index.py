@@ -83,6 +83,8 @@ def login():
         user_login = mongo.check_user(email, password)
 
         if user_login[0]:
+            session['user_session'] = email
+
             session['name'] = user_login[0]
             session['email'] = user_login[1]
 
@@ -103,6 +105,15 @@ def signup():
         message = mongo.insert_data(name, email, passkey, password)
         session['response'] = message
 
+    return redirect('/')
+
+
+@app.route('/logout')
+def logout():
+    # remove the username from the session if it is there
+    session.pop('user_session', None)
+    session.pop('name', None)
+    session.pop('email', None)
     return redirect('/')
 
 

@@ -12,12 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <link rel="stylesheet" href="../static/css/home.css">
-    <style>
-        .design {
-            width: 100%;
-            height: 500px;
-        }
-    </style>
 </head>
 
 <body>
@@ -96,8 +90,8 @@
                     <div class="card-body text-center">
                         <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-img">
                         <div class="profile-info">
-                            <p>{{ name }}</p>
-                            <p>{{ email }}</p>
+                            <p>{% if name %} {{ name }} {% else %} Anonymous User {% endif %}</p>
+                            <p>{% if email %} {{ email }} {% else %} anonymoususer@mail.com {% endif %}</p>
                         </div>
                     </div>
                 </div>
@@ -178,18 +172,22 @@
         <div id="dashboard" style="{% if visible %}display: block;{% else %}display: none;{% endif %}">
             <div class="row mt-4">
                 <div class="col-md-6">
+                    <h4>Sender Distribution: Mail Count by Sender</h4>
                     <div id="chartdiv1" class="design"></div>
                 </div>
                 <div class="col-md-6">
+                    <h4>Daily Mail Activity: Received Mails per Day</h4>
                     <div id="chartdiv2" class="design"></div>
                 </div>
             </div>
 
             <div class="row mt-3">
                 <div class="col-md-6">
+                    <h4>Mail Traffic by Quarter: Distribution of Received Mails</h4>
                     <div id="chartdiv3" class="design"></div>
                 </div>
                 <div class="col-md-6">
+                    <h4>Subject Word Cloud: Received Mails</h4>
                     <div id="chartdiv4" class="design"></div>
                 </div>
             </div>
@@ -202,18 +200,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../static/js/home.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
-    <script src="https://www.amcharts.com/lib/4/core.js"></script>
-    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
-    <script src="https://www.amcharts.com/lib/4/plugins/wordCloud.js"></script>
-    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-    <script src="//cdn.amcharts.com/lib/5/themes/Kelly.js"></script>   
+    <script src="//cdn.amcharts.com/lib/5/themes/Kelly.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/wc.js"></script>   
 
     <script>
         // JavaScript to populate the month and year dropdown dynamically
@@ -321,7 +313,6 @@
 
             series.appear(1000);
             chart.appear(1000, 100);
-
         });
     </script>
 
@@ -516,23 +507,44 @@
     </script>
 
     <script>
-        // Graph 4: Word Cloud
-        am4core.useTheme(am4themes_animated);
+        am5.ready(function() {
+        
+        var root = am5.Root.new("chartdiv4");
 
-        var chart = am4core.create("chartdiv4", am4plugins_wordCloud.WordCloud);
-        var series = chart.series.push(new am4plugins_wordCloud.WordCloudSeries());
-
-        series.accuracy = 4;
-        series.step = 15;
-        series.rotationThreshold = 0.7;
-        series.maxCount = 200;
-        series.minWordLength = 2;
-        series.labels.template.tooltipText = "{word}: {value}";
-        series.fontFamily = "Courier New";
-        series.maxFontSize = am4core.percent(30);
-
-        series.text = {{ cloud_text }}; 
-    </script>
+        root.setThemes([
+          am5themes_Animated.new(root)
+        ]);
+        
+        var zoomableContainer = root.container.children.push(
+          am5.ZoomableContainer.new(root, {
+            width: am5.p100,
+            height: am5.p100,
+            wheelable: true,
+            pinchZoom: true
+          })
+        );
+        
+        var zoomTools = zoomableContainer.children.push(am5.ZoomTools.new(root, {
+          target: zoomableContainer
+        }));
+        
+        var series = zoomableContainer.contents.children.push(am5wc.WordCloud.new(root, {
+          maxCount:100,
+          minWordLength:2,
+          maxFontSize:am5.percent(35),
+          text: "{{ cloud_text | safe }}",
+        }));
+        
+        series.labels.template.setAll({
+          paddingTop: 5,
+          paddingBottom: 5,
+          paddingLeft: 5,
+          paddingRight: 5,
+          fontFamily: "Courier New"
+        });
+        
+        });
+        </script>
 </body>
 
 </html>
