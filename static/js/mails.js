@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('mailcount').textContent = count;
 });
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 // Show details of the clicked card
 var cards = document.querySelectorAll('.scrollable-section .card');
 
@@ -46,6 +48,8 @@ cards.forEach(function (card) {
         document.getElementById('blankDatetime').innerHTML = senderdatetime;
     });
 });
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function clearForm() {
     var form = document.getElementById('myForm');

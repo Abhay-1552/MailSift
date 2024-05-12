@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Button</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styles for the floating button */
+        #floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Styles for the form */
+        #form-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        #form-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating button -->
+    <button id="floating-button" onclick="openForm()">+</button>
+
+    <!-- Form overlay -->
+    <div id="form-overlay">
+        <div id="form-container" class="container">
+            <!-- Your form goes here -->
+            <h2>Compose Email</h2>
+            <form action="#" method="post">
+                <div class="mb-3">
+                    <label for="to">To:</label>
+                    <input type="email" class="form-control" id="to" name="to" required>
+                </div>
+                <div class="mb-3">
+                    <label for="subject">Subject:</label>
+                    <input type="text" class="form-control" id="subject" name="subject">
+                </div>
+                <div class="mb-3">
+                    <label for="message">Message:</label>
+                    <textarea class="form-control" id="message" name="message" rows="5"></textarea>
+                </div>
+                <div class="mb-3">
+                    <input type="file" class="form-control" id="attachment" name="attachment">
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+                <button type="button" class="btn btn-secondary" onclick="closeForm()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (Optional, for dropdowns, toggles, etc.) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Function to open the form
+        function openForm() {
+            document.getElementById("form-overlay").style.display = "block";
+        }
+
+        // Function to close the form
+        function closeForm() {
+            document.getElementById("form-overlay").style.display = "none";
+        }
+    </script>
+
+</body>
+
+</html>

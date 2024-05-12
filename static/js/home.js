@@ -1,4 +1,5 @@
 // Ecllipse of API key
+
 function showContent(event) {
     event.preventDefault();
 
@@ -61,3 +62,22 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('temperature').textContent = 'Geolocation is not supported by this browser.';
     }
 });
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// JavaScript to populate the month and year dropdown dynamically
+var currentYear = new Date().getFullYear();
+
+// Dynamically generate the years from 2000 to the current year
+for (var i = currentYear; i >= 2000; i--) {
+    var option = document.createElement("option");
+    option.text = i;
+    option.value = i;
+    document.getElementById("year").appendChild(option);
+}
+
+function handleFormSubmit(event) {
+    var month = document.getElementById("month").value;
+    var year = document.getElementById("year").value;
+    alert('Data generated for ' + month + '/' + year + ' successfully!');
+}
