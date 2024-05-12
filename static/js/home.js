@@ -81,3 +81,25 @@ function handleFormSubmit(event) {
     var year = document.getElementById("year").value;
     alert('Data generated for ' + month + '/' + year + ' successfully!');
 }
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+var profileList = ["../static/images/girl-carousel.png", "../static/images/cat-carousel.png", "../static/images/bear-carousel.png",
+    "../static/images/cockatoo-carousel.png", "../static/images/dog-carousel.png", "../static/images/gorilla-carousel.png",
+    "../static/images/panda-carousel.png", "../static/images/rabbit-carousel.png"];
+
+const carouselInner = document.getElementById('carouselInner');
+
+// Loop through the image data and create carousel items
+profileList.forEach((imageUrl, index) => {
+    const carouselItem = document.createElement('div');
+    carouselItem.classList.add('carousel-item');
+    
+    const img = document.createElement('img');
+    img.src = imageUrl;
+    img.classList.add('d-block');
+    img.alt = `User ${index + 2}`;
+
+    carouselItem.appendChild(img);
+    carouselInner.appendChild(carouselItem);
+});

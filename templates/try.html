@@ -4,100 +4,471 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floating Button</title>
+    <title>Dashboard</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
     <style>
-        /* Styles for the floating button */
-        #floating-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 0;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Styles for the form */
-        #form-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Custom CSS for dashboard */
+        .chart-container {
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            margin: auto;
         }
-
-        #form-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .design {
+            width: 100%;
+            height: 500px;
         }
     </style>
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <!-- Floating button -->
-    <button id="floating-button" onclick="openForm()">+</button>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                Dashboard <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Reports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Analytics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Export</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 
-    <!-- Form overlay -->
-    <div id="form-overlay">
-        <div id="form-container" class="container">
-            <!-- Your form goes here -->
-            <h2>Compose Email</h2>
-            <form action="#" method="post">
-                <div class="mb-3">
-                    <label for="to">To:</label>
-                    <input type="email" class="form-control" id="to" name="to" required>
+            <!-- Main Content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
                 </div>
-                <div class="mb-3">
-                    <label for="subject">Subject:</label>
-                    <input type="text" class="form-control" id="subject" name="subject">
+                <div id="dashboard">
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h4>Sender Distribution: Mail Count by Sender</h4>
+                            <div id="chartdiv1" class="design"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Daily Mail Activity: Received Mails per Day</h4>
+                            <div id="chartdiv2" class="design"></div>
+                        </div>
+                    </div>
+            
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <h4>Mail Traffic by Quarter: Distribution of Received Mails</h4>
+                            <div id="chartdiv3" class="design"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Subject Word Cloud: Received Mails</h4>
+                            <div id="chartdiv4" class="design"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="message">Message:</label>
-                    <textarea class="form-control" id="message" name="message" rows="5"></textarea>
-                </div>
-                <div class="mb-3">
-                    <input type="file" class="form-control" id="attachment" name="attachment">
-                </div>
-                <button type="submit" class="btn btn-primary">Send</button>
-                <button type="button" class="btn btn-secondary" onclick="closeForm()">Cancel</button>
-            </form>
+            </main>
         </div>
     </div>
 
-    <!-- Bootstrap JS (Optional, for dropdowns, toggles, etc.) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="//cdn.amcharts.com/lib/5/themes/Kelly.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/wc.js"></script>
 
     <script>
-        // Function to open the form
-        function openForm() {
-            document.getElementById("form-overlay").style.display = "block";
-        }
+        // Graph 1: Sender Count
 
-        // Function to close the form
-        function closeForm() {
-            document.getElementById("form-overlay").style.display = "none";
-        }
+        am5.ready(function () {
+            var root = am5.Root.new("chartdiv1");
+
+            root.setThemes([
+                am5themes_Animated.new(root),
+                am5themes_Kelly.new(root)
+            ]);
+
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: true,
+                panY: true,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                pinchZoomX: true,
+                paddingLeft: 0,
+                paddingRight: 1
+            }));
+
+            var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+            cursor.lineY.set("visible", false);
+
+            var xRenderer = am5xy.AxisRendererX.new(root, {
+                minGridDistance: 30,
+                minorGridEnabled: true
+            });
+
+            xRenderer.labels.template.setAll({
+                // rotation: -30,
+                oversizedBehavior: "wrap",
+                maxWidth: 150,
+                textAlign: "center",
+                centerY: am5.p50,
+                centerX: am5.p100,
+                paddingRight: 15
+            });
+
+            xRenderer.grid.template.setAll({
+                location: 1
+            })
+
+            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                maxDeviation: 0.3,
+                categoryField: "country",
+                renderer: xRenderer,
+                tooltip: am5.Tooltip.new(root, {})
+            }));
+
+            var yRenderer = am5xy.AxisRendererY.new(root, {
+                strokeOpacity: 0.1
+            })
+
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                maxDeviation: 0.3,
+                renderer: yRenderer
+            }));
+
+            var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                name: "Series 1",
+                xAxis: xAxis,
+                yAxis: yAxis,
+                valueYField: "value",
+                sequencedInterpolation: true,
+                categoryXField: "country",
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "{valueY}"
+                })
+            }));
+
+            series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
+            series.columns.template.adapters.add("fill", function (fill, target) {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            });
+
+            series.columns.template.adapters.add("stroke", function (stroke, target) {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            });
+
+            // Set data
+            var data = [{
+                country: "USA",
+                value: 2025
+              }, {
+                country: "China",
+                value: 1882
+              }, {
+                country: "Japan",
+                value: 1809
+              }, {
+                country: "Germany",
+                value: 1322
+              }, {
+                country: "UK",
+                value: 1122
+              }, {
+                country: "France",
+                value: 1114
+              }, {
+                country: "India",
+                value: 984
+              }, {
+                country: "Spain",
+                value: 711
+              }, {
+                country: "Netherlands",
+                value: 665
+              }, {
+                country: "South Korea",
+                value: 443
+              }, {
+                country: "Canada",
+                value: 441
+              }];
+
+            xAxis.data.setAll(data);
+            series.data.setAll(data);
+
+            series.appear(1000);
+            chart.appear(1000, 100);
+        });
+    </script>
+
+    <script>
+        // Graph 2: Date Count
+
+        am5.ready(function () {
+            var root = am5.Root.new("chartdiv2");
+            var myTheme = am5.Theme.new(root);
+
+            myTheme.rule("Grid", ["base"]).setAll({
+                strokeOpacity: 0.1
+            });
+
+            root.setThemes([
+                am5themes_Animated.new(root),
+                myTheme
+            ]);
+
+            var chart = root.container.children.push(
+                am5xy.XYChart.new(root, {
+                    panX: false,
+                    panY: false,
+                    wheelX: "none",
+                    wheelY: "none",
+                    paddingLeft: 0
+                })
+            );
+
+            var yRenderer = am5xy.AxisRendererY.new(root, {
+                minGridDistance: 30,
+                minorGridEnabled: true
+            });
+            yRenderer.grid.template.set("location", 1);
+
+            var yAxis = chart.yAxes.push(
+                am5xy.CategoryAxis.new(root, {
+                    maxDeviation: 0,
+                    categoryField: "date",
+                    renderer: yRenderer
+                })
+            );
+
+            var xAxis = chart.xAxes.push(
+                am5xy.ValueAxis.new(root, {
+                    maxDeviation: 0,
+                    min: 0,
+                    renderer: am5xy.AxisRendererX.new(root, {
+                        visible: true,
+                        strokeOpacity: 0.1,
+                        minGridDistance: 80
+                    })
+                })
+            );
+
+            var series = chart.series.push(
+                am5xy.ColumnSeries.new(root, {
+                    name: "Series 1",
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueXField: "count",
+                    sequencedInterpolation: true,
+                    categoryYField: "date"
+                })
+            );
+
+            var columnTemplate = series.columns.template;
+
+            columnTemplate.setAll({
+                draggable: true,
+                cursorOverStyle: "pointer",
+                tooltipText: "drag to rearrange",
+                cornerRadiusBR: 10,
+                cornerRadiusTR: 10,
+                strokeOpacity: 0
+            });
+            columnTemplate.adapters.add("fill", (fill, target) => {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            });
+
+            columnTemplate.adapters.add("stroke", (stroke, target) => {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            });
+
+            columnTemplate.events.on("dragstop", () => {
+                sortCategoryAxis();
+            });
+
+            function getSeriesItem(category) {
+                for (var i = 0; i < series.dataItems.length; i++) {
+                    var dataItem = series.dataItems[i];
+                    if (dataItem.get("categoryY") == category) {
+                        return dataItem;
+                    }
+                }
+            }
+
+            function sortCategoryAxis() {
+                series.dataItems.sort(function (x, y) {
+                    return y.get("graphics").y() - x.get("graphics").y();
+                });
+
+                var easing = am5.ease.out(am5.ease.cubic);
+
+                am5.array.each(yAxis.dataItems, function (dataItem) {
+                    var seriesDataItem = getSeriesItem(dataItem.get("category"));
+
+                    if (seriesDataItem) {
+                        var index = series.dataItems.indexOf(seriesDataItem);
+
+                        var column = seriesDataItem.get("graphics");
+
+                        var fy =
+                            yRenderer.positionToCoordinate(yAxis.indexToPosition(index)) -
+                            column.height() / 2;
+
+                        if (index != dataItem.get("index")) {
+                            dataItem.set("index", index);
+
+                            // current position
+                            var x = column.x();
+                            var y = column.y();
+
+                            column.set("dy", -(fy - y));
+                            column.set("dx", x);
+
+                            column.animate({ key: "dy", to: 0, duration: 600, easing: easing });
+                            column.animate({ key: "dx", to: 0, duration: 600, easing: easing });
+                        } else {
+                            column.animate({ key: "y", to: fy, duration: 600, easing: easing });
+                            column.animate({ key: "x", to: 0, duration: 600, easing: easing });
+                        }
+                    }
+                });
+
+                yAxis.dataItems.sort(function (x, y) {
+                    return x.get("index") - y.get("index");
+                });
+            }
+
+            // Set data
+            var data = {{ date_count | safe }};
+
+            yAxis.data.setAll(data);
+            series.data.setAll(data);
+
+            series.appear(1000);
+            chart.appear(1000, 100);
+
+        });
+    </script>
+
+    <script>
+        // Graph 3: Mails per Time
+
+        am5.ready(function () {
+            var root = am5.Root.new("chartdiv3");
+
+            root.setThemes([
+                am5themes_Animated.new(root)
+            ]);
+
+            var chart = root.container.children.push(am5percent.PieChart.new(root, {
+                layout: root.verticalLayout,
+                innerRadius: am5.percent(50)
+            }));
+
+            var series = chart.series.push(am5percent.PieSeries.new(root, {
+                valueField: "value",
+                categoryField: "category",
+                alignLabels: false
+            }));
+
+            series.labels.template.setAll({
+                textType: "circular",
+                centerX: 0,
+                centerY: 0
+            });
+
+            series.data.setAll({{ time_quarter | safe }});
+
+            var legend = chart.children.push(am5.Legend.new(root, {
+                centerX: am5.percent(50),
+                x: am5.percent(50),
+                marginTop: 15,
+                marginBottom: 15,
+            }));
+
+            legend.data.setAll(series.dataItems);
+            series.appear(1000, 100);
+        });
+    </script>
+
+    <script>
+        // Graph 4: Word Cloud
+
+        am5.ready(function () {
+
+            var root = am5.Root.new("chartdiv4");
+
+            root.setThemes([
+                am5themes_Animated.new(root)
+            ]);
+
+            var zoomableContainer = root.container.children.push(
+                am5.ZoomableContainer.new(root, {
+                    width: am5.p100,
+                    height: am5.p100,
+                    wheelable: true,
+                    pinchZoom: true
+                })
+            );
+
+            var zoomTools = zoomableContainer.children.push(am5.ZoomTools.new(root, {
+                target: zoomableContainer
+            }));
+
+            var series = zoomableContainer.contents.children.push(am5wc.WordCloud.new(root, {
+                maxCount: 100,
+                minWordLength: 2,
+                maxFontSize: am5.percent(35),
+                text: "{{ cloud_text | safe }}",
+            }));
+
+            series.labels.template.setAll({
+                paddingTop: 5,
+                paddingBottom: 5,
+                paddingLeft: 5,
+                paddingRight: 5,
+                fontFamily: "Courier New"
+            });
+
+        });
     </script>
 
 </body>

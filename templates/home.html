@@ -151,17 +151,10 @@
                     </div>
                     <div class="card-body text-center">
                         <div id="user-profile-carousel" class="carousel slide" data-interval="false">
-                            <div class="carousel-inner">
+                            <div class="carousel-inner" id="carouselInner">
                                 <div class="carousel-item active">
-                                    <img src="../static/images/user.png" class="d-block" alt="User 1" class="profile-img">
+                                    <img src="../static/images/boy-carousel.png" class="d-block" alt="User 1">
                                 </div>
-                                <div class="carousel-item">
-                                    <img src="https://via.placeholder.com/100x100" class="d-block" alt="User 2">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="https://via.placeholder.com/100x100" class="d-block" alt="User 3">
-                                </div>
-                                <!-- Add more carousel items here -->
                             </div>
                             <a class="carousel-control-prev" href="#user-profile-carousel" role="button"
                                 data-slide="prev">
@@ -174,7 +167,6 @@
                                 <span class="sr-only">Next</span>
                             </a>
                         </div>
-                        <!-- <img src="https://via.placeholder.com/100" alt="Profile Picture" class="profile-img"> -->
                         <div class="profile-info">
                             <p>{% if name %} {{ name }} {% else %} Anonymous User {% endif %}</p>
                             <p>{% if email %} {{ email }} {% else %} anonymoususer@mail.com {% endif %}</p>
