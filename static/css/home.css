@@ -107,14 +107,6 @@ body {
     padding: 20px;
 }
 
-.profile-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 20px;
-}
-
 .profile-info p {
     margin: 0;
     font-size: 18px;
