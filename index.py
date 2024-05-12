@@ -63,6 +63,11 @@ def home():
         return render_template('home.html', name=username, email=email, visible=False)
 
 
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+
 @app.route('/mail')
 def mail():
     json_data = json_mail_data

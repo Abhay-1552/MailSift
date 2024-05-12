@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="98854811-4969-4cd3-befd-8275a336d75d" name="Changes" comment="Working">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/bear.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/cat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/cockatoo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/dog.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/girl.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/gorilla.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/panda.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/rabbit.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/user.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
-    </list>
+    <list default="true" id="98854811-4969-4cd3-befd-8275a336d75d" name="Changes" comment="Working" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
