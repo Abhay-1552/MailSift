@@ -20,26 +20,6 @@
             opacity: 0.5;
         }
 
-        /* Styles for the floating button */
-        #floating-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 0;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         /* Styles for the form */
         #form-overlay {
             display: none;
@@ -81,6 +61,10 @@
             border-radius: 50%;
             display: block;
             margin: auto;
+        }
+
+        .envelope {
+            font-size: 20px;
         }
     </style>
 </head>
@@ -243,9 +227,8 @@
                     </div>
                     <div class="card-body">
                         <p style="font-size: large;">Our analysis offers insights into sender diversity, email
-                            distribution over time, peak
-                            activity periods, and prevalent topics. Use these insights to optimize your email management
-                            and boost productivity.</p>
+                            distribution over time, peak activity periods, and prevalent topics. Use these
+                            insights to optimize your email management and boost productivity.</p>
 
                         <div class="row">
                             <div class="col-md-3 text-center">
@@ -274,16 +257,16 @@
                     <div class="card-header">
                         Compose Mail
                     </div>
-                    <div class="card-body weather-body background-img">
-                        <p class="date" id="date"></p>
-                        <p class="temperature" id="temperature">34</p>
-                        <p class="situation" id="weather">weather</p>
+                    <div class="card-body" style="text-align: center;">
+                        <!-- <h5 class="card-title"></h5> -->
+                        <p class="card-text">Who would you like to compose the email to, and what's the subject and main
+                            content?</p>
+                        <a href="#" class="btn btn-primary fa fa-envelope envelope" onclick="openForm()"> Compose
+                            Here!</a>
                     </div>
                 </div>
             </div>
         </div>
-
-        <button id="floating-button" onclick="openForm()">+</button>
 
         <!-- Form overlay -->
         <div id="form-overlay">
