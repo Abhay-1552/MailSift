@@ -47,25 +47,27 @@ def index():
 def home():
     username = session.get('name')
     email = session.get('email')
-    data = json_mail_data
+    visible: bool = False
 
-    if data is not None:
-        graph = Graph(data)
+    if json_mail_data:
+        visible: bool = True
 
-        cloud_text = graph.word_cloud()
-        sender_data = graph.sender_count_to_lists()
-        date_count = graph.date_count_function()
-        time_quarter = graph.mails_per_time_intervals()
-
-        return render_template('home.html', name=username, email=email, cloud_text=cloud_text,
-                               sender_data=sender_data, date_count=date_count, time_quarter=time_quarter, visible=True)
-    else:
-        return render_template('home.html', name=username, email=email, visible=False)
+    return render_template('home.html', name=username, email=email, visible=visible)
 
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    data = json_mail_data
+
+    graph = Graph(data)
+
+    cloud_text = graph.word_cloud()
+    sender_data = graph.sender_count_to_lists()
+    date_count = graph.date_count_function()
+    time_quarter = graph.mails_per_time_intervals()
+
+    return render_template('dashboard.html', cloud_text=cloud_text, sender_data=sender_data,
+                           date_count=date_count, time_quarter=time_quarter)
 
 
 @app.route('/mail')

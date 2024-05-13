@@ -96,7 +96,6 @@ class MAIL:
                         self.emails.append(email_data)
 
             # return self.to_json()
-            print(self.emails)
             return self.emails
 
         except (KeyboardInterrupt, Exception, ConnectionError) as e:

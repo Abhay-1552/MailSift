@@ -66,5 +66,4 @@ class Graph:
         subject = self.df['Subject'].astype(str)
         text = ' '.join(subject)
 
-        print(text)
         return text
