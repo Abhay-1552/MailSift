@@ -1,0 +1,92 @@
+body {
+    font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #343a40 !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #fff !important;
+}
+
+.navbar-brand img {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+}
+
+/* Card */
+.card-header {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
+
+.card-footer {
+    display: inline-block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.card {
+    height: 300px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile Card */
+.profile-card {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.profile-info p {
+    margin: 0;
+    font-size: 20px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    color: #333;
+}
+
+/* Change the color of the carousel control icons */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(100%);
+}
+
+.carousel-item img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 50%;
+    display: block;
+    margin: auto;
+    object-fit: cover;
+}
