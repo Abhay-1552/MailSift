@@ -1,9 +1,10 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, Response
 from login import MongoDB
 from mails import MAIL
 from send_mail import SMTP
 from visuals import Graph
+from user_api import API
 
 app = Flask(__name__, template_folder="templates")
 
@@ -37,22 +38,23 @@ json_mail_data = None
 
 
 @app.route('/')
-def index():
+def index() -> str:
     message = session.pop('response', None)
 
     return render_template('login.html', popup=message is not None, message=message)
 
 
 @app.route('/home')
-def home():
+def home() -> str:
     username = session.get('name')
     email = session.get('email')
+    message = session.get('response')
     visible: bool = False
 
     if json_mail_data:
         visible: bool = True
 
-    return render_template('home.html', name=username, email=email, visible=visible)
+    return render_template('home.html', name=username, email=email, visible=visible, message=message)
 
 
 @app.route('/dashboard')
@@ -82,10 +84,10 @@ def mail():
 
 
 @app.route('/login', methods=['POST'])
-def login():
+def login() -> Response:
     if request.method == 'POST':
-        email = request.form.get('loginEmail')
-        password = request.form.get('loginPassword')
+        email: str = request.form.get('loginEmail')
+        password: str = request.form.get('loginPassword')
 
         user_login = mongo.check_user(email, password)
 
@@ -139,6 +141,20 @@ def date_input():
     return redirect('/home')
 
 
+@app.route('/user_api', methods=['POST'])
+def user_api_insert() -> Response:
+    if request.method == 'POST':
+        api_key = request.form.get('openaiKey')
+        user_email = session.get('email')
+
+        api_method = API()
+
+        message = api_method.insert_data(user_email, api_key)
+        session['response'] = message
+
+        return redirect('/home')
+
+
 @app.route('/send_mail', methods=['POST'])
 def send_mail():
     if request.method == 'POST':
@@ -146,21 +162,12 @@ def send_mail():
         attachment_files = request.files.getlist('fileAttachment')
 
         reply_text = f'Reply: {reply}'
-        attachments = []
-
-        if attachment_files:
-            for file in attachment_files:
-                file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-                file.save(file_path)
-                attachments.append(file_path)
-        else:
-            attachments = None
 
         # Send email
         email = 'popstar1552@gmail.com'
-        title = 'MailSift - Test Email'
+        subject = "MailSift - Test Email"
 
-        smtp.send_mail(email, title, reply_text, attachments)
+        sending_mail_to_user(email, subject, reply_text, attachment_files)
 
         msg = "Process completed successfully!"
         session['alert_msg'] = msg
@@ -171,6 +178,20 @@ def send_mail():
         session['alert_msg'] = msg
 
         return redirect('/mail')
+
+
+def sending_mail_to_user(receiver: str, subject: str, body: str, attachment_files: list) -> None:
+    attachments = []
+
+    if attachment_files:
+        for file in attachment_files:
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(file_path)
+            attachments.append(file_path)
+    else:
+        attachments = None
+
+    smtp.send_mail(receiver, subject, body, attachments)
 
 
 if __name__ == '__main__':

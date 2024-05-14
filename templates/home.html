@@ -33,7 +33,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href="">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if not visible %}disabled-link{% endif %}" href="{{ url_for('mail') }}"
@@ -135,8 +135,8 @@
                                 <input type="text" class="form-control" placeholder="Enter your OpenAI API key"
                                     id="openaiKey">
                             </div>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <button type="button" class="btn btn-danger" onclick="clearOutput()">Remove</button>
+                            <button type="submit" class="btn btn-primary"  onclick="response()">Save</button>
+                            <button type="button" class="btn btn-danger" onclick="clearOutput(), response()">Remove</button>
                         </form>
                     </div>
                     <div class="card-footer">
@@ -254,6 +254,10 @@
         // Function to close the form
         function closeForm() {
             document.getElementById("form-overlay").style.display = "none";
+        }
+
+        function response() {
+            alert("{{ message | safe }}");
         }
     </script>
 

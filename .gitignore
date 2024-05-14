@@ -3,3 +3,9 @@ mail_env/
 
 # Ignore .env file
 .env
+
+# Ignore pycache
+__pycache__/
+
+# Ignore .idea
+.idea/
