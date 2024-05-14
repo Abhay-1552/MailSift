@@ -15,6 +15,18 @@
     <link rel="stylesheet" href="../static/css/home.css">
 
     <style>
+        body {
+            background-color: #E3F4F4;
+        }
+
+        .alert-container {
+            width: 400px;
+            display: flex;
+            justify-content: center;
+            padding-top: 20px;
+            z-index: 999;
+            position: relative;
+        }
     </style>
 </head>
 
@@ -48,9 +60,19 @@
                     </li>
                 </ul>
             </div>
-
         </div>
     </nav>
+
+    {% if message %}
+    <div class="container-fluid alert-container">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Alert!&nbsp;</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    {% endif %}
 
     <div class="container-fluid mt-3">
         <div class="row">
@@ -116,7 +138,8 @@
                             </a>
                         </div>
                         <div class="profile-info">
-                            <p style="padding-top: 20px;">{% if name %} {{ name }} {% else %} Anonymous User {% endif %}</p>
+                            <p style="padding-top: 20px;">{% if name %} {{ name }} {% else %} Anonymous User {% endif %}
+                            </p>
                             <p>{% if email %} {{ email }} {% else %} anonymoususer@mail.com {% endif %}</p>
                         </div>
                     </div>
@@ -129,14 +152,15 @@
                         OpenAI API Key
                     </div>
                     <div class="card-body">
-                        <form id="openai-form" onsubmit="showContent(event)">
+                        <form id="openai-form" action="{{ url_for('user_api_insert') }}" method="post"
+                            onsubmit="showContent(event)">
                             <div class="form-group">
                                 <label for="openaiKey">OpenAI API Key</label>
                                 <input type="text" class="form-control" placeholder="Enter your OpenAI API key"
-                                    id="openaiKey">
+                                    id="openaiKey" name="openaiKey">
                             </div>
-                            <button type="submit" class="btn btn-primary"  onclick="response()">Save</button>
-                            <button type="button" class="btn btn-danger" onclick="clearOutput(), response()">Remove</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-danger" onclick="clearOutput()">Remove</button>
                         </form>
                     </div>
                     <div class="card-footer">
@@ -202,7 +226,8 @@
                         <img src="../static/images/compose-mail.png" alt="" style="height: 50px; width: 50px;">
                         <p class="card-text">Who would you like to compose the email to, and what's the subject and main
                             content?</p>
-                        <button class="btn btn-primary fa fa-envelope envelope" onclick="openForm()">Compose Here!</button>
+                        <button class="btn btn-primary fa fa-envelope envelope" onclick="openForm()">Compose
+                            Here!</button>
                     </div>
                 </div>
             </div>
@@ -235,12 +260,6 @@
             </div>
         </div>
     </div>
-
-    {% if message %}
-        <script>
-            alert("{{ message }}");
-        </script>
-    {% endif %}
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -15,7 +15,6 @@
 </head>
 
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
@@ -39,6 +38,17 @@
             </div>
         </div>
     </nav>
+
+    {% if popup %}
+    <div class="container-fluid alert-container">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <strong>Alert!&nbsp;</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    {% endif %}
 
     <div class="container">
         <div class="row justify-content-center">
@@ -98,14 +108,6 @@
             </div>
         </div>
     </div>
-
-    {% if popup %}
-    <div id="popup-box">
-        <script>
-            alert("{{ message }}");
-        </script>
-    </div>
-    {% endif %}
 
     <script src="../static/js/login.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

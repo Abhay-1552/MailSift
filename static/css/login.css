@@ -1,5 +1,5 @@
 body {
-    background-color: #f7f7f7;
+    background-color: #E3F4F4;
     font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
 }
 
@@ -92,4 +92,11 @@ body {
 
 .toggle-form a:hover {
     text-decoration: underline;
+}
+
+.alert-container {
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
 }

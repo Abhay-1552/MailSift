@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, session, redirect, Response
+from flask import Flask, render_template, request, session, redirect
 from login import MongoDB
 from mails import MAIL
 from send_mail import SMTP
@@ -38,21 +38,19 @@ json_mail_data = None
 
 
 @app.route('/')
-def index() -> str:
+def index():
     message = session.pop('response', None)
 
     return render_template('login.html', popup=message is not None, message=message)
 
 
 @app.route('/home')
-def home() -> str:
-    username = session.get('name')
-    email = session.get('email')
-    message = session.get('response')
-    visible: bool = False
+def home():
+    username: str = session.get('name')
+    email: str = session.get('email')
 
-    if json_mail_data:
-        visible: bool = True
+    message: str = session.get('response')
+    visible: bool = json_mail_data is not None
 
     return render_template('home.html', name=username, email=email, visible=visible, message=message)
 
@@ -84,7 +82,7 @@ def mail():
 
 
 @app.route('/login', methods=['POST'])
-def login() -> Response:
+def login():
     if request.method == 'POST':
         email: str = request.form.get('loginEmail')
         password: str = request.form.get('loginPassword')
@@ -142,11 +140,13 @@ def date_input():
     return redirect('/home')
 
 
-@app.route('/user_api', methods=['POST'])
-def user_api_insert() -> Response:
+@app.route('/user_api_insert', methods=['POST'])
+def user_api_insert():
     if request.method == 'POST':
         api_key = request.form.get('openaiKey')
         user_email = session.get('email')
+
+        print(user_email, api_key)
 
         api_method = API()
 
@@ -163,7 +163,7 @@ def send_mail():
         reply = request.form.get('mailReply')
         attachment_files = request.files.getlist('fileAttachment')
 
-        receiver_mail: str = receiver_data['receiverEmail'].strip('<>').strip()
+        receiver_mail = receiver_data['receiverEmail'].strip('<>').strip()
         subject = "Reply To: " + receiver_data['mailSubject']
         body = receiver_data['mailBody']
 

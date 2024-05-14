@@ -23,6 +23,8 @@ function clearOutput() {
     document.getElementById('output').innerHTML = '';
 }
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 // Weather card data
 document.addEventListener("DOMContentLoaded", function () {
     function getDate() {
