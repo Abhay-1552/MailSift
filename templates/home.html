@@ -65,7 +65,7 @@
 
     {% if message %}
     <div class="container-fluid alert-container">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
             <strong>Alert!&nbsp;</strong> {{ message }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -152,7 +152,7 @@
                         OpenAI API Key
                     </div>
                     <div class="card-body">
-                        <form id="openai-form" action="{{ url_for('user_api_insert') }}" method="post"
+                        <form id="openai-form" method="post" action="{{ url_for('user_api_insert') }}"
                             onsubmit="showContent(event)">
                             <div class="form-group">
                                 <label for="openaiKey">OpenAI API Key</label>
