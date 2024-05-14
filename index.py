@@ -137,6 +137,7 @@ def date_input():
         # Mail connectivity
         inbox = MAIL()
         json_mail_data = inbox.inbox_mails(month, year)
+        session['response'] = 'Data Generated Successfully!'
 
     return redirect('/home')
 
@@ -158,40 +159,58 @@ def user_api_insert() -> Response:
 @app.route('/send_mail', methods=['POST'])
 def send_mail():
     if request.method == 'POST':
+        receiver_data = request.json
         reply = request.form.get('mailReply')
         attachment_files = request.files.getlist('fileAttachment')
 
-        reply_text = f'Reply: {reply}'
+        receiver_mail: str = receiver_data['receiverEmail'].strip('<>').strip()
+        subject = "Reply To: " + receiver_data['mailSubject']
+        body = receiver_data['mailBody']
 
-        # Send email
-        email = 'popstar1552@gmail.com'
-        subject = "MailSift - Test Email"
+        reply_body = f"Reply To: {body}\n{'-'*100}\n{reply}"
 
-        sending_mail_to_user(email, subject, reply_text, attachment_files)
+        print(receiver_mail, subject, reply_body, attachment_files)
 
-        msg = "Process completed successfully!"
-        session['alert_msg'] = msg
+        function_response = sending_mail_to_user(receiver_mail, subject, reply_body, attachment_files)
 
-        return redirect('/mail')
-    else:
-        msg = "Error occurs! Try Again"
-        session['alert_msg'] = msg
-
+        session['response'] = function_response
         return redirect('/mail')
 
 
-def sending_mail_to_user(receiver: str, subject: str, body: str, attachment_files: list) -> None:
-    attachments = []
+@app.route('/compose', methods=['POST'])
+def compose():
+    if request.method == 'POST':
+        receiver = request.form.get('to')
+        subject = request.form.get('subject')
+        message = request.form.get('message')
+        attachment = request.files.getlist('attachment')
 
-    if attachment_files:
-        for file in attachment_files:
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(file_path)
-            attachments.append(file_path)
-    else:
-        attachments = None
+        print(receiver, subject, message, attachment)
 
-    smtp.send_mail(receiver, subject, body, attachments)
+        function_response = sending_mail_to_user(receiver, subject, message, attachment)
+
+        session['response'] = function_response
+        return redirect('/home')
+
+
+def sending_mail_to_user(receiver: str, subject: str, body: str, attachment_files) -> str:
+    try:
+        attachments = []
+        if attachment_files:
+            for file in attachment_files:
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+
+                if not os.path.exists(file_path):
+                    file.save(file_path)
+                attachments.append(file_path)
+        else:
+            attachments = None
+
+        smtp.send_mail(receiver, subject, body, attachments)
+        return f"Mail Sent Successfully to {receiver}!"
+
+    except Exception as error:
+        return f"Error occur: {error}"
 
 
 if __name__ == '__main__':

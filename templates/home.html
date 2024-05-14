@@ -202,8 +202,7 @@
                         <img src="../static/images/compose-mail.png" alt="" style="height: 50px; width: 50px;">
                         <p class="card-text">Who would you like to compose the email to, and what's the subject and main
                             content?</p>
-                        <a href="#" class="btn btn-primary fa fa-envelope envelope" onclick="openForm()"> Compose
-                            Here!</a>
+                        <button class="btn btn-primary fa fa-envelope envelope" onclick="openForm()">Compose Here!</button>
                     </div>
                 </div>
             </div>
@@ -214,7 +213,7 @@
             <div id="form-container" class="container">
                 <!-- Your form goes here -->
                 <h2>Compose Email</h2>
-                <form action="#" method="post">
+                <form id="composeForm" enctype="multipart/form-data" action="{{ url_for('compose') }}" method="post">
                     <div class="mb-3">
                         <label for="to">To:</label>
                         <input type="email" class="form-control" id="to" name="to" required>
@@ -228,7 +227,7 @@
                         <textarea class="form-control" id="message" name="message" rows="5"></textarea>
                     </div>
                     <div class="mb-3">
-                        <input type="file" class="form-control" id="attachment" name="attachment">
+                        <input type="file" class="form-control" id="attachment" name="attachment" multiple>
                     </div>
                     <button type="submit" class="btn btn-primary">Send</button>
                     <button type="button" class="btn btn-secondary" onclick="closeForm()">Cancel</button>
@@ -236,6 +235,12 @@
             </div>
         </div>
     </div>
+
+    {% if message %}
+        <script>
+            alert("{{ message }}");
+        </script>
+    {% endif %}
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -255,12 +260,7 @@
         function closeForm() {
             document.getElementById("form-overlay").style.display = "none";
         }
-
-        function response() {
-            alert("{{ message | safe }}");
-        }
     </script>
-
 </body>
 
 </html>

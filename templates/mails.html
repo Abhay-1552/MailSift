@@ -175,6 +175,36 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../static/js/mails.js"></script>
+
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
+
+            // Get the values of the static elements
+            var subject = document.getElementById('blankSubject').innerText;
+            var senderEmail = document.getElementById('blankSenderEmail').innerText;
+            var body = document.getElementById('blankPayload').innerText;
+
+            // Prepare the data to send to Flask
+            var formData = {
+                receiverEmail: senderEmail,
+                mailSubject: subject,
+                mailBody: body, 
+            };
+
+            // Send the data to Flask using AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/send_mail', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText); // Log the response from the server
+                }
+            };
+            xhr.send(JSON.stringify(formData));
+        });
+    </script>
 </body>
 
 </html>
